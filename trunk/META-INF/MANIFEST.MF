@@ -12,3 +12,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/antlr-3.4-complete.jar,
  .
+Export-Package: kr.or.eclipse.swt.query
