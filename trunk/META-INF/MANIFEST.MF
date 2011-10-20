@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SWT Query
+Bundle-SymbolicName: kr.or.eclipse.swt.query
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: kr.or.eclipse.swt.query.Activator
+Bundle-Vendor: eclipse.or.kr
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.forms
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: lib/antlr-3.4-complete.jar,
+ .
