@@ -7,20 +7,22 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 public class ParentSwitch extends WidgetSwitch<Widget> {
-    @Override
-    public Widget caseControl(Control widget, Object... args) {
-        return widget.getParent();
-    }
+	public static final ParentSwitch INSTANCE = new ParentSwitch();
 
-    @Override
-    public Widget caseTreeItem(TreeItem widget, Object... args) {
-        TreeItem parentNode = widget.getParentItem();
+	@Override
+	public Widget caseControl(Control widget, Object... args) {
+		return widget.getParent();
+	}
 
-        if (parentNode == null) {
-            return widget.getParent();
-        } else {
-            return parentNode;
-        }
-    }
+	@Override
+	public Widget caseTreeItem(TreeItem widget, Object... args) {
+		TreeItem parentNode = widget.getParentItem();
+
+		if (parentNode == null) {
+			return widget.getParent();
+		} else {
+			return parentNode;
+		}
+	}
 
 }
