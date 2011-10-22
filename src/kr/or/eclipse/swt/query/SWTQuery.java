@@ -10,130 +10,166 @@ import kr.or.eclipse.swt.query.part.ParentSwitch;
 import kr.or.eclipse.swt.query.part.TextPropertySwitch;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Widget;
 
-public class SWTQuery {
-    private static ChildrenSiwtch childrenSiwtch = new ChildrenSiwtch();
-    private static ParentSwitch parentSwitch = new ParentSwitch();
-    private static TextPropertySwitch textPart = new TextPropertySwitch();
+public final class SWTQuery {
+	private static ChildrenSiwtch childrenSiwtch = new ChildrenSiwtch();
+	private static ParentSwitch parentSwitch = new ParentSwitch();
+	private static TextPropertySwitch textPart = new TextPropertySwitch();
 
-    private List<Widget> items;
+	public static SWTQuery $(Widget w) {
+		return new SWTQuery(w);
+	}
 
-    public SWTQuery(List<Widget> items) {
-        this.items = items;
-    }
+	public static SWTQuery $(Widget context, IWidgetFilter filter) {
+		ArrayList<Widget> list = new ArrayList<Widget>();
+		gatherChildren(context, list, filter);
+		return new SWTQuery(list);
+	}
 
-    public SWTQuery(Widget... items) {
-        this.items = new ArrayList<Widget>();
-        for (Widget each : items) {
-            this.items.add(each);
-        }
-    }
+	public static SWTQuery $(Widget context, String selector) {
+		IWidgetFilter filter = FilterBuilder.build(selector);
+		ArrayList<Widget> list = new ArrayList<Widget>();
+		gatherChildren(context, list, filter);
+		return new SWTQuery(list);
+	}
 
-    public SWTQuery next() {
-        ArrayList<Widget> result = new ArrayList<Widget>();
+	private static void gatherChildren(Widget w, List<Widget> target,
+			IWidgetFilter filter) {
+		if (!target.contains(w) && filter.matches(w)) {
+			target.add(w);
+		}
+		for (Widget eachChild : childrenSiwtch.doSwitch(w)) {
+			gatherChildren(eachChild, target, filter);
+		}
+	}
 
-        for (Widget each : this.items) {
-            Widget parent = parentSwitch.doSwitch(each);
-            if (parent == null) {
-                continue;
-            }
-            List<Widget> sibilings = childrenSiwtch.doSwitch(parent);
-            int index = sibilings.indexOf(each);
-            if (sibilings.size() > index + 1) {
-                result.add(sibilings.get(index + 1));
-            }
-        }
+	private List<Widget> items;
 
-        return new SWTQuery(result);
-    }
+	public SWTQuery(List<Widget> itemList) {
+		this.items = itemList;
+	}
 
-    public SWTQuery previous() {
-        ArrayList<Widget> result = new ArrayList<Widget>();
+	public SWTQuery(Widget... items) {
+		this.items = new ArrayList<Widget>();
+		for (Widget each : items) {
+			this.items.add(each);
+		}
+	}
 
-        for (Widget each : this.items) {
-            Widget parent = parentSwitch.doSwitch(each);
-            if (parent == null) {
-                continue;
-            }
-            List<Widget> sibilings = childrenSiwtch.doSwitch(parent);
-            int index = sibilings.indexOf(each);
-            if (index > 0) {
-                result.add(sibilings.get(index - 1));
-            }
-        }
+	public SWTQuery each(IWidgetFunction f) {
+		for (Widget each : this.items) {
+			f.doFunction(each);
+		}
+		return this;
+	}
 
-        return new SWTQuery(result);
-    }
+	public SWTQuery layout() {
+		for (Widget each : this.items) {
+			if (each instanceof Composite) {
+				((Composite) each).layout();
+			}
+		}
+		return this;
+	}
 
-    public String text() {
-        if (this.items.size() > 0) {
-            return textPart.getText(this.items.get(0));
-        } else {
-            return null;
-        }
-    }
+	public SWTQuery layout(boolean changed) {
+		for (Widget each : this.items) {
+			if (each instanceof Composite) {
+				((Composite) each).layout(changed);
+			}
+		}
+		return this;
+	}
 
-    public SWTQuery each(IWidgetFunction f){
-        for (Widget each : this.items) {
-            f.doFunction(each);
-        }
-        return this;
-    }
+	public SWTQuery layout(boolean changed, boolean all) {
+		for (Widget each : this.items) {
+			if (each instanceof Composite) {
+				((Composite) each).layout(changed, all);
+			}
+		}
+		return this;
+	}
 
-    public SWTQuery text(String text) {
-        for (Widget each : this.items) {
-            textPart.setText(each, text);
-        }
-        return this;
-    }
+	public SWTQuery next() {
+		return next(1);
+	}
 
-    public SWTQuery select(Listener listener) {
-        for (Widget each : this.items) {
-            each.addListener(SWT.Selection, listener);
-        }
-        return this;
-    }
+	public SWTQuery next(int delta) {
+		return sibiling(delta);
+	}
 
-    public static SWTQuery $(Widget context, String selector) {
-        IWidgetFilter filter = FilterBuilder.build(selector);
+	public SWTQuery parent() {
+		ArrayList<Widget> parents = new ArrayList<Widget>();
+		for (Widget each : this.items) {
+			Widget eachParent = ParentSwitch.INSTANCE.doSwitch(each);
+			if (eachParent != null) {
+				parents.add(eachParent);
+			}
+		}
+		return parent();
+	}
 
-        ArrayList<Widget> list = new ArrayList<Widget>();
-        gatherChildren(context, list, filter);
+	public SWTQuery previous() {
+		return previous(-1);
+	}
 
-        return new SWTQuery(list);
-    }
+	public SWTQuery previous(int delta) {
+		return sibiling(delta);
+	}
 
-    public static SWTQuery $(Widget context, IWidgetFilter filter) {
+	public SWTQuery redraw() {
+		for (Widget each : this.items) {
+			if (each instanceof Control) {
+				((Control) each).redraw();
+			}
+		}
+		return this;
+	}
 
-        ArrayList<Widget> list = new ArrayList<Widget>();
-        gatherChildren(context, list, filter);
+	public SWTQuery select(Listener listener) {
+		for (Widget each : this.items) {
+			each.addListener(SWT.Selection, listener);
+		}
+		return this;
+	}
 
-        return new SWTQuery(list);
-    }
+	private SWTQuery sibiling(int delta) {
+		ArrayList<Widget> result = new ArrayList<Widget>();
 
-    public static SWTQuery $(Widget w) {
-        return new SWTQuery(w);
-    }
+		for (Widget each : this.items) {
+			Widget parent = parentSwitch.doSwitch(each);
+			if (parent == null) {
+				continue;
+			}
+			List<Widget> sibilings = childrenSiwtch.doSwitch(parent);
+			int index = sibilings.indexOf(each);
 
-    private static void gatherChildren(Widget w, List<Widget> target, IWidgetFilter filter) {
-        if (!target.contains(w) && filter.matches(w)) {
-            target.add(w);
-        }
-        for (Widget eachChild : childrenSiwtch.doSwitch(w)) {
-            gatherChildren(eachChild, target, filter);
-        }
-    }
+			int newIndex = index + delta;
+			if (newIndex >= 0 && newIndex < sibilings.size()) {
+				result.add(sibilings.get(newIndex));
+			}
+		}
 
-    public SWTQuery redraw() {
-        for (Widget each : this.items) {
-            if(each instanceof Control){
-                ((Control) each).redraw();
-            }
-        }
-        return this;
-    }
+		return new SWTQuery(result);
+	}
+
+	public String text() {
+		if (this.items.size() > 0) {
+			return textPart.getText(this.items.get(0));
+		} else {
+			return null;
+		}
+	}
+
+	public SWTQuery text(String text) {
+		for (Widget each : this.items) {
+			textPart.setText(each, text);
+		}
+		return this;
+	}
 
 }
