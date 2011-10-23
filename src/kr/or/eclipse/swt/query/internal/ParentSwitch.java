@@ -1,6 +1,6 @@
-package kr.or.eclipse.swt.query.part;
+package kr.or.eclipse.swt.query.internal;
 
-import kr.or.eclipse.swt.query.WidgetSwitch;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TreeItem;
