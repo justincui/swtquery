@@ -20,7 +20,7 @@ fragment BSLASH	: '\\';
 
 ID		: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'-'|'_')*;
 OPEN_BR		: '[';
-CLOSE_BR	: ']';
+CLOSE_BR		: ']';
 ATTR_OP		: ('='|'~='|'!=');
 ASTERIK		: '*';
 WHITESPACE 	: ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; };

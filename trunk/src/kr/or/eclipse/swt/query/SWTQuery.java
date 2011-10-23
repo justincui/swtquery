@@ -67,6 +67,24 @@ public final class SWTQuery {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T getData() {
+		if (items.size() > 0) {
+			return (T) items.get(0).getData();
+		} else {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getData(String key) {
+		if (items.size() > 0) {
+			return (T) items.get(0).getData(key);
+		} else {
+			return null;
+		}
+	}
+
 	public SWTQuery layout() {
 		for (Widget each : this.items) {
 			if (each instanceof Composite) {
@@ -99,7 +117,7 @@ public final class SWTQuery {
 	}
 
 	public SWTQuery next(int delta) {
-		return sibiling(delta);
+		return translate(delta);
 	}
 
 	public SWTQuery parent() {
@@ -113,12 +131,12 @@ public final class SWTQuery {
 		return parent();
 	}
 
-	public SWTQuery previous() {
-		return previous(-1);
+	public SWTQuery prev() {
+		return prev(-1);
 	}
 
-	public SWTQuery previous(int delta) {
-		return sibiling(delta);
+	public SWTQuery prev(int delta) {
+		return translate(delta);
 	}
 
 	public SWTQuery redraw() {
@@ -130,14 +148,28 @@ public final class SWTQuery {
 		return this;
 	}
 
-	public SWTQuery select(Listener listener) {
+	public SWTQuery addListener(int eventType, Listener listener) {
 		for (Widget each : this.items) {
-			each.addListener(SWT.Selection, listener);
+			each.addListener(eventType, listener);
 		}
 		return this;
 	}
 
-	private SWTQuery sibiling(int delta) {
+	public SWTQuery setData(Object data) {
+		for (Widget each : items) {
+			each.setData(data);
+		}
+		return this;
+	}
+
+	public SWTQuery setData(String key, Object data) {
+		for (Widget each : items) {
+			each.setData(key, data);
+		}
+		return this;
+	}
+
+	private SWTQuery translate(int delta) {
 		ArrayList<Widget> result = new ArrayList<Widget>();
 
 		for (Widget each : this.items) {
