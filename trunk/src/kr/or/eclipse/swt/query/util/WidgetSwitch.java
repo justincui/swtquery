@@ -1,4 +1,4 @@
-package kr.or.eclipse.swt.query;
+package kr.or.eclipse.swt.query.util;
 
 import org.eclipse.jface.dialogs.ProgressIndicator;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
