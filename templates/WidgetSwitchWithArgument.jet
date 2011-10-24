@@ -24,6 +24,12 @@ StringBuffer buffer = new StringBuffer(eachTypeName);
 buffer.setCharAt(0, Character.toLowerCase(eachTypeName.charAt(0)));
 String varName = buffer.toString();
 %>
+    /**
+     * do switching for <%=eachTypeName%>.
+     * @param <%=varName%> <%=eachTypeName%> to switch.
+     * @param arg Argument object.
+     * @return switching result.
+     */
 	public T case<%=eachTypeName%>(<%=eachTypeName%> <%=varName %>, A arg){
 <% if(each != Widget.class) {%>		
 		return case<%=each.getSuperclass().getSimpleName() %>(<%=varName%>, arg);
