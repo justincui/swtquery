@@ -1,0 +1,6 @@
+BackgroundImageAlignment
+BidiColoring
+LoadingText
+SeparatorColor
+ImageIndent
+DisabledImage

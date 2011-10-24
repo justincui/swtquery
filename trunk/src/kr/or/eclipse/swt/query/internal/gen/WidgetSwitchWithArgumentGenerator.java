@@ -50,11 +50,13 @@ List<Class<?>> types = (List<Class<?>>)argument;
     stringBuffer.append(TEXT_1);
     stringBuffer.append(Calendar.getInstance().getTime() );
     stringBuffer.append(TEXT_2);
+     GenUtil.startImport(); 
      for(Class<?> each : types) { 
     stringBuffer.append(TEXT_3);
     stringBuffer.append(each.getCanonicalName() );
     stringBuffer.append(TEXT_4);
      } 
+     GenUtil.endImport(); 
     stringBuffer.append(TEXT_5);
      for(Class<?> each : types) { 
     
