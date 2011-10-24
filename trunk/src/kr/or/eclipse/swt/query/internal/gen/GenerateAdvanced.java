@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.eclipse.swt.widgets.Widget;
 
-public class GenerateAll {
+public class GenerateAdvanced {
 	private static File srcFolder;
 	private static ArrayList<Class<?>> types;
 	private static Map<String, Property> properties;
@@ -37,10 +37,6 @@ public class GenerateAll {
 		loadProperties();
 		System.out.println("완료.");
 
-		System.out.print("스위치 생성 중...");
-		generateSwitch();
-		System.out.println("완료.");
-
 		System.out.print("프로퍼티 생성 중...");
 		generatePropertySwitches();
 		System.out.println("완료.");
@@ -48,7 +44,8 @@ public class GenerateAll {
 		generateSWTTools();
 	}
 
-	private static void generateSWTTools() throws FileNotFoundException, IOException {
+	private static void generateSWTTools() throws FileNotFoundException,
+			IOException {
 		File utilFolder = new File(srcFolder, "kr/or/eclipse/swt/query/util");
 		if (!utilFolder.exists()) {
 			utilFolder.mkdir();
@@ -95,7 +92,7 @@ public class GenerateAll {
 	}
 
 	private static Map<String, Property> loadProperties() throws IOException {
-		InputStream is = GenerateAll.class
+		InputStream is = GenerateAdvanced.class
 				.getResourceAsStream("filtered-property.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String eachFilter = null;
@@ -185,22 +182,6 @@ public class GenerateAll {
 		return properties;
 	}
 
-	private static void generateSwitch() throws FileNotFoundException,
-			IOException {
-		File utilFolder = new File(srcFolder, "kr/or/eclipse/swt/query/util");
-
-		WidgetSwitchGenerator widgetSwitchGenerator = new WidgetSwitchGenerator();
-		File widgetSwitchJavaFile = new File(utilFolder, "WidgetSwitch.java");
-		FileOutputStream fos = new FileOutputStream(widgetSwitchJavaFile);
-		write(widgetSwitchGenerator.generate(types), fos);
-
-		WidgetSwitchWithArgumentGenerator widgetSwitchWithArgumentGenerator = new WidgetSwitchWithArgumentGenerator();
-		File widgetSwitchWithArgumentJavaFile = new File(utilFolder,
-				"WidgetSwitchWithArgument.java");
-		write(widgetSwitchWithArgumentGenerator.generate(types),
-				new FileOutputStream(widgetSwitchWithArgumentJavaFile));
-	}
-
 	public static void write(String content, OutputStream stream,
 			String encoding) throws IOException {
 		byte[] data = content.getBytes(encoding);
@@ -219,7 +200,8 @@ public class GenerateAll {
 
 	private static ArrayList<Class<?>> loadTypes() throws IOException,
 			ClassNotFoundException {
-		InputStream is = GenerateAll.class.getResourceAsStream("target.txt");
+		InputStream is = GenerateAdvanced.class
+				.getResourceAsStream("target.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String line = null;
 
@@ -230,7 +212,7 @@ public class GenerateAll {
 				continue;
 			}
 			Class<?> eachType = Class.forName(line, false,
-					GenerateAll.class.getClassLoader());
+					GenerateAdvanced.class.getClassLoader());
 			types.add(eachType);
 		}
 		reader.close();
