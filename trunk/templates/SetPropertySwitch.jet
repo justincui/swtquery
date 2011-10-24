@@ -6,7 +6,7 @@
 <% 
 Property property = (Property)argument; 
 %>
-<%@ include file="copyright.jet" %>
+<%@ include file="copyright.txt" %>
 
 package kr.or.eclipse.swt.query.util.internal;
 
@@ -19,7 +19,7 @@ package kr.or.eclipse.swt.query.util.internal;
 <% } %>
 <%=GenUtil.endImport() %>
 
-<%@ include file="generation-header.jet" %>
+<%@ include file="generation-header.txt" %>
 public class Set<%=property.propertyName %>Switch extends WidgetSwitchWithArgument<Object, <%=property.propertyType.getSimpleName()%>> {
 	public void setProperty(Widget widget, <%=property.propertyType.getSimpleName()%> value){
 		doSwitch(widget, value);
