@@ -46,6 +46,11 @@ public class TextSwitch {
     private GetSwitch getSwitch = new GetSwitch();
     private SetSwitch setSwitch = new SetSwitch();
 
+    /**
+     * 
+     * @param w
+     * @return
+     */
     public String getText(Widget w) {
         return this.getSwitch.doSwitch(w);
     }

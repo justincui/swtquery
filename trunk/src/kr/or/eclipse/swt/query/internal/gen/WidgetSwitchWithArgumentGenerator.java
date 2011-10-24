@@ -20,22 +20,25 @@ public class WidgetSwitchWithArgumentGenerator
   protected final String TEXT_3 = NL + "import ";
   protected final String TEXT_4 = ";";
   protected final String TEXT_5 = NL + NL + "public class WidgetSwitchWithArgument<T, A> {";
-  protected final String TEXT_6 = NL + "\tpublic T case";
-  protected final String TEXT_7 = "(";
+  protected final String TEXT_6 = NL + "    /**" + NL + "     * do switching for ";
+  protected final String TEXT_7 = "." + NL + "     * @param ";
   protected final String TEXT_8 = " ";
-  protected final String TEXT_9 = ", A arg){";
-  protected final String TEXT_10 = "\t\t" + NL + "\t\treturn case";
-  protected final String TEXT_11 = "(";
-  protected final String TEXT_12 = ", arg);";
-  protected final String TEXT_13 = "\t\t" + NL + "\t\treturn null;";
-  protected final String TEXT_14 = NL + "\t}";
-  protected final String TEXT_15 = NL + "\tpublic T doSwitch(Widget widget, A arg) {";
-  protected final String TEXT_16 = NL + "\t\t";
-  protected final String TEXT_17 = "{" + NL + "\t\t\treturn case";
-  protected final String TEXT_18 = "((";
-  protected final String TEXT_19 = ")widget, arg);" + NL + "\t\t}";
-  protected final String TEXT_20 = NL + "    }" + NL + "}";
-  protected final String TEXT_21 = NL + "    ";
+  protected final String TEXT_9 = " to switch." + NL + "     * @param arg Argument object." + NL + "     * @return switching result." + NL + "     */" + NL + "\tpublic T case";
+  protected final String TEXT_10 = "(";
+  protected final String TEXT_11 = " ";
+  protected final String TEXT_12 = ", A arg){";
+  protected final String TEXT_13 = "\t\t" + NL + "\t\treturn case";
+  protected final String TEXT_14 = "(";
+  protected final String TEXT_15 = ", arg);";
+  protected final String TEXT_16 = "\t\t" + NL + "\t\treturn null;";
+  protected final String TEXT_17 = NL + "\t}";
+  protected final String TEXT_18 = NL + "\tpublic T doSwitch(Widget widget, A arg) {";
+  protected final String TEXT_19 = NL + "\t\t";
+  protected final String TEXT_20 = "{" + NL + "\t\t\treturn case";
+  protected final String TEXT_21 = "((";
+  protected final String TEXT_22 = ")widget, arg);" + NL + "\t\t}";
+  protected final String TEXT_23 = NL + "    }" + NL + "}";
+  protected final String TEXT_24 = NL + "    ";
 
   public String generate(Object argument)
   {
@@ -63,39 +66,45 @@ String varName = buffer.toString();
     stringBuffer.append(TEXT_6);
     stringBuffer.append(eachTypeName);
     stringBuffer.append(TEXT_7);
-    stringBuffer.append(eachTypeName);
-    stringBuffer.append(TEXT_8);
-    stringBuffer.append(varName );
-    stringBuffer.append(TEXT_9);
-     if(each != Widget.class) {
-    stringBuffer.append(TEXT_10);
-    stringBuffer.append(each.getSuperclass().getSimpleName() );
-    stringBuffer.append(TEXT_11);
     stringBuffer.append(varName);
+    stringBuffer.append(TEXT_8);
+    stringBuffer.append(eachTypeName);
+    stringBuffer.append(TEXT_9);
+    stringBuffer.append(eachTypeName);
+    stringBuffer.append(TEXT_10);
+    stringBuffer.append(eachTypeName);
+    stringBuffer.append(TEXT_11);
+    stringBuffer.append(varName );
     stringBuffer.append(TEXT_12);
+     if(each != Widget.class) {
+    stringBuffer.append(TEXT_13);
+    stringBuffer.append(each.getSuperclass().getSimpleName() );
+    stringBuffer.append(TEXT_14);
+    stringBuffer.append(varName);
+    stringBuffer.append(TEXT_15);
     }
      else { 
-    stringBuffer.append(TEXT_13);
+    stringBuffer.append(TEXT_16);
     }
-    stringBuffer.append(TEXT_14);
+    stringBuffer.append(TEXT_17);
      } 
-    stringBuffer.append(TEXT_15);
+    stringBuffer.append(TEXT_18);
      
 int size = types.size();
 for(int i=0; i< size; i++) { 
 Class<?> each = types.get(i);
 
-    stringBuffer.append(TEXT_16);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append((i > 0)? "else " :"");
     stringBuffer.append((i < size -1 )? "if(widget instanceof " + each.getSimpleName() +")" :"");
-    stringBuffer.append(TEXT_17);
-    stringBuffer.append(each.getSimpleName());
-    stringBuffer.append(TEXT_18);
-    stringBuffer.append(each.getSimpleName());
-    stringBuffer.append(TEXT_19);
-     } 
     stringBuffer.append(TEXT_20);
+    stringBuffer.append(each.getSimpleName());
     stringBuffer.append(TEXT_21);
+    stringBuffer.append(each.getSimpleName());
+    stringBuffer.append(TEXT_22);
+     } 
+    stringBuffer.append(TEXT_23);
+    stringBuffer.append(TEXT_24);
     return stringBuffer.toString();
   }
 }

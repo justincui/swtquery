@@ -26,11 +26,9 @@ public class GenerateAll {
         FileOutputStream fos = new FileOutputStream(widgetSwitchJavaFile);
         write(widgetSwitchGenerator.generate(types), fos, "UTF-8");
 
-
         WidgetSwitchWithArgumentGenerator widgetSwitchWithArgumentGenerator = new WidgetSwitchWithArgumentGenerator();
         File widgetSwitchWithArgumentJavaFile = new File(utilFolder, "WidgetSwitchWithArgument.java");
         write(widgetSwitchWithArgumentGenerator.generate(types), new FileOutputStream(widgetSwitchWithArgumentJavaFile), "utf-8");
-
     }
 
     public static void write(String content, OutputStream stream, String encoding) throws IOException {
