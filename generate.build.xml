@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="generate-all" name="Generator">
+	<path id="dependencies">
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.ui_3.4.1.M20080910-0800.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.runtime_3.4.0.v20080512.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.osgi_3.4.2.R34x_v20080826-1230.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.equinox.common_3.4.0.v20080421-2006.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.jobs_3.4.0.v20080512.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.runtime.compatibility.registry_3.2.200.v20080610/runtime_registry_compatibility.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.runtime.compatibility.registry_3.2.200.v20080610" />
+		<pathelement path="${buildDirectory}/nestedJars/org.eclipse.equinox.registry_3.4.0.v20080516-0950/runtime_registry_compatibility.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.equinox.registry_3.4.0.v20080516-0950.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.equinox.preferences_3.2.201.R34x_v20080709.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.contenttype_3.3.0.v20080604-1400.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.runtime.compatibility.auth_3.2.100.v20070502.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.equinox.app_1.1.0.v20080421-2006.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.osgi.services_3.1.200.v20071203.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/javax.servlet_2.4.0.v200806031604.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.swt_3.4.1.v3449c.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.swt.win32.win32.x86_3.4.1.v3449c.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.jface_3.4.1.M20080827-2000.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.commands_3.4.0.I20080509-2000.jar" />
+		<pathelement path="${buildDirectory}/nestedJars/org.eclipse.ui.workbench_3.4.1.M20080827-0800a/compatibility.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.ui.workbench_3.4.1.M20080827-0800a.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20080509-2000/compatibility.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20080509-2000" />
+		<pathelement path="${buildDirectory}/nestedJars/com.ibm.icu_3.8.1.v20080530/icu-jse4.jar" />
+		<pathelement path="${buildDirectory}/nestedJars/com.ibm.icu_3.8.1.v20080530/icu-data.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/com.ibm.icu_3.8.1.v20080530.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.help_3.3.101.v20080702_34x.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.expressions_3.4.0.v20080603-2000.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.jface.databinding_1.2.1.M20080827-0800a.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.databinding_1.1.1.M20080827-0800b.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.resources_3.4.1.R34x_v20080902.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.resources.compatibility_3.4.0.v20080604-1400.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.resources.win32.x86_3.4.0.v20071204.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.ant.core_3.2.0.v20080529.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.variables_3.2.100.v20080529-1300.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.filesystem_1.2.0.v20080604-1400.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.core.filesystem.win32.x86_1.1.0.v20080604-1400.jar" />
+		<pathelement path="../../../Documents/targets/eclipse-jee-ganymede-SR1-target/plugins/org.eclipse.ui.forms_3.3.101.v20080708_34x.jar" />
+		<pathelement path="lib/antlr-3.4-complete.jar" />
+		<pathelement path="${build.result.folder}/../kr.or.eclipse.swt.query_1.0.0.201110241204/lib/antlr-3.4-complete.jar" />
+	</path>
+
+	<target name="generate-all">
+		<java classname="kr.or.eclipse.swt.query.internal.gen.GenerateAll" logerror="true">
+			<arg path="src" />
+			<classpath refid="dependencies" />
+			<classpath>
+				<pathelement location="bin" />
+			</classpath>
+		</java>
+		
+		<eclipse.refreshLocal resource="/" depth="infinite"/>
+	</target>
+</project>
