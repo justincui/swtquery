@@ -4,7 +4,7 @@
     imports="kr.or.eclipse.swt.query.internal.gen.Property org.eclipse.swt.widgets.Widget kr.or.eclipse.swt.query.util.WidgetSwitch"
     %>
 <% Property property = (Property)argument; %>
-<%@ include file="copyright.jet" %>
+<%@ include file="copyright.txt" %>
 
 package kr.or.eclipse.swt.query.util.internal;
 
@@ -17,7 +17,7 @@ package kr.or.eclipse.swt.query.util.internal;
 <% } %>
 <%=GenUtil.endImport() %>
 
-<%@ include file="generation-header.jet" %>
+<%@ include file="generation-header.txt" %>
 public class Get<%=property.propertyName %>Switch extends WidgetSwitch<<%=property.propertyType.getSimpleName()%>> {
 	public <%=property.propertyType.getSimpleName() %> getProperty(Widget widget){
 		return doSwitch(widget);

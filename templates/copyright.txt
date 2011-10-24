@@ -1,4 +1,3 @@
-<%@ jet %>
 /*
  * Copyright 2011 jeeeyul@gmail.com
  *

@@ -16,31 +16,31 @@ import org.eclipse.ui.forms.widgets.FormText;
 import java.lang.Boolean;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.custom.CTabFolderRenderer;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import java.lang.Object;
-import java.lang.Integer;
-import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import java.lang.Character;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.dnd.DropTargetEffect;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.forms.HyperlinkSettings;
+import java.lang.Object;
 import org.eclipse.swt.widgets.Layout;
+import java.lang.Integer;
 import java.lang.String;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.dnd.DragSourceEffect;
 import org.eclipse.swt.widgets.IME;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.MenuItem;
 
 
@@ -120,10 +120,10 @@ public class PropertySwitch{
 	private SetLeftSwitch setLeftSwitch = new SetLeftSwitch();
 	private GetBottomSwitch getBottomSwitch = new GetBottomSwitch();
 	private SetBottomSwitch setBottomSwitch = new SetBottomSwitch();
-	private GetAllowDuplicatesSwitch getAllowDuplicatesSwitch = new GetAllowDuplicatesSwitch();
-	private SetAllowDuplicatesSwitch setAllowDuplicatesSwitch = new SetAllowDuplicatesSwitch();
 	private GetFilterSwitch getFilterSwitch = new GetFilterSwitch();
 	private SetFilterSwitch setFilterSwitch = new SetFilterSwitch();
+	private GetAllowDuplicatesSwitch getAllowDuplicatesSwitch = new GetAllowDuplicatesSwitch();
+	private SetAllowDuplicatesSwitch setAllowDuplicatesSwitch = new SetAllowDuplicatesSwitch();
 	private GetLayoutSwitch getLayoutSwitch = new GetLayoutSwitch();
 	private SetLayoutSwitch setLayoutSwitch = new SetLayoutSwitch();
 	private GetBackgroundImageSwitch getBackgroundImageSwitch = new GetBackgroundImageSwitch();
@@ -214,10 +214,10 @@ public class PropertySwitch{
 	private SetTopLeftSwitch setTopLeftSwitch = new SetTopLeftSwitch();
 	private GetIndentSwitch getIndentSwitch = new GetIndentSwitch();
 	private SetIndentSwitch setIndentSwitch = new SetIndentSwitch();
-	private GetTopIndexSwitch getTopIndexSwitch = new GetTopIndexSwitch();
-	private SetTopIndexSwitch setTopIndexSwitch = new SetTopIndexSwitch();
 	private GetImeInputModeSwitch getImeInputModeSwitch = new GetImeInputModeSwitch();
 	private SetImeInputModeSwitch setImeInputModeSwitch = new SetImeInputModeSwitch();
+	private GetTopIndexSwitch getTopIndexSwitch = new GetTopIndexSwitch();
+	private SetTopIndexSwitch setTopIndexSwitch = new SetTopIndexSwitch();
 	private GetRightWidthSwitch getRightWidthSwitch = new GetRightWidthSwitch();
 	private SetRightWidthSwitch setRightWidthSwitch = new SetRightWidthSwitch();
 	private GetLayoutDeferredSwitch getLayoutDeferredSwitch = new GetLayoutDeferredSwitch();
@@ -292,10 +292,10 @@ public class PropertySwitch{
 	private SetDropTargetEffectSwitch setDropTargetEffectSwitch = new SetDropTargetEffectSwitch();
 	private GetSimpleSwitch getSimpleSwitch = new GetSimpleSwitch();
 	private SetSimpleSwitch setSimpleSwitch = new SetSimpleSwitch();
-	private GetTopPixelSwitch getTopPixelSwitch = new GetTopPixelSwitch();
-	private SetTopPixelSwitch setTopPixelSwitch = new SetTopPixelSwitch();
 	private GetMarginColorSwitch getMarginColorSwitch = new GetMarginColorSwitch();
 	private SetMarginColorSwitch setMarginColorSwitch = new SetMarginColorSwitch();
+	private GetTopPixelSwitch getTopPixelSwitch = new GetTopPixelSwitch();
+	private SetTopPixelSwitch setTopPixelSwitch = new SetTopPixelSwitch();
 	private GetCheckedSwitch getCheckedSwitch = new GetCheckedSwitch();
 	private SetCheckedSwitch setCheckedSwitch = new SetCheckedSwitch();
 	private GetTitleBarBorderColorSwitch getTitleBarBorderColorSwitch = new GetTitleBarBorderColorSwitch();
@@ -528,12 +528,12 @@ public class PropertySwitch{
 			return (T) getBottomSwitch.getProperty(widget);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("AllowDuplicates")){
-			return (T) getAllowDuplicatesSwitch.getProperty(widget);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("Filter")){
 			return (T) getFilterSwitch.getProperty(widget);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("AllowDuplicates")){
+			return (T) getAllowDuplicatesSwitch.getProperty(widget);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("Layout")){
@@ -716,12 +716,12 @@ public class PropertySwitch{
 			return (T) getIndentSwitch.getProperty(widget);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("TopIndex")){
-			return (T) getTopIndexSwitch.getProperty(widget);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("ImeInputMode")){
 			return (T) getImeInputModeSwitch.getProperty(widget);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("TopIndex")){
+			return (T) getTopIndexSwitch.getProperty(widget);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("RightWidth")){
@@ -872,12 +872,12 @@ public class PropertySwitch{
 			return (T) getSimpleSwitch.getProperty(widget);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("TopPixel")){
-			return (T) getTopPixelSwitch.getProperty(widget);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("MarginColor")){
 			return (T) getMarginColorSwitch.getProperty(widget);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("TopPixel")){
+			return (T) getTopPixelSwitch.getProperty(widget);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("Checked")){
@@ -1208,12 +1208,12 @@ public class PropertySwitch{
 			setBottomSwitch.setProperty(widget, (Control)value);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("AllowDuplicates")){
-			setAllowDuplicatesSwitch.setProperty(widget, (Boolean)value);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("Filter")){
 			setFilterSwitch.setProperty(widget, (String)value);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("AllowDuplicates")){
+			setAllowDuplicatesSwitch.setProperty(widget, (Boolean)value);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("Layout")){
@@ -1396,12 +1396,12 @@ public class PropertySwitch{
 			setIndentSwitch.setProperty(widget, (Integer)value);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("TopIndex")){
-			setTopIndexSwitch.setProperty(widget, (Integer)value);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("ImeInputMode")){
 			setImeInputModeSwitch.setProperty(widget, (Integer)value);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("TopIndex")){
+			setTopIndexSwitch.setProperty(widget, (Integer)value);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("RightWidth")){
@@ -1552,12 +1552,12 @@ public class PropertySwitch{
 			setSimpleSwitch.setProperty(widget, (Boolean)value);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("TopPixel")){
-			setTopPixelSwitch.setProperty(widget, (Integer)value);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("MarginColor")){
 			setMarginColorSwitch.setProperty(widget, (Color)value);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("TopPixel")){
+			setTopPixelSwitch.setProperty(widget, (Integer)value);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("Checked")){
@@ -1953,17 +1953,17 @@ public class PropertySwitch{
 	public void setBottom(Widget widget, Control value){
 		setBottomSwitch.setProperty(widget, value);
 	}
-	public Boolean getAllowDuplicates(Widget widget){
-		return getAllowDuplicatesSwitch.getProperty(widget);
-	}
-	public void setAllowDuplicates(Widget widget, Boolean value){
-		setAllowDuplicatesSwitch.setProperty(widget, value);
-	}
 	public String getFilter(Widget widget){
 		return getFilterSwitch.getProperty(widget);
 	}
 	public void setFilter(Widget widget, String value){
 		setFilterSwitch.setProperty(widget, value);
+	}
+	public Boolean getAllowDuplicates(Widget widget){
+		return getAllowDuplicatesSwitch.getProperty(widget);
+	}
+	public void setAllowDuplicates(Widget widget, Boolean value){
+		setAllowDuplicatesSwitch.setProperty(widget, value);
 	}
 	public Layout getLayout(Widget widget){
 		return getLayoutSwitch.getProperty(widget);
@@ -2235,17 +2235,17 @@ public class PropertySwitch{
 	public void setIndent(Widget widget, Integer value){
 		setIndentSwitch.setProperty(widget, value);
 	}
-	public Integer getTopIndex(Widget widget){
-		return getTopIndexSwitch.getProperty(widget);
-	}
-	public void setTopIndex(Widget widget, Integer value){
-		setTopIndexSwitch.setProperty(widget, value);
-	}
 	public Integer getImeInputMode(Widget widget){
 		return getImeInputModeSwitch.getProperty(widget);
 	}
 	public void setImeInputMode(Widget widget, Integer value){
 		setImeInputModeSwitch.setProperty(widget, value);
+	}
+	public Integer getTopIndex(Widget widget){
+		return getTopIndexSwitch.getProperty(widget);
+	}
+	public void setTopIndex(Widget widget, Integer value){
+		setTopIndexSwitch.setProperty(widget, value);
 	}
 	public Integer getRightWidth(Widget widget){
 		return getRightWidthSwitch.getProperty(widget);
@@ -2469,17 +2469,17 @@ public class PropertySwitch{
 	public void setSimple(Widget widget, Boolean value){
 		setSimpleSwitch.setProperty(widget, value);
 	}
-	public Integer getTopPixel(Widget widget){
-		return getTopPixelSwitch.getProperty(widget);
-	}
-	public void setTopPixel(Widget widget, Integer value){
-		setTopPixelSwitch.setProperty(widget, value);
-	}
 	public Color getMarginColor(Widget widget){
 		return getMarginColorSwitch.getProperty(widget);
 	}
 	public void setMarginColor(Widget widget, Color value){
 		setMarginColorSwitch.setProperty(widget, value);
+	}
+	public Integer getTopPixel(Widget widget){
+		return getTopPixelSwitch.getProperty(widget);
+	}
+	public void setTopPixel(Widget widget, Integer value){
+		setTopPixelSwitch.setProperty(widget, value);
 	}
 	public Boolean getChecked(Widget widget){
 		return getCheckedSwitch.getProperty(widget);

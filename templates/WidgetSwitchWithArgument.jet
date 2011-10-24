@@ -7,7 +7,7 @@
 @SuppressWarnings("unchecked")
 List<Class<?>> types = (List<Class<?>>)argument; 
 %>
-<%@ include file="copyright.jet" %>
+<%@ include file="copyright.txt" %>
 
 package kr.or.eclipse.swt.query.util;
 
@@ -17,7 +17,7 @@ import <%=each.getCanonicalName() %>;
 <% } %>
 <% GenUtil.endImport(); %>
 
-<%@ include file="generation-header.jet" %>
+<%@ include file="generation-header.txt" %>
 public class WidgetSwitchWithArgument<T, A> {
 <% for(Class<?> each : types) { %>
 <%

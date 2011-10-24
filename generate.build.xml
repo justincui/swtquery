@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="generate-all" name="Generator">
+<project default="generate-basic" name="Generator">
 	<path id="dependencies-for-jeeeyul-home">
 		<pathelement path="C:/eclipse/plugins/org.eclipse.ui_3.7.0.I20110602-0100.jar" />
 		<pathelement path="C:/eclipse/plugins/org.eclipse.core.runtime_3.7.0.v20110110.jar" />
@@ -86,15 +86,25 @@
 		<pathelement path="${build.result.folder}/../kr.or.eclipse.swt.query_1.0.0.201110241204/lib/antlr-3.4-complete.jar" />
 	</path>
 
-	<target name="generate-all">
-		<java classname="kr.or.eclipse.swt.query.internal.gen.GenerateAll" logerror="true">
+	<target name="generate-basic">
+		<java classname="kr.or.eclipse.swt.query.internal.gen.GenerateBasic" logerror="true">
 			<arg path="src" />
 			<classpath refid="dependencies-for-jeeeyul-home" />
 			<classpath>
 				<pathelement location="bin" />
 			</classpath>
 		</java>
+		<eclipse.refreshLocal resource="/" depth="infinite" />
+	</target>
 
+	<target name="generate-advanced">
+		<java fork="true" classname="kr.or.eclipse.swt.query.internal.gen.GenerateAdvanced" logerror="true">
+			<arg path="src" />
+			<classpath refid="dependencies-for-jeeeyul-home" />
+			<classpath>
+				<pathelement location="bin" />
+			</classpath>
+		</java>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
 	</target>
 </project>
