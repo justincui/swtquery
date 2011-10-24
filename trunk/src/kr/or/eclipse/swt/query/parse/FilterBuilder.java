@@ -49,7 +49,7 @@ public class FilterBuilder {
 	}
 
 	public static void main(String[] args) throws RecognitionException {
-		String selector = ">Composite[data-role='c', fuck=test] > Button:push canvas:(doublebuffer, readonly)";
+		String selector = "label[a=test]";
 
 		SWTQuerySelectorLexer lexer = new SWTQuerySelectorLexer(
 				new ANTLRStringStream(selector));

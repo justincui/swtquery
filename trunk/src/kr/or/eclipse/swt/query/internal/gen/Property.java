@@ -16,6 +16,4 @@ public class Property {
             return "import " + this.propertyType.getCanonicalName() + ";";
         }
     }
-
-
 }

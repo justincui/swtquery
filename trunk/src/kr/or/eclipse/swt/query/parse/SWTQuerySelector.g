@@ -1,6 +1,5 @@
 grammar SWTQuerySelector;
 
-
 options {
     output=AST;
 }
@@ -28,13 +27,18 @@ LITERAL		: SQUOTE  ((~SQUOTE|BSLASH SQUOTE )*) SQUOTE | DQUOTE  ((~DQUOTE|BSLASH
 LT		: '>';
 COLON		: ':';
 EXCLAMATION	: '!';
+COMMA		: ',';
 
 // Main Rule
 selectors	: 
-	selector+ ;
+	selector (COMMA selector)*;
 
+selector:	
+	selectorSegment (selectorSegment)* -> selectorSegment+;
+	
+	
 // Selector Segment
-selector	:	
+selectorSegment:	
 	LT? (ID|ASTERIK)^ psudo? attributes?;
 
 idList 	:	
