@@ -5,5 +5,6 @@ public class Selector {
 	private boolean typeSpecified;
 	private String typeText;
 	private int styleFlag;
+	
 
 }
