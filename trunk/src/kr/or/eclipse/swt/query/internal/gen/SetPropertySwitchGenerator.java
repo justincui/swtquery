@@ -45,7 +45,7 @@ Property property = (Property)argument;
      GenUtil.addImportStatement(property.propertyType);
      GenUtil.addImportStatement(Widget.class);
      GenUtil.addImportStatement(WidgetSwitchWithArgument.class);
-     for(Class<?> each : property.types) { 
+     for(Class<?> each : property.settableTypes) { 
      GenUtil.addImportStatement(each);
      } 
     stringBuffer.append(TEXT_3);
@@ -59,7 +59,7 @@ Property property = (Property)argument;
     stringBuffer.append(TEXT_8);
     stringBuffer.append(property.propertyType.getSimpleName());
     stringBuffer.append(TEXT_9);
-     for(Class<?> each : property.types) { 
+     for(Class<?> each : property.settableTypes) { 
     stringBuffer.append(TEXT_10);
     stringBuffer.append(each.getSimpleName());
     stringBuffer.append(TEXT_11);

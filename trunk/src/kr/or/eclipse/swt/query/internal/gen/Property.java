@@ -6,7 +6,8 @@ import java.util.List;
 public class Property {
     public String propertyName;
     public Class<?> propertyType;
-    public List<Class<?>> types = new ArrayList<Class<?>>();
+    public List<Class<?>> gettableTypes = new ArrayList<Class<?>>();
+    public List<Class<?>> settableTypes = new ArrayList<Class<?>>();
     public boolean isValid = true;
 
     public String importStatement() {

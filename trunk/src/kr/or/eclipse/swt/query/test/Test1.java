@@ -5,12 +5,21 @@ import static kr.or.eclipse.swt.query.SWTQuery.$;
 import java.io.File;
 
 import kr.or.eclipse.swt.query.IWidgetFunction;
+import kr.or.eclipse.swt.query.SWTQuery;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetAdapter;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
@@ -19,13 +28,15 @@ import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 public class Test1 {
 	public static void main(String[] args) {
 		final Display display = Display.getDefault();
 		final Shell shell = new Shell();
-		shell.setLayout(new GridLayout());
+		shell.setLayout(new GridLayout(2, false));
 
 		Group group = new Group(shell, SWT.NORMAL);
 		group.setText("파일을 선택하세요.");
@@ -35,6 +46,23 @@ public class Test1 {
 			new Link(group, SWT.NORMAL).setText("<a href=\"#\">열기</a>");
 			new Text(group, SWT.BORDER);
 			new Button(group, SWT.PUSH).setText("찾기..");
+		}
+
+		Group group2 = new Group(shell, SWT.NORMAL);
+		group2.setText("그림 선택.");
+		group2.setLayout(new GridLayout(3, false));
+
+		Tree tree = new Tree(shell, SWT.NORMAL);
+		for (int i = 0; i < 5; i++) {
+			new TreeItem(tree, SWT.NORMAL).setText("xx");
+		}
+		$(tree).setGridLayoutData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		$(tree, "*").debug("a");
+
+		for (int i = 0; i < 10; i++) {
+			new Link(group2, SWT.NORMAL).setText("<a href=\"#\">열기</a>");
+			new Text(group2, SWT.BORDER);
+			new Button(group2, SWT.PUSH).setText("찾기..");
 		}
 
 		$(shell, "group").setGridLayoutData(GridData.FILL_BOTH);
@@ -69,7 +97,7 @@ public class Test1 {
 				$(event).setBackground(null);
 			}
 		});
-
+		
 		$(shell, "link").addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {

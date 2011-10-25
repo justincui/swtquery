@@ -14,7 +14,7 @@ package kr.or.eclipse.swt.query.util.internal;
 <% GenUtil.addImportStatement(property.propertyType);%>
 <% GenUtil.addImportStatement(Widget.class);%>
 <% GenUtil.addImportStatement(WidgetSwitchWithArgument.class);%>
-<% for(Class<?> each : property.types) { %>
+<% for(Class<?> each : property.settableTypes) { %>
 <% GenUtil.addImportStatement(each);%>
 <% } %>
 <%=GenUtil.endImport() %>
@@ -25,7 +25,7 @@ public class Set<%=property.propertyName %>Switch extends WidgetSwitchWithArgume
 		doSwitch(widget, value);
 	}
 
-<% for(Class<?> each : property.types) { %>
+<% for(Class<?> each : property.settableTypes) { %>
 	public Object case<%=each.getSimpleName()%>(<%=each.getSimpleName()%> widget, <%=property.propertyType.getSimpleName()%> value){
 		widget.set<%=property.propertyName%>(value);
 		return null;

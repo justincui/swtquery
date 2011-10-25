@@ -12,51 +12,74 @@ package kr.or.eclipse.swt.query;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.GC;
 
 import org.eclipse.ui.forms.widgets.FormText;
-import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
-import java.util.Map;
+import org.eclipse.swt.widgets.TableItem;
 import java.lang.Boolean;
-import kr.or.eclipse.swt.query.filter.IWidgetFilter;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.graphics.Region;
-import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.custom.CTabFolderRenderer;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.graphics.Color;
-import java.lang.Character;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.ToolTip;
-import org.eclipse.swt.widgets.Caret;
-import org.eclipse.swt.dnd.DropTargetEffect;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import java.util.ArrayList;
-import org.eclipse.ui.forms.HyperlinkSettings;
 import java.lang.Object;
 import java.util.List;
-import org.eclipse.swt.widgets.Layout;
-import java.lang.String;
 import java.lang.Integer;
+import org.eclipse.swt.dnd.DND;
+import kr.or.eclipse.swt.query.internal.grammar.Selector;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.widgets.Display;
+import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
+import java.util.Map;
+import kr.or.eclipse.swt.query.filter.IWidgetFilter;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.widgets.ScrollBar;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.graphics.Color;
+import java.lang.Character;
+import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.swt.graphics.TextStyle;
+import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.dnd.DropTargetEffect;
+import org.eclipse.ui.dialogs.PatternFilter;
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.ui.forms.widgets.Form;
+import java.util.ArrayList;
+import org.eclipse.ui.forms.HyperlinkSettings;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.forms.IMessage;
+import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.dnd.DropTarget;
+import java.lang.String;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.ui.forms.IMessageManager;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.dnd.DragSourceEffect;
-import kr.or.eclipse.swt.query.internal.grammar.Selector;
 import org.eclipse.swt.widgets.IME;
 import kr.or.eclipse.swt.query.internal.grammar.SelectorInterpreter;
 import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
-import org.eclipse.swt.graphics.Cursor;
 import kr.or.eclipse.swt.query.internal.UniqueList;
 import kr.or.eclipse.swt.query.internal.ParentSwitch;
 import org.eclipse.swt.widgets.MenuItem;
 
 
 public final class SWTQuery {
-
+	private static int CURRENT_DEBUG_COLOR = 0;
+	
 	public static SWTQuery $(Widget w) {
 		return new SWTQuery(w);
 	}
@@ -241,55 +264,16 @@ public final class SWTQuery {
 	}
 
 	/**
-	 * Sets a Maximized.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Sets a Visible property.
 	 * 
-	 * @param value	 a Maximized.
-	 */
-	public SWTQuery setMaximized(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMaximized(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Maximized.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Maximized.
-	 */	
-	public Boolean getMaximized(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getMaximized(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Visible.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Control</li>
-	 * <li>TrayItem</li>
-	 * <li>Menu</li>
-	 * <li>ScrollBar</li>
-	 * <li>ToolTip</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Visible.
+	 * @param value a Visible value to set.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Control
+	 * @see Menu
+	 * @see ScrollBar
+	 * @see ToolTip	 
 	 */
 	public SWTQuery setVisible(Boolean value){
 		for(Widget each : items){
@@ -297,22 +281,1899 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+	/**
+	 * Sets a HorizontalPixel property.
+	 * 
+	 * @param value a HorizontalPixel value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setHorizontalPixel(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHorizontalPixel(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a MenuBar property.
+	 * 
+	 * @param value a MenuBar value to set.
+	 *
+	 * @see Decorations	 
+	 */
+	public SWTQuery setMenuBar(Menu value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMenuBar(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ToolTipText property.
+	 * 
+	 * @param value a ToolTipText value to set.
+	 *
+	 * @see Hyperlink
+	 * @see CLabel
+	 * @see Control
+	 * @see CTabItem
+	 * @see TabItem
+	 * @see TableColumn
+	 * @see ToolItem
+	 * @see TrayItem
+	 * @see TreeColumn	 
+	 */
+	public SWTQuery setToolTipText(String value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setToolTipText(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Busy property.
+	 * 
+	 * @param value a Busy value to set.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery setBusy(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBusy(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Increment property.
+	 * 
+	 * @param value a Increment value to set.
+	 *
+	 * @see Spinner
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */
+	public SWTQuery setIncrement(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setIncrement(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a LabelProvider property.
+	 * 
+	 * @param value a LabelProvider value to set.
+	 *
+	 * @see FilteredList	 
+	 */
+	public SWTQuery setLabelProvider(ILabelProvider value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLabelProvider(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a CaretOffset property.
+	 * 
+	 * @param value a CaretOffset value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setCaretOffset(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setCaretOffset(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Underlined property.
+	 * 
+	 * @param value a Underlined value to set.
+	 *
+	 * @see Hyperlink	 
+	 */
+	public SWTQuery setUnderlined(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setUnderlined(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a BackgroundImageClipped property.
+	 * 
+	 * @param value a BackgroundImageClipped value to set.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery setBackgroundImageClipped(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBackgroundImageClipped(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Filter property.
+	 * 
+	 * @param value a Filter value to set.
+	 *
+	 * @see FilteredList	 
+	 */
+	public SWTQuery setFilter(String value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setFilter(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Layout property.
+	 * 
+	 * @param value a Layout value to set.
+	 *
+	 * @see Composite	 
+	 */
+	public SWTQuery setLayout(Layout value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLayout(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a BackgroundImageTiled property.
+	 * 
+	 * @param value a BackgroundImageTiled value to set.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery setBackgroundImageTiled(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBackgroundImageTiled(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a IME property.
+	 * 
+	 * @param value a IME value to set.
+	 *
+	 * @see Canvas	 
+	 */
+	public SWTQuery setIME(IME value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setIME(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TextChars property.
+	 * 
+	 * @param value a TextChars value to set.
+	 *
+	 * @see Text	 
+	 */
+	public SWTQuery setTextChars(char[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTextChars(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TopMargin property.
+	 * 
+	 * @param value a TopMargin value to set.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
+	 */
+	public SWTQuery setTopMargin(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTopMargin(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Weights property.
+	 * 
+	 * @param value a Weights value to set.
+	 *
+	 * @see SashForm	 
+	 */
+	public SWTQuery setWeights(int[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setWeights(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a LayoutData property.
+	 * 
+	 * @param value a LayoutData value to set.
+	 *
+	 * @see Control	 
+	 */
+	public SWTQuery setLayoutData(Object value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLayoutData(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a StyleRanges property.
+	 * 
+	 * @param value a StyleRanges value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setStyleRanges(StyleRange[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setStyleRanges(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Control property.
+	 * 
+	 * @param value a Control value to set.
+	 *
+	 * @see CTabItem
+	 * @see CoolItem
+	 * @see ExpandItem
+	 * @see TabItem
+	 * @see ToolItem	 
+	 */
+	public SWTQuery setControl(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setControl(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Renderer property.
+	 * 
+	 * @param value a Renderer value to set.
+	 *
+	 * @see CTabFolder	 
+	 */
+	public SWTQuery setRenderer(CTabFolderRenderer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setRenderer(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Image property.
+	 * 
+	 * @param value a Image value to set.
+	 *
+	 * @see Caret
+	 * @see ImageHyperlink
+	 * @see ScrolledForm
+	 * @see CLabel
+	 * @see Decorations
+	 * @see Form
+	 * @see Button
+	 * @see Label
+	 * @see TableItem
+	 * @see TreeItem
+	 * @see Item	 
+	 */
+	public SWTQuery setImage(Image value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setImage(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a RightMinimumSize property.
+	 * 
+	 * @param value a RightMinimumSize value to set.
+	 *
+	 * @see CBanner	 
+	 */
+	public SWTQuery setRightMinimumSize(Point value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setRightMinimumSize(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Expanded property.
+	 * 
+	 * @param value a Expanded value to set.
+	 *
+	 * @see ToggleHyperlink
+	 * @see ExpandableComposite	 
+	 */
+	public SWTQuery setExpanded(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setExpanded(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TitleBarForeground property.
+	 * 
+	 * @param value a TitleBarForeground value to set.
+	 *
+	 * @see ExpandableComposite	 
+	 */
+	public SWTQuery setTitleBarForeground(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTitleBarForeground(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Client property.
+	 * 
+	 * @param value a Client value to set.
+	 *
+	 * @see ExpandableComposite	 
+	 */
+	public SWTQuery setClient(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setClient(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Right property.
+	 * 
+	 * @param value a Right value to set.
+	 *
+	 * @see CBanner	 
+	 */
+	public SWTQuery setRight(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setRight(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Orientation property.
+	 * 
+	 * @param value a Orientation value to set.
+	 *
+	 * @see StyledText
+	 * @see SashForm
+	 * @see Combo
+	 * @see Text
+	 * @see Control
+	 * @see Menu	 
+	 */
+	public SWTQuery setOrientation(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setOrientation(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Hours property.
+	 * 
+	 * @param value a Hours value to set.
+	 *
+	 * @see DateTime	 
+	 */
+	public SWTQuery setHours(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHours(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a HoverImage property.
+	 * 
+	 * @param value a HoverImage value to set.
+	 *
+	 * @see ImageHyperlink	 
+	 */
+	public SWTQuery setHoverImage(Image value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHoverImage(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a BottomMargin property.
+	 * 
+	 * @param value a BottomMargin value to set.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
+	 */
+	public SWTQuery setBottomMargin(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBottomMargin(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Indent property.
+	 * 
+	 * @param value a Indent value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setIndent(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setIndent(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TopIndex property.
+	 * 
+	 * @param value a TopIndex value to set.
+	 *
+	 * @see StyledText
+	 * @see Table
+	 * @see List
+	 * @see Text	 
+	 */
+	public SWTQuery setTopIndex(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTopIndex(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ImeInputMode property.
+	 * 
+	 * @param value a ImeInputMode value to set.
+	 *
+	 * @see Shell	 
+	 */
+	public SWTQuery setImeInputMode(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setImeInputMode(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a RightWidth property.
+	 * 
+	 * @param value a RightWidth value to set.
+	 *
+	 * @see CBanner	 
+	 */
+	public SWTQuery setRightWidth(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setRightWidth(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Foreground property.
+	 * 
+	 * @param value a Foreground value to set.
+	 *
+	 * @see StyledText
+	 * @see TableCursor
+	 * @see Control
+	 * @see TableItem
+	 * @see TreeItem	 
+	 */
+	public SWTQuery setForeground(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setForeground(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a MaximizedControl property.
+	 * 
+	 * @param value a MaximizedControl value to set.
+	 *
+	 * @see SashForm	 
+	 */
+	public SWTQuery setMaximizedControl(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMaximizedControl(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Month property.
+	 * 
+	 * @param value a Month value to set.
+	 *
+	 * @see DateTime	 
+	 */
+	public SWTQuery setMonth(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMonth(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Menu property.
+	 * 
+	 * @param value a Menu value to set.
+	 *
+	 * @see CCombo
+	 * @see Control
+	 * @see MenuItem	 
+	 */
+	public SWTQuery setMenu(Menu value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMenu(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a LineSpacing property.
+	 * 
+	 * @param value a LineSpacing value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setLineSpacing(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLineSpacing(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Href property.
+	 * 
+	 * @param value a Href value to set.
+	 *
+	 * @see AbstractHyperlink	 
+	 */
+	public SWTQuery setHref(Object value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHref(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a HoverDecorationColor property.
+	 * 
+	 * @param value a HoverDecorationColor value to set.
+	 *
+	 * @see ToggleHyperlink	 
+	 */
+	public SWTQuery setHoverDecorationColor(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHoverDecorationColor(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TextLimit property.
+	 * 
+	 * @param value a TextLimit value to set.
+	 *
+	 * @see StyledText
+	 * @see CCombo
+	 * @see Combo
+	 * @see Spinner
+	 * @see Text	 
+	 */
+	public SWTQuery setTextLimit(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTextLimit(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ItemCount property.
+	 * 
+	 * @param value a ItemCount value to set.
+	 *
+	 * @see Table
+	 * @see Tree
+	 * @see TreeItem	 
+	 */
+	public SWTQuery setItemCount(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setItemCount(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a MinWidth property.
+	 * 
+	 * @param value a MinWidth value to set.
+	 *
+	 * @see ScrolledComposite	 
+	 */
+	public SWTQuery setMinWidth(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMinWidth(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TitleBarBorderColor property.
+	 * 
+	 * @param value a TitleBarBorderColor value to set.
+	 *
+	 * @see Section	 
+	 */
+	public SWTQuery setTitleBarBorderColor(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTitleBarBorderColor(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a WrapIndent property.
+	 * 
+	 * @param value a WrapIndent value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setWrapIndent(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setWrapIndent(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Enabled property.
+	 * 
+	 * @param value a Enabled value to set.
+	 *
+	 * @see Shell
+	 * @see Control
+	 * @see MenuItem
+	 * @see ToolItem
+	 * @see Menu
+	 * @see ScrollBar	 
+	 */
+	public SWTQuery setEnabled(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setEnabled(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Cursor property.
+	 * 
+	 * @param value a Cursor value to set.
+	 *
+	 * @see Control	 
+	 */
+	public SWTQuery setCursor(Cursor value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setCursor(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Year property.
+	 * 
+	 * @param value a Year value to set.
+	 *
+	 * @see DateTime	 
+	 */
+	public SWTQuery setYear(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setYear(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Region property.
+	 * 
+	 * @param value a Region value to set.
+	 *
+	 * @see Shell
+	 * @see Control	 
+	 */
+	public SWTQuery setRegion(Region value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setRegion(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ToolBarVerticalAlignment property.
+	 * 
+	 * @param value a ToolBarVerticalAlignment value to set.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery setToolBarVerticalAlignment(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setToolBarVerticalAlignment(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Accelerator property.
+	 * 
+	 * @param value a Accelerator value to set.
+	 *
+	 * @see MenuItem	 
+	 */
+	public SWTQuery setAccelerator(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setAccelerator(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a PageIncrement property.
+	 * 
+	 * @param value a PageIncrement value to set.
+	 *
+	 * @see Spinner
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */
+	public SWTQuery setPageIncrement(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setPageIncrement(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Description property.
+	 * 
+	 * @param value a Description value to set.
+	 *
+	 * @see Section	 
+	 */
+	public SWTQuery setDescription(String value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDescription(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a SelectionForeground property.
+	 * 
+	 * @param value a SelectionForeground value to set.
+	 *
+	 * @see StyledText
+	 * @see CTabFolder	 
+	 */
+	public SWTQuery setSelectionForeground(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSelectionForeground(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a BlockSelectionBounds property.
+	 * 
+	 * @param value a BlockSelectionBounds value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setBlockSelectionBounds(Rectangle value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBlockSelectionBounds(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a MinHeight property.
+	 * 
+	 * @param value a MinHeight value to set.
+	 *
+	 * @see ScrolledComposite	 
+	 */
+	public SWTQuery setMinHeight(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMinHeight(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a MinimumSize property.
+	 * 
+	 * @param value a MinimumSize value to set.
+	 *
+	 * @see Shell
+	 * @see CoolItem	 
+	 */
+	public SWTQuery setMinimumSize(Point value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMinimumSize(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Tabs property.
+	 * 
+	 * @param value a Tabs value to set.
+	 *
+	 * @see StyledText
+	 * @see Text	 
+	 */
+	public SWTQuery setTabs(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTabs(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a State property.
+	 * 
+	 * @param value a State value to set.
+	 *
+	 * @see ProgressBar	 
+	 */
+	public SWTQuery setState(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setState(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TopItem property.
+	 * 
+	 * @param value a TopItem value to set.
+	 *
+	 * @see Tree	 
+	 */
+	public SWTQuery setTopItem(TreeItem value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTopItem(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TopCenter property.
+	 * 
+	 * @param value a TopCenter value to set.
+	 *
+	 * @see ViewForm	 
+	 */
+	public SWTQuery setTopCenter(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTopCenter(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TabStops property.
+	 * 
+	 * @param value a TabStops value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setTabStops(int[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTabStops(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a MinimumCharacters property.
+	 * 
+	 * @param value a MinimumCharacters value to set.
+	 *
+	 * @see CTabFolder	 
+	 */
+	public SWTQuery setMinimumCharacters(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMinimumCharacters(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a HorizontalIndex property.
+	 * 
+	 * @param value a HorizontalIndex value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setHorizontalIndex(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHorizontalIndex(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Images property.
+	 * 
+	 * @param value a Images value to set.
+	 *
+	 * @see Decorations	 
+	 */
+	public SWTQuery setImages(Image[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setImages(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Origin property.
+	 * 
+	 * @param value a Origin value to set.
+	 *
+	 * @see ScrolledComposite	 
+	 */
+	public SWTQuery setOrigin(Point value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setOrigin(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Data property.
+	 * 
+	 * @param value a Data value to set.
+	 *
+	 * @see Widget	 
+	 */
+	public SWTQuery setData(Object value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setData(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a EchoChar property.
+	 * 
+	 * @param value a EchoChar value to set.
+	 *
+	 * @see Text	 
+	 */
+	public SWTQuery setEchoChar(Character value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setEchoChar(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a HeadClient property.
+	 * 
+	 * @param value a HeadClient value to set.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery setHeadClient(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHeadClient(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Url property.
+	 * 
+	 * @param value a Url value to set.
+	 *
+	 * @see Browser	 
+	 */
+	public SWTQuery setUrl(String value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setUrl(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Seconds property.
+	 * 
+	 * @param value a Seconds value to set.
+	 *
+	 * @see DateTime	 
+	 */
+	public SWTQuery setSeconds(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSeconds(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a SortDirection property.
+	 * 
+	 * @param value a SortDirection value to set.
+	 *
+	 * @see Table
+	 * @see Tree	 
+	 */
+	public SWTQuery setSortDirection(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSortDirection(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a VisibleItemCount property.
+	 * 
+	 * @param value a VisibleItemCount value to set.
+	 *
+	 * @see CCombo
+	 * @see Combo	 
+	 */
+	public SWTQuery setVisibleItemCount(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setVisibleItemCount(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Thumb property.
+	 * 
+	 * @param value a Thumb value to set.
+	 *
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */
+	public SWTQuery setThumb(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setThumb(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a DecorationColor property.
+	 * 
+	 * @param value a DecorationColor value to set.
+	 *
+	 * @see ToggleHyperlink	 
+	 */
+	public SWTQuery setDecorationColor(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDecorationColor(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Bounds property.
+	 * 
+	 * @param value a Bounds value to set.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Decorations
+	 * @see Control	 
+	 */
+	public SWTQuery setBounds(Rectangle value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBounds(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Digits property.
+	 * 
+	 * @param value a Digits value to set.
+	 *
+	 * @see Spinner	 
+	 */
+	public SWTQuery setDigits(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDigits(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Left property.
+	 * 
+	 * @param value a Left value to set.
+	 *
+	 * @see CBanner	 
+	 */
+	public SWTQuery setLeft(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLeft(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Bottom property.
+	 * 
+	 * @param value a Bottom value to set.
+	 *
+	 * @see CBanner	 
+	 */
+	public SWTQuery setBottom(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBottom(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a BackgroundImage property.
+	 * 
+	 * @param value a BackgroundImage value to set.
+	 *
+	 * @see ScrolledForm
+	 * @see Form
+	 * @see Control	 
+	 */
+	public SWTQuery setBackgroundImage(Image value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBackgroundImage(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TabPosition property.
+	 * 
+	 * @param value a TabPosition value to set.
+	 *
+	 * @see CTabFolder	 
+	 */
+	public SWTQuery setTabPosition(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTabPosition(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TitleBarBackground property.
+	 * 
+	 * @param value a TitleBarBackground value to set.
+	 *
+	 * @see Section	 
+	 */
+	public SWTQuery setTitleBarBackground(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTitleBarBackground(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TabHeight property.
+	 * 
+	 * @param value a TabHeight value to set.
+	 *
+	 * @see CTabFolder	 
+	 */
+	public SWTQuery setTabHeight(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTabHeight(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a DelayedReflow property.
+	 * 
+	 * @param value a DelayedReflow value to set.
+	 *
+	 * @see SharedScrolledComposite	 
+	 */
+	public SWTQuery setDelayedReflow(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDelayedReflow(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Alpha property.
+	 * 
+	 * @param value a Alpha value to set.
+	 *
+	 * @see Shell	 
+	 */
+	public SWTQuery setAlpha(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setAlpha(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a PreferredSize property.
+	 * 
+	 * @param value a PreferredSize value to set.
+	 *
+	 * @see CoolItem	 
+	 */
+	public SWTQuery setPreferredSize(Point value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setPreferredSize(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Background property.
+	 * 
+	 * @param value a Background value to set.
+	 *
+	 * @see StyledText
+	 * @see TableCursor
+	 * @see Control
+	 * @see TableItem
+	 * @see TreeItem	 
+	 */
+	public SWTQuery setBackground(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBackground(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a SashWidth property.
+	 * 
+	 * @param value a SashWidth value to set.
+	 *
+	 * @see SashForm	 
+	 */
+	public SWTQuery setSashWidth(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSashWidth(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a WhitespaceNormalized property.
+	 * 
+	 * @param value a WhitespaceNormalized value to set.
+	 *
+	 * @see FormText	 
+	 */
+	public SWTQuery setWhitespaceNormalized(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setWhitespaceNormalized(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Font property.
+	 * 
+	 * @param value a Font value to set.
+	 *
+	 * @see Caret
+	 * @see Control
+	 * @see CTabItem
+	 * @see TableItem
+	 * @see TreeItem	 
+	 */
+	public SWTQuery setFont(Font value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setFont(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Rectangles property.
+	 * 
+	 * @param value a Rectangles value to set.
+	 *
+	 * @see Tracker	 
+	 */
+	public SWTQuery setRectangles(Rectangle[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setRectangles(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a DefaultItem property.
+	 * 
+	 * @param value a DefaultItem value to set.
+	 *
+	 * @see Menu	 
+	 */
+	public SWTQuery setDefaultItem(MenuItem value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDefaultItem(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Message property.
+	 * 
+	 * @param value a Message value to set.
+	 *
+	 * @see Form
+	 * @see Text
+	 * @see ToolTip	 
+	 */
+	public SWTQuery setMessage(String value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMessage(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a LeftMargin property.
+	 * 
+	 * @param value a LeftMargin value to set.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
+	 */
+	public SWTQuery setLeftMargin(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLeftMargin(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a DefaultButton property.
+	 * 
+	 * @param value a DefaultButton value to set.
+	 *
+	 * @see Decorations	 
+	 */
+	public SWTQuery setDefaultButton(Button value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDefaultButton(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Minimum property.
+	 * 
+	 * @param value a Minimum value to set.
+	 *
+	 * @see Spinner
+	 * @see ProgressBar
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */
+	public SWTQuery setMinimum(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMinimum(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Alignment property.
+	 * 
+	 * @param value a Alignment value to set.
+	 *
+	 * @see CLabel
+	 * @see StyledText
+	 * @see Button
+	 * @see Label
+	 * @see TableColumn
+	 * @see TreeColumn	 
+	 */
+	public SWTQuery setAlignment(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setAlignment(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TopLeft property.
+	 * 
+	 * @param value a TopLeft value to set.
+	 *
+	 * @see ViewForm	 
+	 */
+	public SWTQuery setTopLeft(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTopLeft(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a SeparatorControl property.
+	 * 
+	 * @param value a SeparatorControl value to set.
+	 *
+	 * @see Section	 
+	 */
+	public SWTQuery setSeparatorControl(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSeparatorControl(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a LayoutDeferred property.
+	 * 
+	 * @param value a LayoutDeferred value to set.
+	 *
+	 * @see Composite	 
+	 */
+	public SWTQuery setLayoutDeferred(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLayoutDeferred(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TextClient property.
+	 * 
+	 * @param value a TextClient value to set.
+	 *
+	 * @see ExpandableComposite	 
+	 */
+	public SWTQuery setTextClient(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTextClient(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ID property.
+	 * 
+	 * @param value a ID value to set.
+	 *
+	 * @see MenuItem	 
+	 */
+	public SWTQuery setID(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setID(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Width property.
+	 * 
+	 * @param value a Width value to set.
+	 *
+	 * @see TableColumn
+	 * @see ToolItem
+	 * @see TreeColumn	 
+	 */
+	public SWTQuery setWidth(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setWidth(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ToolTip property.
+	 * 
+	 * @param value a ToolTip value to set.
+	 *
+	 * @see TrayItem	 
+	 */
+	public SWTQuery setToolTip(ToolTip value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setToolTip(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a SeparatorVisible property.
+	 * 
+	 * @param value a SeparatorVisible value to set.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery setSeparatorVisible(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSeparatorVisible(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Size property.
+	 * 
+	 * @param value a Size value to set.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Decorations
+	 * @see Control
+	 * @see CoolItem	 
+	 */
+	public SWTQuery setSize(Point value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSize(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a SelectionBackground property.
+	 * 
+	 * @param value a SelectionBackground value to set.
+	 *
+	 * @see StyledText
+	 * @see CTabFolder	 
+	 */
+	public SWTQuery setSelectionBackground(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSelectionBackground(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Maximum property.
+	 * 
+	 * @param value a Maximum value to set.
+	 *
+	 * @see Spinner
+	 * @see ProgressBar
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */
+	public SWTQuery setMaximum(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMaximum(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Height property.
+	 * 
+	 * @param value a Height value to set.
+	 *
+	 * @see ExpandItem	 
+	 */
+	public SWTQuery setHeight(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHeight(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TopRight property.
+	 * 
+	 * @param value a TopRight value to set.
+	 *
+	 * @see CTabFolder
+	 * @see ViewForm	 
+	 */
+	public SWTQuery setTopRight(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTopRight(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a HyperlinkSettings property.
+	 * 
+	 * @param value a HyperlinkSettings value to set.
+	 *
+	 * @see FormText	 
+	 */
+	public SWTQuery setHyperlinkSettings(HyperlinkSettings value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHyperlinkSettings(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Transfer property.
+	 * 
+	 * @param value a Transfer value to set.
+	 *
+	 * @see DragSource
+	 * @see DropTarget	 
+	 */
+	public SWTQuery setTransfer(Transfer[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTransfer(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ActiveImage property.
+	 * 
+	 * @param value a ActiveImage value to set.
+	 *
+	 * @see ImageHyperlink	 
+	 */
+	public SWTQuery setActiveImage(Image value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setActiveImage(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a FormText property.
+	 * 
+	 * @param value a FormText value to set.
+	 *
+	 * @see ScrolledFormText	 
+	 */
+	public SWTQuery setFormText(FormText value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setFormText(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a DropTargetEffect property.
+	 * 
+	 * @param value a DropTargetEffect value to set.
+	 *
+	 * @see DropTarget	 
+	 */
+	public SWTQuery setDropTargetEffect(DropTargetEffect value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDropTargetEffect(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TopPixel property.
+	 * 
+	 * @param value a TopPixel value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setTopPixel(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTopPixel(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a MarginColor property.
+	 * 
+	 * @param value a MarginColor value to set.
+	 *
+	 * @see StyledText	 
+	 */
+	public SWTQuery setMarginColor(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMarginColor(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Caret property.
+	 * 
+	 * @param value a Caret value to set.
+	 *
+	 * @see Canvas	 
+	 */
+	public SWTQuery setCaret(Caret value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setCaret(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a DragSourceEffect property.
+	 * 
+	 * @param value a DragSourceEffect value to set.
+	 *
+	 * @see DragSource	 
+	 */
+	public SWTQuery setDragSourceEffect(DragSourceEffect value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDragSourceEffect(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a ColumnOrder property.
+	 * 
+	 * @param value a ColumnOrder value to set.
+	 *
+	 * @see Table
+	 * @see Tree	 
+	 */
+	public SWTQuery setColumnOrder(int[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setColumnOrder(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Day property.
+	 * 
+	 * @param value a Day value to set.
+	 *
+	 * @see DateTime	 
+	 */
+	public SWTQuery setDay(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDay(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a WrapIndices property.
+	 * 
+	 * @param value a WrapIndices value to set.
+	 *
+	 * @see CoolBar	 
+	 */
+	public SWTQuery setWrapIndices(int[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setWrapIndices(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a CompositionOffset property.
+	 * 
+	 * @param value a CompositionOffset value to set.
+	 *
+	 * @see IME	 
+	 */
+	public SWTQuery setCompositionOffset(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setCompositionOffset(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TitleBarGradientBackground property.
+	 * 
+	 * @param value a TitleBarGradientBackground value to set.
+	 *
+	 * @see Section	 
+	 */
+	public SWTQuery setTitleBarGradientBackground(Color value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTitleBarGradientBackground(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a BackgroundMode property.
+	 * 
+	 * @param value a BackgroundMode value to set.
+	 *
+	 * @see Composite	 
+	 */
+	public SWTQuery setBackgroundMode(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBackgroundMode(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a RightMargin property.
+	 * 
+	 * @param value a RightMargin value to set.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
+	 */
+	public SWTQuery setRightMargin(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setRightMargin(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Location property.
+	 * 
+	 * @param value a Location value to set.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Decorations
+	 * @see Control	 
+	 */
+	public SWTQuery setLocation(Point value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLocation(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Spacing property.
+	 * 
+	 * @param value a Spacing value to set.
+	 *
+	 * @see ExpandBar	 
+	 */
+	public SWTQuery setSpacing(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setSpacing(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a DescriptionControl property.
+	 * 
+	 * @param value a DescriptionControl value to set.
+	 *
+	 * @see Section	 
+	 */
+	public SWTQuery setDescriptionControl(Control value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setDescriptionControl(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Text property.
+	 * 
+	 * @param value a Text value to set.
+	 *
+	 * @see Hyperlink
+	 * @see ScrolledForm
+	 * @see CLabel
+	 * @see StyledText
+	 * @see Decorations
+	 * @see ExpandableComposite
+	 * @see Browser
+	 * @see CCombo
+	 * @see Combo
+	 * @see Group
+	 * @see Form
+	 * @see Text
+	 * @see Button
+	 * @see Label
+	 * @see Link
+	 * @see TableItem
+	 * @see TreeItem
+	 * @see Item
+	 * @see ToolTip	 
+	 */
+	public SWTQuery setText(String value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setText(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Canceled property.
+	 * 
+	 * @param value a Canceled value to set.
+	 *
+	 * @see ProgressMonitorPart	 
+	 */
+	public SWTQuery setCanceled(Boolean value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setCanceled(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a TabList property.
+	 * 
+	 * @param value a TabList value to set.
+	 *
+	 * @see Composite	 
+	 */
+	public SWTQuery setTabList(Control[] value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setTabList(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a Minutes property.
+	 * 
+	 * @param value a Minutes value to set.
+	 *
+	 * @see DateTime	 
+	 */
+	public SWTQuery setMinutes(Integer value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setMinutes(each, value);
+		}
+		return this;
+	}
+	/**
+	 * Sets a HotImage property.
+	 * 
+	 * @param value a HotImage value to set.
+	 *
+	 * @see ToolItem	 
+	 */
+	public SWTQuery setHotImage(Image value){
+		for(Widget each : items){
+			WidgetPropertySwitch.setHotImage(each, value);
+		}
+		return this;
+	}
 
 	/**
-	 * Gets a Visible.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Control</li>
-	 * <li>TrayItem</li>
-	 * <li>Menu</li>
-	 * <li>ScrollBar</li>
-	 * <li>ToolTip</li>	 
-	 * </ul>
+	 * Gets a Visible property value.
 	 * 
-	 * @return value	 a Visible.
+	 * @return value a Visible.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Control
+	 * @see Menu
+	 * @see ScrollBar
+	 * @see ToolTip	 
 	 */	
-	public Boolean getVisible(){
+	public Boolean isVisible(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.getVisible(items.get(0));
 		}
@@ -321,29 +2182,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a HorizontalPixel.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
+	 * Gets a HorizontalPixel property value.
 	 * 
-	 * @param value	 a HorizontalPixel.
-	 */
-	public SWTQuery setHorizontalPixel(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHorizontalPixel(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HorizontalPixel.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HorizontalPixel.
+	 * @return value a HorizontalPixel.
+	 *
+	 * @see StyledText	 
 	 */	
 	public Integer getHorizontalPixel(){
 		if(items.size() > 0){
@@ -354,344 +2197,26 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Moveable.
-	 * supported by:
-	 * <ul>
-	 * <li>TableColumn</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
+	 * Gets a ItemSizes property value.
 	 * 
-	 * @param value	 a Moveable.
-	 */
-	public SWTQuery setMoveable(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMoveable(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Moveable.
-	 * supported by:
-	 * <ul>
-	 * <li>TableColumn</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Moveable.
+	 * @return value a ItemSizes.
+	 *
+	 * @see CoolBar	 
 	 */	
-	public Boolean getMoveable(){
+	public Point[] getItemSizes(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getMoveable(items.get(0));
+			return WidgetPropertySwitch.getItemSizes(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a HorizontalIndex.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
+	 * Gets a MenuBar property value.
 	 * 
-	 * @param value	 a HorizontalIndex.
-	 */
-	public SWTQuery setHorizontalIndex(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHorizontalIndex(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HorizontalIndex.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HorizontalIndex.
-	 */	
-	public Integer getHorizontalIndex(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getHorizontalIndex(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Origin.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Origin.
-	 */
-	public SWTQuery setOrigin(Point value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setOrigin(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Origin.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Origin.
-	 */	
-	public Point getOrigin(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getOrigin(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Images.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Images.
-	 */
-	public SWTQuery setImages(Image[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setImages(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Images.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Images.
-	 */	
-	public Image[] getImages(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getImages(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Single.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Single.
-	 */
-	public SWTQuery setSingle(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSingle(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Single.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Single.
-	 */	
-	public Boolean getSingle(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getSingle(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Data.
-	 * supported by:
-	 * <ul>
-	 * <li>Widget</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Data.
-	 */
-	public SWTQuery setData(Object value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setData(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Data.
-	 * supported by:
-	 * <ul>
-	 * <li>Widget</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Data.
-	 */	
-	public Object getData(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getData(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a EchoChar.
-	 * supported by:
-	 * <ul>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a EchoChar.
-	 */
-	public SWTQuery setEchoChar(Character value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setEchoChar(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a EchoChar.
-	 * supported by:
-	 * <ul>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a EchoChar.
-	 */	
-	public Character getEchoChar(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getEchoChar(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a HeadClient.
-	 * supported by:
-	 * <ul>
-	 * <li>Form</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a HeadClient.
-	 */
-	public SWTQuery setHeadClient(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHeadClient(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HeadClient.
-	 * supported by:
-	 * <ul>
-	 * <li>Form</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HeadClient.
-	 */	
-	public Control getHeadClient(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getHeadClient(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a ToolTipText.
-	 * supported by:
-	 * <ul>
-	 * <li>Hyperlink</li>
-	 * <li>CLabel</li>
-	 * <li>Control</li>
-	 * <li>CTabItem</li>
-	 * <li>TabItem</li>
-	 * <li>TableColumn</li>
-	 * <li>ToolItem</li>
-	 * <li>TrayItem</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a ToolTipText.
-	 */
-	public SWTQuery setToolTipText(String value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setToolTipText(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ToolTipText.
-	 * supported by:
-	 * <ul>
-	 * <li>Hyperlink</li>
-	 * <li>CLabel</li>
-	 * <li>Control</li>
-	 * <li>CTabItem</li>
-	 * <li>TabItem</li>
-	 * <li>TableColumn</li>
-	 * <li>ToolItem</li>
-	 * <li>TrayItem</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ToolTipText.
-	 */	
-	public String getToolTipText(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getToolTipText(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a MenuBar.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a MenuBar.
-	 */
-	public SWTQuery setMenuBar(Menu value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMenuBar(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MenuBar.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MenuBar.
+	 * @return value a MenuBar.
+	 *
+	 * @see Decorations	 
 	 */	
 	public Menu getMenuBar(){
 		if(items.size() > 0){
@@ -702,167 +2227,52 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a UnselectedImageVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Gets a ToolTipText property value.
 	 * 
-	 * @param value	 a UnselectedImageVisible.
-	 */
-	public SWTQuery setUnselectedImageVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setUnselectedImageVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a UnselectedImageVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a UnselectedImageVisible.
+	 * @return value a ToolTipText.
+	 *
+	 * @see Hyperlink
+	 * @see CLabel
+	 * @see Control
+	 * @see CTabItem
+	 * @see TabItem
+	 * @see TableColumn
+	 * @see ToolItem
+	 * @see TrayItem
+	 * @see TreeColumn	 
 	 */	
-	public Boolean getUnselectedImageVisible(){
+	public String getToolTipText(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getUnselectedImageVisible(items.get(0));
+			return WidgetPropertySwitch.getToolTipText(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Url.
-	 * supported by:
-	 * <ul>
-	 * <li>Browser</li>	 
-	 * </ul>
+	 * Gets a Busy property value.
 	 * 
-	 * @param value	 a Url.
-	 */
-	public SWTQuery setUrl(String value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setUrl(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Url.
-	 * supported by:
-	 * <ul>
-	 * <li>Browser</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Url.
+	 * @return value a Busy.
+	 *
+	 * @see Form	 
 	 */	
-	public String getUrl(){
+	public Boolean isBusy(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getUrl(items.get(0));
+			return WidgetPropertySwitch.getBusy(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Modified.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
+	 * Gets a Increment property value.
 	 * 
-	 * @param value	 a Modified.
-	 */
-	public SWTQuery setModified(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setModified(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Modified.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Modified.
-	 */	
-	public Boolean getModified(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getModified(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a ParagraphsSeparated.
-	 * supported by:
-	 * <ul>
-	 * <li>FormText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a ParagraphsSeparated.
-	 */
-	public SWTQuery setParagraphsSeparated(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setParagraphsSeparated(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ParagraphsSeparated.
-	 * supported by:
-	 * <ul>
-	 * <li>FormText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ParagraphsSeparated.
-	 */	
-	public Boolean getParagraphsSeparated(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getParagraphsSeparated(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Increment.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Increment.
-	 */
-	public SWTQuery setIncrement(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setIncrement(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Increment.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Increment.
+	 * @return value a Increment.
+	 *
+	 * @see Spinner
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
 	 */	
 	public Integer getIncrement(){
 		if(items.size() > 0){
@@ -873,130 +2283,29 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a SortDirection.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
+	 * Gets a Shell property value.
 	 * 
-	 * @param value	 a SortDirection.
-	 */
-	public SWTQuery setSortDirection(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSortDirection(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a SortDirection.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a SortDirection.
+	 * @return value a Shell.
+	 *
+	 * @see Shell
+	 * @see CCombo
+	 * @see Control
+	 * @see Menu	 
 	 */	
-	public Integer getSortDirection(){
+	public Shell getShell(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getSortDirection(items.get(0));
+			return WidgetPropertySwitch.getShell(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Seconds.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
+	 * Gets a LabelProvider property value.
 	 * 
-	 * @param value	 a Seconds.
-	 */
-	public SWTQuery setSeconds(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSeconds(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Seconds.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Seconds.
-	 */	
-	public Integer getSeconds(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getSeconds(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a FullScreen.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a FullScreen.
-	 */
-	public SWTQuery setFullScreen(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setFullScreen(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a FullScreen.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a FullScreen.
-	 */	
-	public Boolean getFullScreen(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getFullScreen(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a LabelProvider.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a LabelProvider.
-	 */
-	public SWTQuery setLabelProvider(ILabelProvider value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLabelProvider(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a LabelProvider.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a LabelProvider.
+	 * @return value a LabelProvider.
+	 *
+	 * @see FilteredList	 
 	 */	
 	public ILabelProvider getLabelProvider(){
 		if(items.size() > 0){
@@ -1007,200 +2316,27 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a VisibleItemCount.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>	 
-	 * </ul>
+	 * Gets a FilterControl property value.
 	 * 
-	 * @param value	 a VisibleItemCount.
-	 */
-	public SWTQuery setVisibleItemCount(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setVisibleItemCount(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a VisibleItemCount.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a VisibleItemCount.
+	 * @return value a FilterControl.
+	 *
+	 * @see FilteredTree	 
 	 */	
-	public Integer getVisibleItemCount(){
+	public Text getFilterControl(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getVisibleItemCount(items.get(0));
+			return WidgetPropertySwitch.getFilterControl(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Parent.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
+	 * Gets a CaretOffset property value.
 	 * 
-	 * @param value	 a Parent.
-	 */
-	public SWTQuery setParent(Composite value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setParent(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Parent.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Parent.
-	 */	
-	public Composite getParent(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getParent(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Thumb.
-	 * supported by:
-	 * <ul>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Thumb.
-	 */
-	public SWTQuery setThumb(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setThumb(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Thumb.
-	 * supported by:
-	 * <ul>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Thumb.
-	 */	
-	public Integer getThumb(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getThumb(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a WordWrap.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a WordWrap.
-	 */
-	public SWTQuery setWordWrap(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setWordWrap(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a WordWrap.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a WordWrap.
-	 */	
-	public Boolean getWordWrap(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getWordWrap(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Minimized.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Minimized.
-	 */
-	public SWTQuery setMinimized(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinimized(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Minimized.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Minimized.
-	 */	
-	public Boolean getMinimized(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getMinimized(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a CaretOffset.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a CaretOffset.
-	 */
-	public SWTQuery setCaretOffset(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setCaretOffset(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a CaretOffset.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a CaretOffset.
+	 * @return value a CaretOffset.
+	 *
+	 * @see StyledText
+	 * @see IME	 
 	 */	
 	public Integer getCaretOffset(){
 		if(items.size() > 0){
@@ -1211,233 +2347,56 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a DecorationColor.
-	 * supported by:
-	 * <ul>
-	 * <li>ToggleHyperlink</li>	 
-	 * </ul>
+	 * Gets a Underlined property value.
 	 * 
-	 * @param value	 a DecorationColor.
-	 */
-	public SWTQuery setDecorationColor(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDecorationColor(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DecorationColor.
-	 * supported by:
-	 * <ul>
-	 * <li>ToggleHyperlink</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DecorationColor.
+	 * @return value a Underlined.
+	 *
+	 * @see Hyperlink	 
 	 */	
-	public Color getDecorationColor(){
+	public Boolean isUnderlined(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getDecorationColor(items.get(0));
+			return WidgetPropertySwitch.getUnderlined(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Bounds.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>Control</li>	 
-	 * </ul>
+	 * Gets a BackgroundImageClipped property value.
 	 * 
-	 * @param value	 a Bounds.
-	 */
-	public SWTQuery setBounds(Rectangle value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBounds(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Bounds.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Bounds.
+	 * @return value a BackgroundImageClipped.
+	 *
+	 * @see Form	 
 	 */	
-	public Rectangle getBounds(){
+	public Boolean isBackgroundImageClipped(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getBounds(items.get(0));
+			return WidgetPropertySwitch.getBackgroundImageClipped(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Digits.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>	 
-	 * </ul>
+	 * Gets a ChildrenMessages property value.
 	 * 
-	 * @param value	 a Digits.
-	 */
-	public SWTQuery setDigits(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDigits(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Digits.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Digits.
+	 * @return value a ChildrenMessages.
+	 *
+	 * @see Form	 
 	 */	
-	public Integer getDigits(){
+	public IMessage[] getChildrenMessages(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getDigits(items.get(0));
+			return WidgetPropertySwitch.getChildrenMessages(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a IgnoreCase.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
+	 * Gets a Filter property value.
 	 * 
-	 * @param value	 a IgnoreCase.
-	 */
-	public SWTQuery setIgnoreCase(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setIgnoreCase(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a IgnoreCase.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a IgnoreCase.
-	 */	
-	public Boolean getIgnoreCase(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getIgnoreCase(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Left.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Left.
-	 */
-	public SWTQuery setLeft(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLeft(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Left.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Left.
-	 */	
-	public Control getLeft(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getLeft(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Bottom.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Bottom.
-	 */
-	public SWTQuery setBottom(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBottom(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Bottom.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Bottom.
-	 */	
-	public Control getBottom(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getBottom(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Filter.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Filter.
-	 */
-	public SWTQuery setFilter(String value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setFilter(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Filter.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Filter.
+	 * @return value a Filter.
+	 *
+	 * @see FilteredList	 
 	 */	
 	public String getFilter(){
 		if(items.size() > 0){
@@ -1448,62 +2407,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a AllowDuplicates.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
+	 * Gets a Layout property value.
 	 * 
-	 * @param value	 a AllowDuplicates.
-	 */
-	public SWTQuery setAllowDuplicates(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setAllowDuplicates(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a AllowDuplicates.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a AllowDuplicates.
-	 */	
-	public Boolean getAllowDuplicates(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getAllowDuplicates(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Layout.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Layout.
-	 */
-	public SWTQuery setLayout(Layout value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLayout(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Layout.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Layout.
+	 * @return value a Layout.
+	 *
+	 * @see Composite	 
 	 */	
 	public Layout getLayout(){
 		if(items.size() > 0){
@@ -1514,165 +2422,42 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a BackgroundImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledForm</li>
-	 * <li>Form</li>
-	 * <li>Control</li>	 
-	 * </ul>
+	 * Gets a BackgroundImageTiled property value.
 	 * 
-	 * @param value	 a BackgroundImage.
-	 */
-	public SWTQuery setBackgroundImage(Image value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBackgroundImage(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a BackgroundImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledForm</li>
-	 * <li>Form</li>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a BackgroundImage.
+	 * @return value a BackgroundImageTiled.
+	 *
+	 * @see Form	 
 	 */	
-	public Image getBackgroundImage(){
+	public Boolean isBackgroundImageTiled(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getBackgroundImage(items.get(0));
+			return WidgetPropertySwitch.getBackgroundImageTiled(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a TabPosition.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Gets a LineDelimiter property value.
 	 * 
-	 * @param value	 a TabPosition.
-	 */
-	public SWTQuery setTabPosition(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTabPosition(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TabPosition.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TabPosition.
+	 * @return value a LineDelimiter.
+	 *
+	 * @see StyledText
+	 * @see Text	 
 	 */	
-	public Integer getTabPosition(){
+	public String getLineDelimiter(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getTabPosition(items.get(0));
+			return WidgetPropertySwitch.getLineDelimiter(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a TitleBarBackground.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
+	 * Gets a IME property value.
 	 * 
-	 * @param value	 a TitleBarBackground.
-	 */
-	public SWTQuery setTitleBarBackground(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTitleBarBackground(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TitleBarBackground.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TitleBarBackground.
-	 */	
-	public Color getTitleBarBackground(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTitleBarBackground(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TextChars.
-	 * supported by:
-	 * <ul>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TextChars.
-	 */
-	public SWTQuery setTextChars(char[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTextChars(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TextChars.
-	 * supported by:
-	 * <ul>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TextChars.
-	 */	
-	public char[] getTextChars(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTextChars(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a IME.
-	 * supported by:
-	 * <ul>
-	 * <li>Canvas</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a IME.
-	 */
-	public SWTQuery setIME(IME value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setIME(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a IME.
-	 * supported by:
-	 * <ul>
-	 * <li>Canvas</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a IME.
+	 * @return value a IME.
+	 *
+	 * @see Canvas	 
 	 */	
 	public IME getIME(){
 		if(items.size() > 0){
@@ -1683,272 +2468,58 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a TabHeight.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Gets a TextChars property value.
 	 * 
-	 * @param value	 a TabHeight.
-	 */
-	public SWTQuery setTabHeight(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTabHeight(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TabHeight.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TabHeight.
+	 * @return value a TextChars.
+	 *
+	 * @see Text	 
 	 */	
-	public Integer getTabHeight(){
+	public char[] getTextChars(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getTabHeight(items.get(0));
+			return WidgetPropertySwitch.getTextChars(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a MaximizeVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Gets a MessageType property value.
 	 * 
-	 * @param value	 a MaximizeVisible.
-	 */
-	public SWTQuery setMaximizeVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMaximizeVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MaximizeVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MaximizeVisible.
+	 * @return value a MessageType.
+	 *
+	 * @see ScrolledForm
+	 * @see Form	 
 	 */	
-	public Boolean getMaximizeVisible(){
+	public Integer getMessageType(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getMaximizeVisible(items.get(0));
+			return WidgetPropertySwitch.getMessageType(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a DragDetect.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Control</li>	 
-	 * </ul>
+	 * Gets a Loading property value.
 	 * 
-	 * @param value	 a DragDetect.
-	 */
-	public SWTQuery setDragDetect(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDragDetect(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DragDetect.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DragDetect.
+	 * @return value a Loading.
+	 *
+	 * @see FormText	 
 	 */	
-	public Boolean getDragDetect(){
+	public Boolean isLoading(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getDragDetect(items.get(0));
+			return WidgetPropertySwitch.getLoading(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Alpha.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
+	 * Gets a TopMargin property value.
 	 * 
-	 * @param value	 a Alpha.
-	 */
-	public SWTQuery setAlpha(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setAlpha(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Alpha.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Alpha.
-	 */	
-	public Integer getAlpha(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getAlpha(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a JavascriptEnabled.
-	 * supported by:
-	 * <ul>
-	 * <li>Browser</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a JavascriptEnabled.
-	 */
-	public SWTQuery setJavascriptEnabled(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setJavascriptEnabled(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a JavascriptEnabled.
-	 * supported by:
-	 * <ul>
-	 * <li>Browser</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a JavascriptEnabled.
-	 */	
-	public Boolean getJavascriptEnabled(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getJavascriptEnabled(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a PreferredSize.
-	 * supported by:
-	 * <ul>
-	 * <li>CoolItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a PreferredSize.
-	 */
-	public SWTQuery setPreferredSize(Point value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setPreferredSize(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a PreferredSize.
-	 * supported by:
-	 * <ul>
-	 * <li>CoolItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a PreferredSize.
-	 */	
-	public Point getPreferredSize(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getPreferredSize(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Background.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>TableCursor</li>
-	 * <li>Control</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Background.
-	 */
-	public SWTQuery setBackground(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBackground(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Background.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>TableCursor</li>
-	 * <li>Control</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Background.
-	 */	
-	public Color getBackground(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getBackground(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TopMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TopMargin.
-	 */
-	public SWTQuery setTopMargin(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTopMargin(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TopMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TopMargin.
+	 * @return value a TopMargin.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
 	 */	
 	public Integer getTopMargin(){
 		if(items.size() > 0){
@@ -1959,29 +2530,27 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Weights.
-	 * supported by:
-	 * <ul>
-	 * <li>SashForm</li>	 
-	 * </ul>
+	 * Gets a GridLineWidth property value.
 	 * 
-	 * @param value	 a Weights.
-	 */
-	public SWTQuery setWeights(int[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setWeights(each, value);
+	 * @return value a GridLineWidth.
+	 *
+	 * @see Table
+	 * @see Tree	 
+	 */	
+	public Integer getGridLineWidth(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getGridLineWidth(items.get(0));
 		}
-		return this;
+		else{
+			return null;
+		}
 	}
-
 	/**
-	 * Gets a Weights.
-	 * supported by:
-	 * <ul>
-	 * <li>SashForm</li>	 
-	 * </ul>
+	 * Gets a Weights property value.
 	 * 
-	 * @return value	 a Weights.
+	 * @return value a Weights.
+	 *
+	 * @see SashForm	 
 	 */	
 	public int[] getWeights(){
 		if(items.size() > 0){
@@ -1992,64 +2561,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a DoubleClickEnabled.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Text</li>	 
-	 * </ul>
+	 * Gets a LayoutData property value.
 	 * 
-	 * @param value	 a DoubleClickEnabled.
-	 */
-	public SWTQuery setDoubleClickEnabled(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDoubleClickEnabled(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DoubleClickEnabled.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DoubleClickEnabled.
-	 */	
-	public Boolean getDoubleClickEnabled(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getDoubleClickEnabled(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a LayoutData.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a LayoutData.
-	 */
-	public SWTQuery setLayoutData(Object value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLayoutData(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a LayoutData.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a LayoutData.
+	 * @return value a LayoutData.
+	 *
+	 * @see Control	 
 	 */	
 	public Object getLayoutData(){
 		if(items.size() > 0){
@@ -2060,29 +2576,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a StyleRanges.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
+	 * Gets a StyleRanges property value.
 	 * 
-	 * @param value	 a StyleRanges.
-	 */
-	public SWTQuery setStyleRanges(StyleRange[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setStyleRanges(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a StyleRanges.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a StyleRanges.
+	 * @return value a StyleRanges.
+	 *
+	 * @see StyledText	 
 	 */	
 	public StyleRange[] getStyleRanges(){
 		if(items.size() > 0){
@@ -2093,37 +2591,17 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Control.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabItem</li>
-	 * <li>CoolItem</li>
-	 * <li>ExpandItem</li>
-	 * <li>TabItem</li>
-	 * <li>ToolItem</li>	 
-	 * </ul>
+	 * Gets a Control property value.
 	 * 
-	 * @param value	 a Control.
-	 */
-	public SWTQuery setControl(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setControl(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Control.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabItem</li>
-	 * <li>CoolItem</li>
-	 * <li>ExpandItem</li>
-	 * <li>TabItem</li>
-	 * <li>ToolItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Control.
+	 * @return value a Control.
+	 *
+	 * @see DragSource
+	 * @see DropTarget
+	 * @see CTabItem
+	 * @see CoolItem
+	 * @see ExpandItem
+	 * @see TabItem
+	 * @see ToolItem	 
 	 */	
 	public Control getControl(){
 		if(items.size() > 0){
@@ -2134,62 +2612,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a SashWidth.
-	 * supported by:
-	 * <ul>
-	 * <li>SashForm</li>	 
-	 * </ul>
+	 * Gets a Renderer property value.
 	 * 
-	 * @param value	 a SashWidth.
-	 */
-	public SWTQuery setSashWidth(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSashWidth(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a SashWidth.
-	 * supported by:
-	 * <ul>
-	 * <li>SashForm</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a SashWidth.
-	 */	
-	public Integer getSashWidth(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getSashWidth(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Renderer.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Renderer.
-	 */
-	public SWTQuery setRenderer(CTabFolderRenderer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setRenderer(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Renderer.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Renderer.
+	 * @return value a Renderer.
+	 *
+	 * @see CTabFolder	 
 	 */	
 	public CTabFolderRenderer getRenderer(){
 		if(items.size() > 0){
@@ -2200,90 +2627,21 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Font.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Control</li>
-	 * <li>CTabItem</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
+	 * Gets a Image property value.
 	 * 
-	 * @param value	 a Font.
-	 */
-	public SWTQuery setFont(Font value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setFont(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Font.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Control</li>
-	 * <li>CTabItem</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Font.
-	 */	
-	public Font getFont(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getFont(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Image.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>ImageHyperlink</li>
-	 * <li>ScrolledForm</li>
-	 * <li>CLabel</li>
-	 * <li>Decorations</li>
-	 * <li>Form</li>
-	 * <li>Button</li>
-	 * <li>Label</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>
-	 * <li>Item</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Image.
-	 */
-	public SWTQuery setImage(Image value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setImage(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Image.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>ImageHyperlink</li>
-	 * <li>ScrolledForm</li>
-	 * <li>CLabel</li>
-	 * <li>Decorations</li>
-	 * <li>Form</li>
-	 * <li>Button</li>
-	 * <li>Label</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>
-	 * <li>Item</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Image.
+	 * @return value a Image.
+	 *
+	 * @see Caret
+	 * @see ImageHyperlink
+	 * @see ScrolledForm
+	 * @see CLabel
+	 * @see Decorations
+	 * @see Form
+	 * @see Button
+	 * @see Label
+	 * @see TableItem
+	 * @see TreeItem
+	 * @see Item	 
 	 */	
 	public Image getImage(){
 		if(items.size() > 0){
@@ -2294,29 +2652,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a RightMinimumSize.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
+	 * Gets a RightMinimumSize property value.
 	 * 
-	 * @param value	 a RightMinimumSize.
-	 */
-	public SWTQuery setRightMinimumSize(Point value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setRightMinimumSize(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a RightMinimumSize.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a RightMinimumSize.
+	 * @return value a RightMinimumSize.
+	 *
+	 * @see CBanner	 
 	 */	
 	public Point getRightMinimumSize(){
 		if(items.size() > 0){
@@ -2327,33 +2667,29 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Expanded.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
+	 * Gets a SelectedLinkText property value.
 	 * 
-	 * @param value	 a Expanded.
-	 */
-	public SWTQuery setExpanded(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setExpanded(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Expanded.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Expanded.
+	 * @return value a SelectedLinkText.
+	 *
+	 * @see FormText	 
 	 */	
-	public Boolean getExpanded(){
+	public String getSelectedLinkText(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectedLinkText(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Expanded property value.
+	 * 
+	 * @return value a Expanded.
+	 *
+	 * @see ToggleHyperlink
+	 * @see ExpandableComposite	 
+	 */	
+	public Boolean isExpanded(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.getExpanded(items.get(0));
 		}
@@ -2362,62 +2698,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Client.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandableComposite</li>	 
-	 * </ul>
+	 * Gets a TitleBarForeground property value.
 	 * 
-	 * @param value	 a Client.
-	 */
-	public SWTQuery setClient(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setClient(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Client.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandableComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Client.
-	 */	
-	public Control getClient(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getClient(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TitleBarForeground.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandableComposite</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TitleBarForeground.
-	 */
-	public SWTQuery setTitleBarForeground(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTitleBarForeground(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TitleBarForeground.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandableComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TitleBarForeground.
+	 * @return value a TitleBarForeground.
+	 *
+	 * @see ExpandableComposite	 
 	 */	
 	public Color getTitleBarForeground(){
 		if(items.size() > 0){
@@ -2428,62 +2713,26 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Rectangles.
-	 * supported by:
-	 * <ul>
-	 * <li>Tracker</li>	 
-	 * </ul>
+	 * Gets a Client property value.
 	 * 
-	 * @param value	 a Rectangles.
-	 */
-	public SWTQuery setRectangles(Rectangle[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setRectangles(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Rectangles.
-	 * supported by:
-	 * <ul>
-	 * <li>Tracker</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Rectangles.
+	 * @return value a Client.
+	 *
+	 * @see ExpandableComposite	 
 	 */	
-	public Rectangle[] getRectangles(){
+	public Control getClient(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getRectangles(items.get(0));
+			return WidgetPropertySwitch.getClient(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Right.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
+	 * Gets a Right property value.
 	 * 
-	 * @param value	 a Right.
-	 */
-	public SWTQuery setRight(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setRight(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Right.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Right.
+	 * @return value a Right.
+	 *
+	 * @see CBanner	 
 	 */	
 	public Control getRight(){
 		if(items.size() > 0){
@@ -2494,109 +2743,16 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Items.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>
-	 * <li>List</li>	 
-	 * </ul>
+	 * Gets a Orientation property value.
 	 * 
-	 * @param value	 a Items.
-	 */
-	public SWTQuery setItems(String[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setItems(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Items.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>
-	 * <li>List</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Items.
-	 */	
-	public String[] getItems(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getItems(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a DefaultItem.
-	 * supported by:
-	 * <ul>
-	 * <li>Menu</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a DefaultItem.
-	 */
-	public SWTQuery setDefaultItem(MenuItem value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDefaultItem(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DefaultItem.
-	 * supported by:
-	 * <ul>
-	 * <li>Menu</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DefaultItem.
-	 */	
-	public MenuItem getDefaultItem(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getDefaultItem(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Orientation.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>SashForm</li>
-	 * <li>Combo</li>
-	 * <li>Text</li>
-	 * <li>Control</li>
-	 * <li>Menu</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Orientation.
-	 */
-	public SWTQuery setOrientation(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setOrientation(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Orientation.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>SashForm</li>
-	 * <li>Combo</li>
-	 * <li>Text</li>
-	 * <li>Control</li>
-	 * <li>Menu</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Orientation.
+	 * @return value a Orientation.
+	 *
+	 * @see StyledText
+	 * @see SashForm
+	 * @see Combo
+	 * @see Text
+	 * @see Control
+	 * @see Menu	 
 	 */	
 	public Integer getOrientation(){
 		if(items.size() > 0){
@@ -2607,134 +2763,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Message.
-	 * supported by:
-	 * <ul>
-	 * <li>Form</li>
-	 * <li>Text</li>
-	 * <li>ToolTip</li>	 
-	 * </ul>
+	 * Gets a Hours property value.
 	 * 
-	 * @param value	 a Message.
-	 */
-	public SWTQuery setMessage(String value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMessage(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Message.
-	 * supported by:
-	 * <ul>
-	 * <li>Form</li>
-	 * <li>Text</li>
-	 * <li>ToolTip</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Message.
-	 */	
-	public String getMessage(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getMessage(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a UnselectedCloseVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a UnselectedCloseVisible.
-	 */
-	public SWTQuery setUnselectedCloseVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setUnselectedCloseVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a UnselectedCloseVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a UnselectedCloseVisible.
-	 */	
-	public Boolean getUnselectedCloseVisible(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getUnselectedCloseVisible(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a LeftMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a LeftMargin.
-	 */
-	public SWTQuery setLeftMargin(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLeftMargin(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a LeftMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a LeftMargin.
-	 */	
-	public Integer getLeftMargin(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getLeftMargin(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Hours.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Hours.
-	 */
-	public SWTQuery setHours(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHours(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Hours.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Hours.
+	 * @return value a Hours.
+	 *
+	 * @see DateTime	 
 	 */	
 	public Integer getHours(){
 		if(items.size() > 0){
@@ -2745,29 +2778,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a HoverImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ImageHyperlink</li>	 
-	 * </ul>
+	 * Gets a HoverImage property value.
 	 * 
-	 * @param value	 a HoverImage.
-	 */
-	public SWTQuery setHoverImage(Image value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHoverImage(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HoverImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ImageHyperlink</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HoverImage.
+	 * @return value a HoverImage.
+	 *
+	 * @see ImageHyperlink	 
 	 */	
 	public Image getHoverImage(){
 		if(items.size() > 0){
@@ -2778,99 +2793,12 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a LinesVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
+	 * Gets a BottomMargin property value.
 	 * 
-	 * @param value	 a LinesVisible.
-	 */
-	public SWTQuery setLinesVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLinesVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a LinesVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a LinesVisible.
-	 */	
-	public Boolean getLinesVisible(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getLinesVisible(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a DefaultButton.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a DefaultButton.
-	 */
-	public SWTQuery setDefaultButton(Button value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDefaultButton(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DefaultButton.
-	 * supported by:
-	 * <ul>
-	 * <li>Decorations</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DefaultButton.
-	 */	
-	public Button getDefaultButton(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getDefaultButton(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a BottomMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a BottomMargin.
-	 */
-	public SWTQuery setBottomMargin(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBottomMargin(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a BottomMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a BottomMargin.
+	 * @return value a BottomMargin.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
 	 */	
 	public Integer getBottomMargin(){
 		if(items.size() > 0){
@@ -2881,179 +2809,26 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Minimum.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>ProgressBar</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
+	 * Gets a ThumbBounds property value.
 	 * 
-	 * @param value	 a Minimum.
-	 */
-	public SWTQuery setMinimum(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinimum(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Minimum.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>ProgressBar</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Minimum.
+	 * @return value a ThumbBounds.
+	 *
+	 * @see ScrollBar	 
 	 */	
-	public Integer getMinimum(){
+	public Rectangle getThumbBounds(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getMinimum(items.get(0));
+			return WidgetPropertySwitch.getThumbBounds(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Alignment.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>
-	 * <li>Button</li>
-	 * <li>Label</li>
-	 * <li>TableColumn</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
+	 * Gets a Indent property value.
 	 * 
-	 * @param value	 a Alignment.
-	 */
-	public SWTQuery setAlignment(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setAlignment(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Alignment.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>
-	 * <li>Button</li>
-	 * <li>Label</li>
-	 * <li>TableColumn</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Alignment.
-	 */	
-	public Integer getAlignment(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getAlignment(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a AlwaysShowScrollBars.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a AlwaysShowScrollBars.
-	 */
-	public SWTQuery setAlwaysShowScrollBars(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setAlwaysShowScrollBars(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a AlwaysShowScrollBars.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a AlwaysShowScrollBars.
-	 */	
-	public Boolean getAlwaysShowScrollBars(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getAlwaysShowScrollBars(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TopLeft.
-	 * supported by:
-	 * <ul>
-	 * <li>ViewForm</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TopLeft.
-	 */
-	public SWTQuery setTopLeft(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTopLeft(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TopLeft.
-	 * supported by:
-	 * <ul>
-	 * <li>ViewForm</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TopLeft.
-	 */	
-	public Control getTopLeft(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTopLeft(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Indent.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Indent.
-	 */
-	public SWTQuery setIndent(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setIndent(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Indent.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Indent.
+	 * @return value a Indent.
+	 *
+	 * @see StyledText	 
 	 */	
 	public Integer getIndent(){
 		if(items.size() > 0){
@@ -3064,68 +2839,14 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a ImeInputMode.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
+	 * Gets a TopIndex property value.
 	 * 
-	 * @param value	 a ImeInputMode.
-	 */
-	public SWTQuery setImeInputMode(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setImeInputMode(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ImeInputMode.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ImeInputMode.
-	 */	
-	public Integer getImeInputMode(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getImeInputMode(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TopIndex.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Table</li>
-	 * <li>List</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TopIndex.
-	 */
-	public SWTQuery setTopIndex(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTopIndex(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TopIndex.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Table</li>
-	 * <li>List</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TopIndex.
+	 * @return value a TopIndex.
+	 *
+	 * @see StyledText
+	 * @see Table
+	 * @see List
+	 * @see Text	 
 	 */	
 	public Integer getTopIndex(){
 		if(items.size() > 0){
@@ -3136,29 +2857,26 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a RightWidth.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
+	 * Gets a ImeInputMode property value.
 	 * 
-	 * @param value	 a RightWidth.
-	 */
-	public SWTQuery setRightWidth(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setRightWidth(each, value);
+	 * @return value a ImeInputMode.
+	 *
+	 * @see Shell	 
+	 */	
+	public Integer getImeInputMode(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getImeInputMode(items.get(0));
 		}
-		return this;
+		else{
+			return null;
+		}
 	}
-
 	/**
-	 * Gets a RightWidth.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>	 
-	 * </ul>
+	 * Gets a RightWidth property value.
 	 * 
-	 * @return value	 a RightWidth.
+	 * @return value a RightWidth.
+	 *
+	 * @see CBanner	 
 	 */	
 	public Integer getRightWidth(){
 		if(items.size() > 0){
@@ -3169,103 +2887,15 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a LayoutDeferred.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
+	 * Gets a Foreground property value.
 	 * 
-	 * @param value	 a LayoutDeferred.
-	 */
-	public SWTQuery setLayoutDeferred(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLayoutDeferred(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a LayoutDeferred.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a LayoutDeferred.
-	 */	
-	public Boolean getLayoutDeferred(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getLayoutDeferred(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a SeparatorControl.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a SeparatorControl.
-	 */
-	public SWTQuery setSeparatorControl(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSeparatorControl(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a SeparatorControl.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a SeparatorControl.
-	 */	
-	public Control getSeparatorControl(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getSeparatorControl(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Foreground.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>TableCursor</li>
-	 * <li>Control</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Foreground.
-	 */
-	public SWTQuery setForeground(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setForeground(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Foreground.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>TableCursor</li>
-	 * <li>Control</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Foreground.
+	 * @return value a Foreground.
+	 *
+	 * @see StyledText
+	 * @see TableCursor
+	 * @see Control
+	 * @see TableItem
+	 * @see TreeItem	 
 	 */	
 	public Color getForeground(){
 		if(items.size() > 0){
@@ -3276,29 +2906,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a MaximizedControl.
-	 * supported by:
-	 * <ul>
-	 * <li>SashForm</li>	 
-	 * </ul>
+	 * Gets a MaximizedControl property value.
 	 * 
-	 * @param value	 a MaximizedControl.
-	 */
-	public SWTQuery setMaximizedControl(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMaximizedControl(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MaximizedControl.
-	 * supported by:
-	 * <ul>
-	 * <li>SashForm</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MaximizedControl.
+	 * @return value a MaximizedControl.
+	 *
+	 * @see SashForm	 
 	 */	
 	public Control getMaximizedControl(){
 		if(items.size() > 0){
@@ -3309,132 +2921,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a ListVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>	 
-	 * </ul>
+	 * Gets a Month property value.
 	 * 
-	 * @param value	 a ListVisible.
-	 */
-	public SWTQuery setListVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setListVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ListVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ListVisible.
-	 */	
-	public Boolean getListVisible(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getListVisible(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a HeaderVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a HeaderVisible.
-	 */
-	public SWTQuery setHeaderVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHeaderVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HeaderVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HeaderVisible.
-	 */	
-	public Boolean getHeaderVisible(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getHeaderVisible(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TextClient.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandableComposite</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TextClient.
-	 */
-	public SWTQuery setTextClient(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTextClient(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TextClient.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandableComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TextClient.
-	 */	
-	public Control getTextClient(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTextClient(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Month.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Month.
-	 */
-	public SWTQuery setMonth(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMonth(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Month.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Month.
+	 * @return value a Month.
+	 *
+	 * @see DateTime	 
 	 */	
 	public Integer getMonth(){
 		if(items.size() > 0){
@@ -3445,66 +2936,13 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a BlockSelection.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
+	 * Gets a Menu property value.
 	 * 
-	 * @param value	 a BlockSelection.
-	 */
-	public SWTQuery setBlockSelection(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBlockSelection(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a BlockSelection.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a BlockSelection.
-	 */	
-	public Boolean getBlockSelection(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getBlockSelection(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Menu.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Control</li>
-	 * <li>MenuItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Menu.
-	 */
-	public SWTQuery setMenu(Menu value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMenu(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Menu.
-	 * supported by:
-	 * <ul>
-	 * <li>CCombo</li>
-	 * <li>Control</li>
-	 * <li>MenuItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Menu.
+	 * @return value a Menu.
+	 *
+	 * @see CCombo
+	 * @see Control
+	 * @see MenuItem	 
 	 */	
 	public Menu getMenu(){
 		if(items.size() > 0){
@@ -3515,62 +2953,42 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a MinimizeVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Gets a Reparentable property value.
 	 * 
-	 * @param value	 a MinimizeVisible.
-	 */
-	public SWTQuery setMinimizeVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinimizeVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MinimizeVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MinimizeVisible.
+	 * @return value a Reparentable.
+	 *
+	 * @see Decorations
+	 * @see Control	 
 	 */	
-	public Boolean getMinimizeVisible(){
+	public Boolean isReparentable(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getMinimizeVisible(items.get(0));
+			return WidgetPropertySwitch.getReparentable(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a LineSpacing.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
+	 * Gets a CaretLocation property value.
 	 * 
-	 * @param value	 a LineSpacing.
-	 */
-	public SWTQuery setLineSpacing(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLineSpacing(each, value);
+	 * @return value a CaretLocation.
+	 *
+	 * @see Text	 
+	 */	
+	public Point getCaretLocation(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCaretLocation(items.get(0));
 		}
-		return this;
+		else{
+			return null;
+		}
 	}
-
 	/**
-	 * Gets a LineSpacing.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
+	 * Gets a LineSpacing property value.
 	 * 
-	 * @return value	 a LineSpacing.
+	 * @return value a LineSpacing.
+	 *
+	 * @see StyledText	 
 	 */	
 	public Integer getLineSpacing(){
 		if(items.size() > 0){
@@ -3581,62 +2999,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a ID.
-	 * supported by:
-	 * <ul>
-	 * <li>MenuItem</li>	 
-	 * </ul>
+	 * Gets a Href property value.
 	 * 
-	 * @param value	 a ID.
-	 */
-	public SWTQuery setID(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setID(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ID.
-	 * supported by:
-	 * <ul>
-	 * <li>MenuItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ID.
-	 */	
-	public Integer getID(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getID(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Href.
-	 * supported by:
-	 * <ul>
-	 * <li>AbstractHyperlink</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Href.
-	 */
-	public SWTQuery setHref(Object value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHref(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Href.
-	 * supported by:
-	 * <ul>
-	 * <li>AbstractHyperlink</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Href.
+	 * @return value a Href.
+	 *
+	 * @see AbstractHyperlink	 
 	 */	
 	public Object getHref(){
 		if(items.size() > 0){
@@ -3647,167 +3014,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Resizable.
-	 * supported by:
-	 * <ul>
-	 * <li>TableColumn</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
+	 * Gets a HoverDecorationColor property value.
 	 * 
-	 * @param value	 a Resizable.
-	 */
-	public SWTQuery setResizable(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setResizable(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Resizable.
-	 * supported by:
-	 * <ul>
-	 * <li>TableColumn</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Resizable.
-	 */	
-	public Boolean getResizable(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getResizable(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Width.
-	 * supported by:
-	 * <ul>
-	 * <li>TableColumn</li>
-	 * <li>ToolItem</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Width.
-	 */
-	public SWTQuery setWidth(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setWidth(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Width.
-	 * supported by:
-	 * <ul>
-	 * <li>TableColumn</li>
-	 * <li>ToolItem</li>
-	 * <li>TreeColumn</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Width.
-	 */	
-	public Integer getWidth(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getWidth(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Justify.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Justify.
-	 */
-	public SWTQuery setJustify(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setJustify(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Justify.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Justify.
-	 */	
-	public Boolean getJustify(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getJustify(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a ToolTip.
-	 * supported by:
-	 * <ul>
-	 * <li>TrayItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a ToolTip.
-	 */
-	public SWTQuery setToolTip(ToolTip value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setToolTip(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ToolTip.
-	 * supported by:
-	 * <ul>
-	 * <li>TrayItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ToolTip.
-	 */	
-	public ToolTip getToolTip(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getToolTip(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a HoverDecorationColor.
-	 * supported by:
-	 * <ul>
-	 * <li>ToggleHyperlink</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a HoverDecorationColor.
-	 */
-	public SWTQuery setHoverDecorationColor(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHoverDecorationColor(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HoverDecorationColor.
-	 * supported by:
-	 * <ul>
-	 * <li>ToggleHyperlink</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HoverDecorationColor.
+	 * @return value a HoverDecorationColor.
+	 *
+	 * @see ToggleHyperlink	 
 	 */	
 	public Color getHoverDecorationColor(){
 		if(items.size() > 0){
@@ -3818,146 +3029,61 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Size.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>Control</li>
-	 * <li>CoolItem</li>	 
-	 * </ul>
+	 * Gets a Current property value.
 	 * 
-	 * @param value	 a Size.
-	 */
-	public SWTQuery setSize(Point value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSize(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Size.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>Control</li>
-	 * <li>CoolItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Size.
+	 * @return value a Current.
+	 *
+	 * @see GLCanvas	 
 	 */	
-	public Point getSize(){
+	public Boolean isCurrent(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getSize(items.get(0));
+			return WidgetPropertySwitch.getCurrent(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Stippled.
-	 * supported by:
-	 * <ul>
-	 * <li>Tracker</li>	 
-	 * </ul>
+	 * Gets a MessageManager property value.
 	 * 
-	 * @param value	 a Stippled.
-	 */
-	public SWTQuery setStippled(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setStippled(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Stippled.
-	 * supported by:
-	 * <ul>
-	 * <li>Tracker</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Stippled.
+	 * @return value a MessageManager.
+	 *
+	 * @see ScrolledForm
+	 * @see Form	 
 	 */	
-	public Boolean getStippled(){
+	public IMessageManager getMessageManager(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getStippled(items.get(0));
+			return WidgetPropertySwitch.getMessageManager(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a SelectionBackground.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Gets a Head property value.
 	 * 
-	 * @param value	 a SelectionBackground.
-	 */
-	public SWTQuery setSelectionBackground(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSelectionBackground(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a SelectionBackground.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a SelectionBackground.
+	 * @return value a Head.
+	 *
+	 * @see Form	 
 	 */	
-	public Color getSelectionBackground(){
+	public Composite getHead(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getSelectionBackground(items.get(0));
+			return WidgetPropertySwitch.getHead(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a TextLimit.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>
-	 * <li>Spinner</li>
-	 * <li>Text</li>	 
-	 * </ul>
+	 * Gets a TextLimit property value.
 	 * 
-	 * @param value	 a TextLimit.
-	 */
-	public SWTQuery setTextLimit(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTextLimit(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TextLimit.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>
-	 * <li>Spinner</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TextLimit.
+	 * @return value a TextLimit.
+	 *
+	 * @see StyledText
+	 * @see CCombo
+	 * @see Combo
+	 * @see Spinner
+	 * @see Text	 
 	 */	
 	public Integer getTextLimit(){
 		if(items.size() > 0){
@@ -3968,74 +3094,23 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Maximum.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>ProgressBar</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
+	 * Gets a ItemCount property value.
 	 * 
-	 * @param value	 a Maximum.
-	 */
-	public SWTQuery setMaximum(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMaximum(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Maximum.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>ProgressBar</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Maximum.
-	 */	
-	public Integer getMaximum(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getMaximum(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a ItemCount.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a ItemCount.
-	 */
-	public SWTQuery setItemCount(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setItemCount(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ItemCount.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ItemCount.
+	 * @return value a ItemCount.
+	 *
+	 * @see CCombo
+	 * @see CTabFolder
+	 * @see Combo
+	 * @see CoolBar
+	 * @see ExpandBar
+	 * @see TabFolder
+	 * @see Table
+	 * @see ToolBar
+	 * @see Tree
+	 * @see List
+	 * @see TreeItem
+	 * @see Menu
+	 * @see Tray	 
 	 */	
 	public Integer getItemCount(){
 		if(items.size() > 0){
@@ -4046,130 +3121,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Height.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandItem</li>	 
-	 * </ul>
+	 * Gets a MinWidth property value.
 	 * 
-	 * @param value	 a Height.
-	 */
-	public SWTQuery setHeight(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHeight(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Height.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Height.
-	 */	
-	public Integer getHeight(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getHeight(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TopRight.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>
-	 * <li>ViewForm</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TopRight.
-	 */
-	public SWTQuery setTopRight(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTopRight(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TopRight.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>
-	 * <li>ViewForm</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TopRight.
-	 */	
-	public Control getTopRight(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTopRight(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a HyperlinkSettings.
-	 * supported by:
-	 * <ul>
-	 * <li>FormText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a HyperlinkSettings.
-	 */
-	public SWTQuery setHyperlinkSettings(HyperlinkSettings value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHyperlinkSettings(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HyperlinkSettings.
-	 * supported by:
-	 * <ul>
-	 * <li>FormText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HyperlinkSettings.
-	 */	
-	public HyperlinkSettings getHyperlinkSettings(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getHyperlinkSettings(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a MinWidth.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a MinWidth.
-	 */
-	public SWTQuery setMinWidth(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinWidth(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MinWidth.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MinWidth.
+	 * @return value a MinWidth.
+	 *
+	 * @see ScrolledComposite	 
 	 */	
 	public Integer getMinWidth(){
 		if(items.size() > 0){
@@ -4180,369 +3136,26 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Transfer.
-	 * supported by:
-	 * <ul>
-	 * <li>DragSource</li>
-	 * <li>DropTarget</li>	 
-	 * </ul>
+	 * Gets a PatternFilter property value.
 	 * 
-	 * @param value	 a Transfer.
-	 */
-	public SWTQuery setTransfer(Transfer[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTransfer(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Transfer.
-	 * supported by:
-	 * <ul>
-	 * <li>DragSource</li>
-	 * <li>DropTarget</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Transfer.
+	 * @return value a PatternFilter.
+	 *
+	 * @see FilteredTree	 
 	 */	
-	public Transfer[] getTransfer(){
+	public PatternFilter getPatternFilter(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getTransfer(items.get(0));
+			return WidgetPropertySwitch.getPatternFilter(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a ActiveImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ImageHyperlink</li>	 
-	 * </ul>
+	 * Gets a TitleBarBorderColor property value.
 	 * 
-	 * @param value	 a ActiveImage.
-	 */
-	public SWTQuery setActiveImage(Image value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setActiveImage(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ActiveImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ImageHyperlink</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ActiveImage.
-	 */	
-	public Image getActiveImage(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getActiveImage(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Editable.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CCombo</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Editable.
-	 */
-	public SWTQuery setEditable(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setEditable(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Editable.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CCombo</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Editable.
-	 */	
-	public Boolean getEditable(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getEditable(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a FormText.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledFormText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a FormText.
-	 */
-	public SWTQuery setFormText(FormText value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setFormText(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a FormText.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledFormText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a FormText.
-	 */	
-	public FormText getFormText(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getFormText(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TouchEnabled.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TouchEnabled.
-	 */
-	public SWTQuery setTouchEnabled(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTouchEnabled(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TouchEnabled.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TouchEnabled.
-	 */	
-	public Boolean getTouchEnabled(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTouchEnabled(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a DropTargetEffect.
-	 * supported by:
-	 * <ul>
-	 * <li>DropTarget</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a DropTargetEffect.
-	 */
-	public SWTQuery setDropTargetEffect(DropTargetEffect value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDropTargetEffect(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DropTargetEffect.
-	 * supported by:
-	 * <ul>
-	 * <li>DropTarget</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DropTargetEffect.
-	 */	
-	public DropTargetEffect getDropTargetEffect(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getDropTargetEffect(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Simple.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Simple.
-	 */
-	public SWTQuery setSimple(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSimple(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Simple.
-	 * supported by:
-	 * <ul>
-	 * <li>CBanner</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Simple.
-	 */	
-	public Boolean getSimple(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getSimple(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a MarginColor.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a MarginColor.
-	 */
-	public SWTQuery setMarginColor(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMarginColor(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MarginColor.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MarginColor.
-	 */	
-	public Color getMarginColor(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getMarginColor(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TopPixel.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TopPixel.
-	 */
-	public SWTQuery setTopPixel(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTopPixel(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TopPixel.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TopPixel.
-	 */	
-	public Integer getTopPixel(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTopPixel(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Checked.
-	 * supported by:
-	 * <ul>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Checked.
-	 */
-	public SWTQuery setChecked(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setChecked(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Checked.
-	 * supported by:
-	 * <ul>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Checked.
-	 */	
-	public Boolean getChecked(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getChecked(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TitleBarBorderColor.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TitleBarBorderColor.
-	 */
-	public SWTQuery setTitleBarBorderColor(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTitleBarBorderColor(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TitleBarBorderColor.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TitleBarBorderColor.
+	 * @return value a TitleBarBorderColor.
+	 *
+	 * @see Section	 
 	 */	
 	public Color getTitleBarBorderColor(){
 		if(items.size() > 0){
@@ -4553,95 +3166,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Locked.
-	 * supported by:
-	 * <ul>
-	 * <li>CoolBar</li>	 
-	 * </ul>
+	 * Gets a WrapIndent property value.
 	 * 
-	 * @param value	 a Locked.
-	 */
-	public SWTQuery setLocked(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLocked(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Locked.
-	 * supported by:
-	 * <ul>
-	 * <li>CoolBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Locked.
-	 */	
-	public Boolean getLocked(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getLocked(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Caret.
-	 * supported by:
-	 * <ul>
-	 * <li>Canvas</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Caret.
-	 */
-	public SWTQuery setCaret(Caret value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setCaret(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Caret.
-	 * supported by:
-	 * <ul>
-	 * <li>Canvas</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Caret.
-	 */	
-	public Caret getCaret(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getCaret(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a WrapIndent.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a WrapIndent.
-	 */
-	public SWTQuery setWrapIndent(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setWrapIndent(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a WrapIndent.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a WrapIndent.
+	 * @return value a WrapIndent.
+	 *
+	 * @see StyledText	 
 	 */	
 	public Integer getWrapIndent(){
 		if(items.size() > 0){
@@ -4652,76 +3181,18 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a AutoHide.
-	 * supported by:
-	 * <ul>
-	 * <li>ToolTip</li>	 
-	 * </ul>
+	 * Gets a Enabled property value.
 	 * 
-	 * @param value	 a AutoHide.
-	 */
-	public SWTQuery setAutoHide(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setAutoHide(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a AutoHide.
-	 * supported by:
-	 * <ul>
-	 * <li>ToolTip</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a AutoHide.
+	 * @return value a Enabled.
+	 *
+	 * @see Shell
+	 * @see Control
+	 * @see MenuItem
+	 * @see ToolItem
+	 * @see Menu
+	 * @see ScrollBar	 
 	 */	
-	public Boolean getAutoHide(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getAutoHide(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Enabled.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>Slider</li>
-	 * <li>Control</li>
-	 * <li>MenuItem</li>
-	 * <li>ToolItem</li>
-	 * <li>Menu</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Enabled.
-	 */
-	public SWTQuery setEnabled(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setEnabled(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Enabled.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>Slider</li>
-	 * <li>Control</li>
-	 * <li>MenuItem</li>
-	 * <li>ToolItem</li>
-	 * <li>Menu</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Enabled.
-	 */	
-	public Boolean getEnabled(){
+	public Boolean isEnabled(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.getEnabled(items.get(0));
 		}
@@ -4730,233 +3201,45 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a DragSourceEffect.
-	 * supported by:
-	 * <ul>
-	 * <li>DragSource</li>	 
-	 * </ul>
+	 * Gets a Viewer property value.
 	 * 
-	 * @param value	 a DragSourceEffect.
-	 */
-	public SWTQuery setDragSourceEffect(DragSourceEffect value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDragSourceEffect(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DragSourceEffect.
-	 * supported by:
-	 * <ul>
-	 * <li>DragSource</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DragSourceEffect.
+	 * @return value a Viewer.
+	 *
+	 * @see FilteredTree	 
 	 */	
-	public DragSourceEffect getDragSourceEffect(){
+	public TreeViewer getViewer(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getDragSourceEffect(items.get(0));
+			return WidgetPropertySwitch.getViewer(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a ShowFocusedControl.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
+	 * Gets a ItemHeight property value.
 	 * 
-	 * @param value	 a ShowFocusedControl.
-	 */
-	public SWTQuery setShowFocusedControl(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setShowFocusedControl(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ShowFocusedControl.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ShowFocusedControl.
+	 * @return value a ItemHeight.
+	 *
+	 * @see CCombo
+	 * @see Combo
+	 * @see Table
+	 * @see Tree
+	 * @see List	 
 	 */	
-	public Boolean getShowFocusedControl(){
+	public Integer getItemHeight(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getShowFocusedControl(items.get(0));
+			return WidgetPropertySwitch.getItemHeight(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a ColumnOrder.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
+	 * Gets a Cursor property value.
 	 * 
-	 * @param value	 a ColumnOrder.
-	 */
-	public SWTQuery setColumnOrder(int[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setColumnOrder(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ColumnOrder.
-	 * supported by:
-	 * <ul>
-	 * <li>Table</li>
-	 * <li>Tree</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ColumnOrder.
-	 */	
-	public int[] getColumnOrder(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getColumnOrder(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a MRUVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a MRUVisible.
-	 */
-	public SWTQuery setMRUVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMRUVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MRUVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MRUVisible.
-	 */	
-	public Boolean getMRUVisible(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getMRUVisible(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Grayed.
-	 * supported by:
-	 * <ul>
-	 * <li>Button</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Grayed.
-	 */
-	public SWTQuery setGrayed(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setGrayed(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Grayed.
-	 * supported by:
-	 * <ul>
-	 * <li>Button</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Grayed.
-	 */	
-	public Boolean getGrayed(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getGrayed(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Day.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Day.
-	 */
-	public SWTQuery setDay(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDay(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Day.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Day.
-	 */	
-	public Integer getDay(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getDay(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Cursor.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Cursor.
-	 */
-	public SWTQuery setCursor(Cursor value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setCursor(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Cursor.
-	 * supported by:
-	 * <ul>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Cursor.
+	 * @return value a Cursor.
+	 *
+	 * @see Control	 
 	 */	
 	public Cursor getCursor(){
 		if(items.size() > 0){
@@ -4967,29 +3250,42 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Year.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
+	 * Gets a LineCount property value.
 	 * 
-	 * @param value	 a Year.
-	 */
-	public SWTQuery setYear(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setYear(each, value);
+	 * @return value a LineCount.
+	 *
+	 * @see StyledText
+	 * @see Text	 
+	 */	
+	public Integer getLineCount(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getLineCount(items.get(0));
 		}
-		return this;
+		else{
+			return null;
+		}
 	}
-
 	/**
-	 * Gets a Year.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
+	 * Gets a WebBrowser property value.
 	 * 
-	 * @return value	 a Year.
+	 * @return value a WebBrowser.
+	 *
+	 * @see Browser	 
+	 */	
+	public Object getWebBrowser(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getWebBrowser(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Year property value.
+	 * 
+	 * @return value a Year.
+	 *
+	 * @see DateTime	 
 	 */	
 	public Integer getYear(){
 		if(items.size() > 0){
@@ -5000,64 +3296,12 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a ToolBarVerticalAlignment.
-	 * supported by:
-	 * <ul>
-	 * <li>Form</li>	 
-	 * </ul>
+	 * Gets a Region property value.
 	 * 
-	 * @param value	 a ToolBarVerticalAlignment.
-	 */
-	public SWTQuery setToolBarVerticalAlignment(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setToolBarVerticalAlignment(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ToolBarVerticalAlignment.
-	 * supported by:
-	 * <ul>
-	 * <li>Form</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ToolBarVerticalAlignment.
-	 */	
-	public Integer getToolBarVerticalAlignment(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getToolBarVerticalAlignment(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Region.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Region.
-	 */
-	public SWTQuery setRegion(Region value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setRegion(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Region.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Region.
+	 * @return value a Region.
+	 *
+	 * @see Shell
+	 * @see Control	 
 	 */	
 	public Region getRegion(){
 		if(items.size() > 0){
@@ -5068,29 +3312,26 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Accelerator.
-	 * supported by:
-	 * <ul>
-	 * <li>MenuItem</li>	 
-	 * </ul>
+	 * Gets a ToolBarVerticalAlignment property value.
 	 * 
-	 * @param value	 a Accelerator.
-	 */
-	public SWTQuery setAccelerator(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setAccelerator(each, value);
+	 * @return value a ToolBarVerticalAlignment.
+	 *
+	 * @see Form	 
+	 */	
+	public Integer getToolBarVerticalAlignment(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getToolBarVerticalAlignment(items.get(0));
 		}
-		return this;
+		else{
+			return null;
+		}
 	}
-
 	/**
-	 * Gets a Accelerator.
-	 * supported by:
-	 * <ul>
-	 * <li>MenuItem</li>	 
-	 * </ul>
+	 * Gets a Accelerator property value.
 	 * 
-	 * @return value	 a Accelerator.
+	 * @return value a Accelerator.
+	 *
+	 * @see MenuItem	 
 	 */	
 	public Integer getAccelerator(){
 		if(items.size() > 0){
@@ -5101,68 +3342,14 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a WrapIndices.
-	 * supported by:
-	 * <ul>
-	 * <li>CoolBar</li>	 
-	 * </ul>
+	 * Gets a PageIncrement property value.
 	 * 
-	 * @param value	 a WrapIndices.
-	 */
-	public SWTQuery setWrapIndices(int[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setWrapIndices(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a WrapIndices.
-	 * supported by:
-	 * <ul>
-	 * <li>CoolBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a WrapIndices.
-	 */	
-	public int[] getWrapIndices(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getWrapIndices(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a PageIncrement.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a PageIncrement.
-	 */
-	public SWTQuery setPageIncrement(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setPageIncrement(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a PageIncrement.
-	 * supported by:
-	 * <ul>
-	 * <li>Spinner</li>
-	 * <li>Scale</li>
-	 * <li>Slider</li>
-	 * <li>ScrollBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a PageIncrement.
+	 * @return value a PageIncrement.
+	 *
+	 * @see Spinner
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
 	 */	
 	public Integer getPageIncrement(){
 		if(items.size() > 0){
@@ -5173,95 +3360,43 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a MatchEmptyString.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
+	 * Gets a FocusControl property value.
 	 * 
-	 * @param value	 a MatchEmptyString.
-	 */
-	public SWTQuery setMatchEmptyString(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMatchEmptyString(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MatchEmptyString.
-	 * supported by:
-	 * <ul>
-	 * <li>FilteredList</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MatchEmptyString.
+	 * @return value a FocusControl.
+	 *
+	 * @see Browser
+	 * @see CCombo
+	 * @see Control	 
 	 */	
-	public Boolean getMatchEmptyString(){
+	public Boolean isFocusControl(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getMatchEmptyString(items.get(0));
+			return WidgetPropertySwitch.getFocusControl(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a CompositionOffset.
-	 * supported by:
-	 * <ul>
-	 * <li>IME</li>	 
-	 * </ul>
+	 * Gets a Disposed property value.
 	 * 
-	 * @param value	 a CompositionOffset.
-	 */
-	public SWTQuery setCompositionOffset(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setCompositionOffset(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a CompositionOffset.
-	 * supported by:
-	 * <ul>
-	 * <li>IME</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a CompositionOffset.
+	 * @return value a Disposed.
+	 *
+	 * @see Widget	 
 	 */	
-	public Integer getCompositionOffset(){
+	public Boolean isDisposed(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getCompositionOffset(items.get(0));
+			return WidgetPropertySwitch.getDisposed(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a Description.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
+	 * Gets a Description property value.
 	 * 
-	 * @param value	 a Description.
-	 */
-	public SWTQuery setDescription(String value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDescription(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Description.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Description.
+	 * @return value a Description.
+	 *
+	 * @see Section	 
 	 */	
 	public String getDescription(){
 		if(items.size() > 0){
@@ -5272,64 +3407,12 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a ShowClose.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabItem</li>	 
-	 * </ul>
+	 * Gets a SelectionForeground property value.
 	 * 
-	 * @param value	 a ShowClose.
-	 */
-	public SWTQuery setShowClose(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setShowClose(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ShowClose.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ShowClose.
-	 */	
-	public Boolean getShowClose(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getShowClose(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a SelectionForeground.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a SelectionForeground.
-	 */
-	public SWTQuery setSelectionForeground(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSelectionForeground(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a SelectionForeground.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a SelectionForeground.
+	 * @return value a SelectionForeground.
+	 *
+	 * @see StyledText
+	 * @see CTabFolder	 
 	 */	
 	public Color getSelectionForeground(){
 		if(items.size() > 0){
@@ -5340,95 +3423,26 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a BackgroundMode.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
+	 * Gets a FocusIndex property value.
 	 * 
-	 * @param value	 a BackgroundMode.
-	 */
-	public SWTQuery setBackgroundMode(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBackgroundMode(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a BackgroundMode.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a BackgroundMode.
+	 * @return value a FocusIndex.
+	 *
+	 * @see List	 
 	 */	
-	public Integer getBackgroundMode(){
+	public Integer getFocusIndex(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getBackgroundMode(items.get(0));
+			return WidgetPropertySwitch.getFocusIndex(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a TitleBarGradientBackground.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
+	 * Gets a BlockSelectionBounds property value.
 	 * 
-	 * @param value	 a TitleBarGradientBackground.
-	 */
-	public SWTQuery setTitleBarGradientBackground(Color value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTitleBarGradientBackground(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TitleBarGradientBackground.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TitleBarGradientBackground.
-	 */	
-	public Color getTitleBarGradientBackground(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTitleBarGradientBackground(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a BlockSelectionBounds.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a BlockSelectionBounds.
-	 */
-	public SWTQuery setBlockSelectionBounds(Rectangle value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBlockSelectionBounds(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a BlockSelectionBounds.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a BlockSelectionBounds.
+	 * @return value a BlockSelectionBounds.
+	 *
+	 * @see StyledText	 
 	 */	
 	public Rectangle getBlockSelectionBounds(){
 		if(items.size() > 0){
@@ -5439,29 +3453,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a MinHeight.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
+	 * Gets a MinHeight property value.
 	 * 
-	 * @param value	 a MinHeight.
-	 */
-	public SWTQuery setMinHeight(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinHeight(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MinHeight.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MinHeight.
+	 * @return value a MinHeight.
+	 *
+	 * @see ScrolledComposite	 
 	 */	
 	public Integer getMinHeight(){
 		if(items.size() > 0){
@@ -5472,138 +3468,12 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a RightMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
+	 * Gets a MinimumSize property value.
 	 * 
-	 * @param value	 a RightMargin.
-	 */
-	public SWTQuery setRightMargin(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setRightMargin(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a RightMargin.
-	 * supported by:
-	 * <ul>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a RightMargin.
-	 */	
-	public Integer getRightMargin(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getRightMargin(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Location.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Location.
-	 */
-	public SWTQuery setLocation(Point value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setLocation(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Location.
-	 * supported by:
-	 * <ul>
-	 * <li>Caret</li>
-	 * <li>Shell</li>
-	 * <li>Decorations</li>
-	 * <li>Control</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Location.
-	 */	
-	public Point getLocation(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getLocation(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Spacing.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandBar</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Spacing.
-	 */
-	public SWTQuery setSpacing(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setSpacing(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Spacing.
-	 * supported by:
-	 * <ul>
-	 * <li>ExpandBar</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Spacing.
-	 */	
-	public Integer getSpacing(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getSpacing(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a MinimumSize.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>CoolItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a MinimumSize.
-	 */
-	public SWTQuery setMinimumSize(Point value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinimumSize(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a MinimumSize.
-	 * supported by:
-	 * <ul>
-	 * <li>Shell</li>
-	 * <li>CoolItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MinimumSize.
+	 * @return value a MinimumSize.
+	 *
+	 * @see Shell
+	 * @see CoolItem	 
 	 */	
 	public Point getMinimumSize(){
 		if(items.size() > 0){
@@ -5614,133 +3484,12 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a DescriptionControl.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
+	 * Gets a Tabs property value.
 	 * 
-	 * @param value	 a DescriptionControl.
-	 */
-	public SWTQuery setDescriptionControl(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setDescriptionControl(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a DescriptionControl.
-	 * supported by:
-	 * <ul>
-	 * <li>Section</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a DescriptionControl.
-	 */	
-	public Control getDescriptionControl(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getDescriptionControl(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Text.
-	 * supported by:
-	 * <ul>
-	 * <li>Hyperlink</li>
-	 * <li>ScrolledForm</li>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>
-	 * <li>Decorations</li>
-	 * <li>ExpandableComposite</li>
-	 * <li>Browser</li>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>
-	 * <li>Group</li>
-	 * <li>Form</li>
-	 * <li>Text</li>
-	 * <li>Button</li>
-	 * <li>Label</li>
-	 * <li>Link</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>
-	 * <li>Item</li>
-	 * <li>ToolTip</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Text.
-	 */
-	public SWTQuery setText(String value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setText(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Text.
-	 * supported by:
-	 * <ul>
-	 * <li>Hyperlink</li>
-	 * <li>ScrolledForm</li>
-	 * <li>CLabel</li>
-	 * <li>StyledText</li>
-	 * <li>Decorations</li>
-	 * <li>ExpandableComposite</li>
-	 * <li>Browser</li>
-	 * <li>CCombo</li>
-	 * <li>Combo</li>
-	 * <li>Group</li>
-	 * <li>Form</li>
-	 * <li>Text</li>
-	 * <li>Button</li>
-	 * <li>Label</li>
-	 * <li>Link</li>
-	 * <li>TableItem</li>
-	 * <li>TreeItem</li>
-	 * <li>Item</li>
-	 * <li>ToolTip</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Text.
-	 */	
-	public String getText(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getText(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a Tabs.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a Tabs.
-	 */
-	public SWTQuery setTabs(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTabs(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a Tabs.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>
-	 * <li>Text</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a Tabs.
+	 * @return value a Tabs.
+	 *
+	 * @see StyledText
+	 * @see Text	 
 	 */	
 	public Integer getTabs(){
 		if(items.size() > 0){
@@ -5751,62 +3500,41 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a BorderVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
+	 * Gets a ThumbTrackBounds property value.
 	 * 
-	 * @param value	 a BorderVisible.
-	 */
-	public SWTQuery setBorderVisible(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBorderVisible(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a BorderVisible.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a BorderVisible.
+	 * @return value a ThumbTrackBounds.
+	 *
+	 * @see ScrollBar	 
 	 */	
-	public Boolean getBorderVisible(){
+	public Rectangle getThumbTrackBounds(){
 		if(items.size() > 0){
-			return WidgetPropertySwitch.getBorderVisible(items.get(0));
+			return WidgetPropertySwitch.getThumbTrackBounds(items.get(0));
 		}
 		else{
 			return null;
 		}
 	}
 	/**
-	 * Sets a State.
-	 * supported by:
-	 * <ul>
-	 * <li>ProgressBar</li>	 
-	 * </ul>
+	 * Gets a CaretLineNumber property value.
 	 * 
-	 * @param value	 a State.
-	 */
-	public SWTQuery setState(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setState(each, value);
+	 * @return value a CaretLineNumber.
+	 *
+	 * @see Text	 
+	 */	
+	public Integer getCaretLineNumber(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCaretLineNumber(items.get(0));
 		}
-		return this;
+		else{
+			return null;
+		}
 	}
-
 	/**
-	 * Gets a State.
-	 * supported by:
-	 * <ul>
-	 * <li>ProgressBar</li>	 
-	 * </ul>
+	 * Gets a State property value.
 	 * 
-	 * @return value	 a State.
+	 * @return value a State.
+	 *
+	 * @see ProgressBar	 
 	 */	
 	public Integer getState(){
 		if(items.size() > 0){
@@ -5817,29 +3545,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a TopItem.
-	 * supported by:
-	 * <ul>
-	 * <li>Tree</li>	 
-	 * </ul>
+	 * Gets a TopItem property value.
 	 * 
-	 * @param value	 a TopItem.
-	 */
-	public SWTQuery setTopItem(TreeItem value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTopItem(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TopItem.
-	 * supported by:
-	 * <ul>
-	 * <li>Tree</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TopItem.
+	 * @return value a TopItem.
+	 *
+	 * @see Tree	 
 	 */	
 	public TreeItem getTopItem(){
 		if(items.size() > 0){
@@ -5850,62 +3560,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a TabList.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
+	 * Gets a TopCenter property value.
 	 * 
-	 * @param value	 a TabList.
-	 */
-	public SWTQuery setTabList(Control[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTabList(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TabList.
-	 * supported by:
-	 * <ul>
-	 * <li>Composite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TabList.
-	 */	
-	public Control[] getTabList(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getTabList(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TopCenter.
-	 * supported by:
-	 * <ul>
-	 * <li>ViewForm</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TopCenter.
-	 */
-	public SWTQuery setTopCenter(Control value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTopCenter(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TopCenter.
-	 * supported by:
-	 * <ul>
-	 * <li>ViewForm</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TopCenter.
+	 * @return value a TopCenter.
+	 *
+	 * @see ViewForm	 
 	 */	
 	public Control getTopCenter(){
 		if(items.size() > 0){
@@ -5916,62 +3575,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a ExpandHorizontal.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
+	 * Gets a TabStops property value.
 	 * 
-	 * @param value	 a ExpandHorizontal.
-	 */
-	public SWTQuery setExpandHorizontal(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setExpandHorizontal(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ExpandHorizontal.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ExpandHorizontal.
-	 */	
-	public Boolean getExpandHorizontal(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getExpandHorizontal(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a TabStops.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a TabStops.
-	 */
-	public SWTQuery setTabStops(int[] value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setTabStops(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a TabStops.
-	 * supported by:
-	 * <ul>
-	 * <li>StyledText</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a TabStops.
+	 * @return value a TabStops.
+	 *
+	 * @see StyledText	 
 	 */	
 	public int[] getTabStops(){
 		if(items.size() > 0){
@@ -5982,29 +3590,1924 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a Minutes.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
+	 * Gets a Styles property value.
 	 * 
-	 * @param value	 a Minutes.
-	 */
-	public SWTQuery setMinutes(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinutes(each, value);
+	 * @return value a Styles.
+	 *
+	 * @see IME	 
+	 */	
+	public TextStyle[] getStyles(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getStyles(items.get(0));
 		}
-		return this;
+		else{
+			return null;
+		}
 	}
-
 	/**
-	 * Gets a Minutes.
-	 * supported by:
-	 * <ul>
-	 * <li>DateTime</li>	 
-	 * </ul>
+	 * Gets a MinimumCharacters property value.
 	 * 
-	 * @return value	 a Minutes.
+	 * @return value a MinimumCharacters.
+	 *
+	 * @see CTabFolder	 
+	 */	
+	public Integer getMinimumCharacters(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getMinimumCharacters(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a HorizontalIndex property value.
+	 * 
+	 * @return value a HorizontalIndex.
+	 *
+	 * @see StyledText	 
+	 */	
+	public Integer getHorizontalIndex(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getHorizontalIndex(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Images property value.
+	 * 
+	 * @return value a Images.
+	 *
+	 * @see Decorations	 
+	 */	
+	public Image[] getImages(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getImages(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Origin property value.
+	 * 
+	 * @return value a Origin.
+	 *
+	 * @see ScrolledComposite	 
+	 */	
+	public Point getOrigin(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getOrigin(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a LineHeight property value.
+	 * 
+	 * @return value a LineHeight.
+	 *
+	 * @see StyledText
+	 * @see Text	 
+	 */	
+	public Integer getLineHeight(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getLineHeight(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Empty property value.
+	 * 
+	 * @return value a Empty.
+	 *
+	 * @see FilteredList	 
+	 */	
+	public Boolean isEmpty(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getEmpty(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Data property value.
+	 * 
+	 * @return value a Data.
+	 *
+	 * @see Widget	 
+	 */	
+	public Object getData(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getData(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a EchoChar property value.
+	 * 
+	 * @return value a EchoChar.
+	 *
+	 * @see Text	 
+	 */	
+	public Character getEchoChar(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getEchoChar(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a HeadClient property value.
+	 * 
+	 * @return value a HeadClient.
+	 *
+	 * @see Form	 
+	 */	
+	public Control getHeadClient(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getHeadClient(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Url property value.
+	 * 
+	 * @return value a Url.
+	 *
+	 * @see Browser	 
+	 */	
+	public String getUrl(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getUrl(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a BackEnabled property value.
+	 * 
+	 * @return value a BackEnabled.
+	 *
+	 * @see Browser	 
+	 */	
+	public Boolean isBackEnabled(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBackEnabled(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectionCount property value.
+	 * 
+	 * @return value a SelectionCount.
+	 *
+	 * @see StyledText
+	 * @see Table
+	 * @see Tree
+	 * @see List
+	 * @see Text	 
+	 */	
+	public Integer getSelectionCount(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectionCount(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a HorizontalBar property value.
+	 * 
+	 * @return value a HorizontalBar.
+	 *
+	 * @see Scrollable	 
+	 */	
+	public ScrollBar getHorizontalBar(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getHorizontalBar(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Seconds property value.
+	 * 
+	 * @return value a Seconds.
+	 *
+	 * @see DateTime	 
+	 */	
+	public Integer getSeconds(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSeconds(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SortDirection property value.
+	 * 
+	 * @return value a SortDirection.
+	 *
+	 * @see Table
+	 * @see Tree	 
+	 */	
+	public Integer getSortDirection(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSortDirection(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a MenuManager property value.
+	 * 
+	 * @return value a MenuManager.
+	 *
+	 * @see Form	 
+	 */	
+	public IMenuManager getMenuManager(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getMenuManager(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a VisibleItemCount property value.
+	 * 
+	 * @return value a VisibleItemCount.
+	 *
+	 * @see CCombo
+	 * @see Combo	 
+	 */	
+	public Integer getVisibleItemCount(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getVisibleItemCount(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Thumb property value.
+	 * 
+	 * @return value a Thumb.
+	 *
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */	
+	public Integer getThumb(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getThumb(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DecorationColor property value.
+	 * 
+	 * @return value a DecorationColor.
+	 *
+	 * @see ToggleHyperlink	 
+	 */	
+	public Color getDecorationColor(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDecorationColor(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Bounds property value.
+	 * 
+	 * @return value a Bounds.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Decorations
+	 * @see Control
+	 * @see CTabItem
+	 * @see CoolItem
+	 * @see TabItem
+	 * @see TableItem
+	 * @see ToolItem
+	 * @see TreeItem	 
+	 */	
+	public Rectangle getBounds(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBounds(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Digits property value.
+	 * 
+	 * @return value a Digits.
+	 *
+	 * @see Spinner	 
+	 */	
+	public Integer getDigits(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDigits(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Left property value.
+	 * 
+	 * @return value a Left.
+	 *
+	 * @see CBanner	 
+	 */	
+	public Control getLeft(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getLeft(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a BorderWidth property value.
+	 * 
+	 * @return value a BorderWidth.
+	 *
+	 * @see Text
+	 * @see Control	 
+	 */	
+	public Integer getBorderWidth(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBorderWidth(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Bottom property value.
+	 * 
+	 * @return value a Bottom.
+	 *
+	 * @see CBanner	 
+	 */	
+	public Control getBottom(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBottom(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a BackgroundImage property value.
+	 * 
+	 * @return value a BackgroundImage.
+	 *
+	 * @see ScrolledForm
+	 * @see Form
+	 * @see Control	 
+	 */	
+	public Image getBackgroundImage(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBackgroundImage(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectedLinkHref property value.
+	 * 
+	 * @return value a SelectedLinkHref.
+	 *
+	 * @see FormText	 
+	 */	
+	public Object getSelectedLinkHref(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectedLinkHref(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TabPosition property value.
+	 * 
+	 * @return value a TabPosition.
+	 *
+	 * @see CTabFolder	 
+	 */	
+	public Integer getTabPosition(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTabPosition(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Row property value.
+	 * 
+	 * @return value a Row.
+	 *
+	 * @see TableCursor	 
+	 */	
+	public TableItem getRow(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getRow(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectionText property value.
+	 * 
+	 * @return value a SelectionText.
+	 *
+	 * @see StyledText
+	 * @see FormText
+	 * @see Text	 
+	 */	
+	public String getSelectionText(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectionText(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TitleBarBackground property value.
+	 * 
+	 * @return value a TitleBarBackground.
+	 *
+	 * @see Section	 
+	 */	
+	public Color getTitleBarBackground(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTitleBarBackground(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TabHeight property value.
+	 * 
+	 * @return value a TabHeight.
+	 *
+	 * @see CTabFolder	 
+	 */	
+	public Integer getTabHeight(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTabHeight(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DelayedReflow property value.
+	 * 
+	 * @return value a DelayedReflow.
+	 *
+	 * @see SharedScrolledComposite	 
+	 */	
+	public Boolean isDelayedReflow(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDelayedReflow(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Alpha property value.
+	 * 
+	 * @return value a Alpha.
+	 *
+	 * @see Shell	 
+	 */	
+	public Integer getAlpha(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getAlpha(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ToolBarManager property value.
+	 * 
+	 * @return value a ToolBarManager.
+	 *
+	 * @see ScrolledForm
+	 * @see Form	 
+	 */	
+	public IToolBarManager getToolBarManager(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getToolBarManager(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a PreferredSize property value.
+	 * 
+	 * @return value a PreferredSize.
+	 *
+	 * @see CoolItem	 
+	 */	
+	public Point getPreferredSize(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getPreferredSize(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Background property value.
+	 * 
+	 * @return value a Background.
+	 *
+	 * @see StyledText
+	 * @see TableCursor
+	 * @see Control
+	 * @see TableItem
+	 * @see TreeItem	 
+	 */	
+	public Color getBackground(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBackground(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectionIndex property value.
+	 * 
+	 * @return value a SelectionIndex.
+	 *
+	 * @see CCombo
+	 * @see CTabFolder
+	 * @see Combo
+	 * @see TabFolder
+	 * @see Table
+	 * @see FilteredList
+	 * @see List	 
+	 */	
+	public Integer getSelectionIndex(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectionIndex(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SashWidth property value.
+	 * 
+	 * @return value a SashWidth.
+	 *
+	 * @see SashForm	 
+	 */	
+	public Integer getSashWidth(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSashWidth(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a WhitespaceNormalized property value.
+	 * 
+	 * @return value a WhitespaceNormalized.
+	 *
+	 * @see FormText	 
+	 */	
+	public Boolean isWhitespaceNormalized(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getWhitespaceNormalized(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a CommitCount property value.
+	 * 
+	 * @return value a CommitCount.
+	 *
+	 * @see IME	 
+	 */	
+	public Integer getCommitCount(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCommitCount(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Monitor property value.
+	 * 
+	 * @return value a Monitor.
+	 *
+	 * @see Control	 
+	 */	
+	public Monitor getMonitor(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getMonitor(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Font property value.
+	 * 
+	 * @return value a Font.
+	 *
+	 * @see Caret
+	 * @see Control
+	 * @see CTabItem
+	 * @see TableItem
+	 * @see TreeItem	 
+	 */	
+	public Font getFont(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getFont(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Accessible property value.
+	 * 
+	 * @return value a Accessible.
+	 *
+	 * @see FilteredList
+	 * @see Control	 
+	 */	
+	public Accessible getAccessible(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getAccessible(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Ranges property value.
+	 * 
+	 * @return value a Ranges.
+	 *
+	 * @see StyledText
+	 * @see IME	 
+	 */	
+	public int[] getRanges(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getRanges(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Rectangles property value.
+	 * 
+	 * @return value a Rectangles.
+	 *
+	 * @see Tracker	 
+	 */	
+	public Rectangle[] getRectangles(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getRectangles(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DefaultItem property value.
+	 * 
+	 * @return value a DefaultItem.
+	 *
+	 * @see Menu	 
+	 */	
+	public MenuItem getDefaultItem(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDefaultItem(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectionRanges property value.
+	 * 
+	 * @return value a SelectionRanges.
+	 *
+	 * @see StyledText	 
+	 */	
+	public int[] getSelectionRanges(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectionRanges(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Message property value.
+	 * 
+	 * @return value a Message.
+	 *
+	 * @see ScrolledForm
+	 * @see Form
+	 * @see Text
+	 * @see ToolTip	 
+	 */	
+	public String getMessage(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getMessage(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a LeftMargin property value.
+	 * 
+	 * @return value a LeftMargin.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
+	 */	
+	public Integer getLeftMargin(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getLeftMargin(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectionIndices property value.
+	 * 
+	 * @return value a SelectionIndices.
+	 *
+	 * @see Table
+	 * @see FilteredList
+	 * @see List	 
+	 */	
+	public int[] getSelectionIndices(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectionIndices(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TextClientHeightDifference property value.
+	 * 
+	 * @return value a TextClientHeightDifference.
+	 *
+	 * @see ExpandableComposite	 
+	 */	
+	public Integer getTextClientHeightDifference(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTextClientHeightDifference(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a CharCount property value.
+	 * 
+	 * @return value a CharCount.
+	 *
+	 * @see StyledText
+	 * @see Text	 
+	 */	
+	public Integer getCharCount(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCharCount(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DefaultButton property value.
+	 * 
+	 * @return value a DefaultButton.
+	 *
+	 * @see Decorations	 
+	 */	
+	public Button getDefaultButton(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDefaultButton(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Minimum property value.
+	 * 
+	 * @return value a Minimum.
+	 *
+	 * @see Spinner
+	 * @see ProgressBar
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */	
+	public Integer getMinimum(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getMinimum(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Baseline property value.
+	 * 
+	 * @return value a Baseline.
+	 *
+	 * @see StyledText	 
+	 */	
+	public Integer getBaseline(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBaseline(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Alignment property value.
+	 * 
+	 * @return value a Alignment.
+	 *
+	 * @see CLabel
+	 * @see StyledText
+	 * @see Button
+	 * @see Label
+	 * @see TableColumn
+	 * @see TreeColumn	 
+	 */	
+	public Integer getAlignment(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getAlignment(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Shells property value.
+	 * 
+	 * @return value a Shells.
+	 *
+	 * @see Shell	 
+	 */	
+	public Shell[] getShells(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getShells(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Showing property value.
+	 * 
+	 * @return value a Showing.
+	 *
+	 * @see CTabItem	 
+	 */	
+	public Boolean isShowing(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getShowing(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DropListeners property value.
+	 * 
+	 * @return value a DropListeners.
+	 *
+	 * @see DropTarget	 
+	 */	
+	public DropTargetListener[] getDropListeners(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDropListeners(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TopLeft property value.
+	 * 
+	 * @return value a TopLeft.
+	 *
+	 * @see ViewForm	 
+	 */	
+	public Control getTopLeft(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTopLeft(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SeparatorControl property value.
+	 * 
+	 * @return value a SeparatorControl.
+	 *
+	 * @see Section	 
+	 */	
+	public Control getSeparatorControl(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSeparatorControl(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a LayoutDeferred property value.
+	 * 
+	 * @return value a LayoutDeferred.
+	 *
+	 * @see Composite	 
+	 */	
+	public Boolean isLayoutDeferred(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getLayoutDeferred(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ParentMenu property value.
+	 * 
+	 * @return value a ParentMenu.
+	 *
+	 * @see Menu	 
+	 */	
+	public Menu getParentMenu(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getParentMenu(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Style property value.
+	 * 
+	 * @return value a Style.
+	 *
+	 * @see CLabel
+	 * @see Browser
+	 * @see CCombo
+	 * @see CTabFolder
+	 * @see SashForm
+	 * @see Widget	 
+	 */	
+	public Integer getStyle(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getStyle(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a VerticalBar property value.
+	 * 
+	 * @return value a VerticalBar.
+	 *
+	 * @see Scrollable	 
+	 */	
+	public ScrollBar getVerticalBar(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getVerticalBar(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TextClient property value.
+	 * 
+	 * @return value a TextClient.
+	 *
+	 * @see ExpandableComposite	 
+	 */	
+	public Control getTextClient(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTextClient(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Column property value.
+	 * 
+	 * @return value a Column.
+	 *
+	 * @see TableCursor	 
+	 */	
+	public Integer getColumn(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getColumn(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TopRightAlignment property value.
+	 * 
+	 * @return value a TopRightAlignment.
+	 *
+	 * @see CTabFolder	 
+	 */	
+	public Integer getTopRightAlignment(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTopRightAlignment(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ID property value.
+	 * 
+	 * @return value a ID.
+	 *
+	 * @see MenuItem	 
+	 */	
+	public Integer getID(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getID(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Width property value.
+	 * 
+	 * @return value a Width.
+	 *
+	 * @see TableColumn
+	 * @see ToolItem
+	 * @see TreeColumn	 
+	 */	
+	public Integer getWidth(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getWidth(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ToolTip property value.
+	 * 
+	 * @return value a ToolTip.
+	 *
+	 * @see TrayItem	 
+	 */	
+	public ToolTip getToolTip(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getToolTip(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SeparatorVisible property value.
+	 * 
+	 * @return value a SeparatorVisible.
+	 *
+	 * @see Form	 
+	 */	
+	public Boolean isSeparatorVisible(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSeparatorVisible(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Size property value.
+	 * 
+	 * @return value a Size.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Decorations
+	 * @see Control
+	 * @see CoolItem
+	 * @see ScrollBar	 
+	 */	
+	public Point getSize(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSize(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectionBackground property value.
+	 * 
+	 * @return value a SelectionBackground.
+	 *
+	 * @see StyledText
+	 * @see CTabFolder	 
+	 */	
+	public Color getSelectionBackground(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectionBackground(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Body property value.
+	 * 
+	 * @return value a Body.
+	 *
+	 * @see ScrolledForm
+	 * @see Form	 
+	 */	
+	public Composite getBody(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBody(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Maximum property value.
+	 * 
+	 * @return value a Maximum.
+	 *
+	 * @see Spinner
+	 * @see ProgressBar
+	 * @see Scale
+	 * @see Slider
+	 * @see ScrollBar	 
+	 */	
+	public Integer getMaximum(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getMaximum(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Display property value.
+	 * 
+	 * @return value a Display.
+	 *
+	 * @see Widget	 
+	 */	
+	public Display getDisplay(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDisplay(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ToolBar property value.
+	 * 
+	 * @return value a ToolBar.
+	 *
+	 * @see Shell	 
+	 */	
+	public ToolBar getToolBar(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getToolBar(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a RowCount property value.
+	 * 
+	 * @return value a RowCount.
+	 *
+	 * @see ToolBar	 
+	 */	
+	public Integer getRowCount(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getRowCount(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Height property value.
+	 * 
+	 * @return value a Height.
+	 *
+	 * @see ExpandItem	 
+	 */	
+	public Integer getHeight(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getHeight(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TopRight property value.
+	 * 
+	 * @return value a TopRight.
+	 *
+	 * @see CTabFolder
+	 * @see ViewForm	 
+	 */	
+	public Control getTopRight(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTopRight(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a HyperlinkSettings property value.
+	 * 
+	 * @return value a HyperlinkSettings.
+	 *
+	 * @see FormText	 
+	 */	
+	public HyperlinkSettings getHyperlinkSettings(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getHyperlinkSettings(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ClientArea property value.
+	 * 
+	 * @return value a ClientArea.
+	 *
+	 * @see Decorations
+	 * @see CBanner
+	 * @see CTabFolder
+	 * @see ViewForm
+	 * @see Group
+	 * @see TabFolder
+	 * @see Scrollable	 
+	 */	
+	public Rectangle getClientArea(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getClientArea(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Transfer property value.
+	 * 
+	 * @return value a Transfer.
+	 *
+	 * @see DragSource
+	 * @see DropTarget	 
+	 */	
+	public Transfer[] getTransfer(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTransfer(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ColumnCount property value.
+	 * 
+	 * @return value a ColumnCount.
+	 *
+	 * @see Table
+	 * @see Tree	 
+	 */	
+	public Integer getColumnCount(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getColumnCount(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ActiveImage property value.
+	 * 
+	 * @return value a ActiveImage.
+	 *
+	 * @see ImageHyperlink	 
+	 */	
+	public Image getActiveImage(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getActiveImage(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a FormText property value.
+	 * 
+	 * @return value a FormText.
+	 *
+	 * @see ScrolledFormText	 
+	 */	
+	public FormText getFormText(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getFormText(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DropTargetEffect property value.
+	 * 
+	 * @return value a DropTargetEffect.
+	 *
+	 * @see DropTarget	 
+	 */	
+	public DropTargetEffect getDropTargetEffect(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDropTargetEffect(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TopPixel property value.
+	 * 
+	 * @return value a TopPixel.
+	 *
+	 * @see StyledText
+	 * @see Text	 
+	 */	
+	public Integer getTopPixel(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTopPixel(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a MarginColor property value.
+	 * 
+	 * @return value a MarginColor.
+	 *
+	 * @see StyledText	 
+	 */	
+	public Color getMarginColor(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getMarginColor(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ExpansionStyle property value.
+	 * 
+	 * @return value a ExpansionStyle.
+	 *
+	 * @see ExpandableComposite	 
+	 */	
+	public Integer getExpansionStyle(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getExpansionStyle(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a CurrentPage property value.
+	 * 
+	 * @return value a CurrentPage.
+	 *
+	 * @see ScrolledPageBook	 
+	 */	
+	public Control getCurrentPage(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCurrentPage(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Caret property value.
+	 * 
+	 * @return value a Caret.
+	 *
+	 * @see Canvas	 
+	 */	
+	public Caret getCaret(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCaret(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DragListeners property value.
+	 * 
+	 * @return value a DragListeners.
+	 *
+	 * @see DragSource	 
+	 */	
+	public DragSourceListener[] getDragListeners(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDragListeners(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a CaretPosition property value.
+	 * 
+	 * @return value a CaretPosition.
+	 *
+	 * @see Text	 
+	 */	
+	public Integer getCaretPosition(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCaretPosition(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a BrowserType property value.
+	 * 
+	 * @return value a BrowserType.
+	 *
+	 * @see Browser	 
+	 */	
+	public String getBrowserType(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBrowserType(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DragSourceEffect property value.
+	 * 
+	 * @return value a DragSourceEffect.
+	 *
+	 * @see DragSource	 
+	 */	
+	public DragSourceEffect getDragSourceEffect(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDragSourceEffect(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ColumnOrder property value.
+	 * 
+	 * @return value a ColumnOrder.
+	 *
+	 * @see Table
+	 * @see Tree	 
+	 */	
+	public int[] getColumnOrder(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getColumnOrder(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Day property value.
+	 * 
+	 * @return value a Day.
+	 *
+	 * @see DateTime	 
+	 */	
+	public Integer getDay(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDay(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ForwardEnabled property value.
+	 * 
+	 * @return value a ForwardEnabled.
+	 *
+	 * @see Browser	 
+	 */	
+	public Boolean isForwardEnabled(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getForwardEnabled(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a ItemOrder property value.
+	 * 
+	 * @return value a ItemOrder.
+	 *
+	 * @see CoolBar	 
+	 */	
+	public int[] getItemOrder(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getItemOrder(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Form property value.
+	 * 
+	 * @return value a Form.
+	 *
+	 * @see ScrolledForm	 
+	 */	
+	public Form getForm(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getForm(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a WrapIndices property value.
+	 * 
+	 * @return value a WrapIndices.
+	 *
+	 * @see CoolBar	 
+	 */	
+	public int[] getWrapIndices(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getWrapIndices(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TextHeight property value.
+	 * 
+	 * @return value a TextHeight.
+	 *
+	 * @see CCombo
+	 * @see Combo	 
+	 */	
+	public Integer getTextHeight(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTextHeight(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Container property value.
+	 * 
+	 * @return value a Container.
+	 *
+	 * @see ScrolledPageBook	 
+	 */	
+	public Composite getContainer(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getContainer(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a HeaderHeight property value.
+	 * 
+	 * @return value a HeaderHeight.
+	 *
+	 * @see Table
+	 * @see Tree
+	 * @see ExpandItem	 
+	 */	
+	public Integer getHeaderHeight(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getHeaderHeight(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a CompositionOffset property value.
+	 * 
+	 * @return value a CompositionOffset.
+	 *
+	 * @see IME	 
+	 */	
+	public Integer getCompositionOffset(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCompositionOffset(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a GLData property value.
+	 * 
+	 * @return value a GLData.
+	 *
+	 * @see GLCanvas	 
+	 */	
+	public GLData getGLData(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getGLData(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a SelectionRange property value.
+	 * 
+	 * @return value a SelectionRange.
+	 *
+	 * @see StyledText	 
+	 */	
+	public Point getSelectionRange(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSelectionRange(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TitleBarGradientBackground property value.
+	 * 
+	 * @return value a TitleBarGradientBackground.
+	 *
+	 * @see Section	 
+	 */	
+	public Color getTitleBarGradientBackground(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTitleBarGradientBackground(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a BackgroundMode property value.
+	 * 
+	 * @return value a BackgroundMode.
+	 *
+	 * @see Composite	 
+	 */	
+	public Integer getBackgroundMode(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getBackgroundMode(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a RightMargin property value.
+	 * 
+	 * @return value a RightMargin.
+	 *
+	 * @see CLabel
+	 * @see StyledText	 
+	 */	
+	public Integer getRightMargin(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getRightMargin(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Location property value.
+	 * 
+	 * @return value a Location.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Decorations
+	 * @see Control	 
+	 */	
+	public Point getLocation(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getLocation(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Children property value.
+	 * 
+	 * @return value a Children.
+	 *
+	 * @see CCombo
+	 * @see Composite	 
+	 */	
+	public Control[] getChildren(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getChildren(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Spacing property value.
+	 * 
+	 * @return value a Spacing.
+	 *
+	 * @see ExpandBar	 
+	 */	
+	public Integer getSpacing(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getSpacing(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a DescriptionControl property value.
+	 * 
+	 * @return value a DescriptionControl.
+	 *
+	 * @see Section	 
+	 */	
+	public Control getDescriptionControl(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getDescriptionControl(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Text property value.
+	 * 
+	 * @return value a Text.
+	 *
+	 * @see Hyperlink
+	 * @see ScrolledForm
+	 * @see CLabel
+	 * @see StyledText
+	 * @see Decorations
+	 * @see AbstractHyperlink
+	 * @see ExpandableComposite
+	 * @see Browser
+	 * @see CCombo
+	 * @see Combo
+	 * @see Group
+	 * @see Spinner
+	 * @see Form
+	 * @see Text
+	 * @see Button
+	 * @see Label
+	 * @see Link
+	 * @see IME
+	 * @see TableItem
+	 * @see TreeItem
+	 * @see Item
+	 * @see ToolTip	 
+	 */	
+	public String getText(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getText(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Canceled property value.
+	 * 
+	 * @return value a Canceled.
+	 *
+	 * @see ProgressMonitorPart	 
+	 */	
+	public Boolean isCanceled(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getCanceled(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a TabList property value.
+	 * 
+	 * @return value a TabList.
+	 *
+	 * @see Composite	 
+	 */	
+	public Control[] getTabList(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getTabList(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a Minutes property value.
+	 * 
+	 * @return value a Minutes.
+	 *
+	 * @see DateTime	 
 	 */	
 	public Integer getMinutes(){
 		if(items.size() > 0){
@@ -6015,62 +5518,11 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Sets a ExpandVertical.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
+	 * Gets a HotImage property value.
 	 * 
-	 * @param value	 a ExpandVertical.
-	 */
-	public SWTQuery setExpandVertical(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setExpandVertical(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a ExpandVertical.
-	 * supported by:
-	 * <ul>
-	 * <li>ScrolledComposite</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a ExpandVertical.
-	 */	
-	public Boolean getExpandVertical(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getExpandVertical(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Sets a HotImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ToolItem</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a HotImage.
-	 */
-	public SWTQuery setHotImage(Image value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setHotImage(each, value);
-		}
-		return this;
-	}
-
-	/**
-	 * Gets a HotImage.
-	 * supported by:
-	 * <ul>
-	 * <li>ToolItem</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a HotImage.
+	 * @return value a HotImage.
+	 *
+	 * @see ToolItem	 
 	 */	
 	public Image getHotImage(){
 		if(items.size() > 0){
@@ -6080,38 +5532,70 @@ public final class SWTQuery {
 			return null;
 		}
 	}
-	/**
-	 * Sets a MinimumCharacters.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @param value	 a MinimumCharacters.
-	 */
-	public SWTQuery setMinimumCharacters(Integer value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setMinimumCharacters(each, value);
-		}
+	public SWTQuery debug(final String text) {
+		final int color = (CURRENT_DEBUG_COLOR + 2);
+		CURRENT_DEBUG_COLOR = (++CURRENT_DEBUG_COLOR % 15);
+		
+		this.addListener(SWT.Paint, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				Rectangle bounds = $(event).getBounds();
+				GC gc = event.gc;
+				gc.setAlpha(150);
+				gc.setBackground(Display.getDefault().getSystemColor(color));
+				gc.fillRectangle(0, 0, bounds.width - 1, bounds.height - 1);
+				gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+				gc.setAlpha(255);
+				gc.drawText(text, 1, 1, true);
+			}
+		});
 		return this;
 	}
-
-	/**
-	 * Gets a MinimumCharacters.
-	 * supported by:
-	 * <ul>
-	 * <li>CTabFolder</li>	 
-	 * </ul>
-	 * 
-	 * @return value	 a MinimumCharacters.
-	 */	
-	public Integer getMinimumCharacters(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getMinimumCharacters(items.get(0));
-		}
-		else{
-			return null;
-		}
+	
+	public SWTQuery debug() {
+		final int color = (CURRENT_DEBUG_COLOR + 2);
+		CURRENT_DEBUG_COLOR = (++CURRENT_DEBUG_COLOR % 15);
+		
+		this.addListener(SWT.Paint, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				Rectangle bounds = $(event).getBounds();
+				GC gc = event.gc;
+				gc.setAlpha(150);
+				gc.setBackground(Display.getDefault().getSystemColor(color));
+				gc.fillRectangle(0, 0, bounds.width - 1, bounds.height - 1);
+				gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			}
+		});
+		return this;
 	}
+	
+	public SWTQuery createDropTarget(int style) {
+		ArrayList<Widget> dropTargets = new ArrayList<Widget>();
+		for (Widget each : items) {
+			if (each instanceof Control) {
+				dropTargets.add(new DropTarget((Control) each, style));
+			}
+		}
+		return new SWTQuery(dropTargets);
+	}
+
+	public SWTQuery getDropTarget(int style) {
+		ArrayList<Widget> dropTargets = new ArrayList<Widget>();
+		for (Widget each : items) {
+			if (each instanceof Control) {
+				Object target = ((Control) each).getData(DND.DROP_TARGET_KEY);
+				if (target instanceof DropTarget) {
+					dropTargets.add((Widget) target);
+				}
+			}
+		}
+		return new SWTQuery(dropTargets);
+	}
+
+	public int size() {
+		return items.size();
+	}
+	
 
 }

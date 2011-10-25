@@ -40,10 +40,18 @@ public class WidgetPropertySwitch{
 <%}%>	
 	}
 
-<% for(String eachKey : properties.keySet()){ %>
+<% for(String eachKey : properties.keySet()){ 
+	Property each = properties.get(eachKey);  
+	if(each.gettableTypes.size()>0){ %>
 	private static final Get<%=eachKey%>Switch get<%=eachKey%>Switch = new Get<%=eachKey%>Switch();
+<% 
+	}
+	if(each.settableTypes.size()>0){ %>
 	private static final Set<%=eachKey%>Switch set<%=eachKey%>Switch = new Set<%=eachKey%>Switch();
-<%}%>
+<% 
+	} 
+} 
+%>
 	@SuppressWarnings("unchecked")
 	public static <T> T getProperty(Widget widget, String propertyName){
 <% boolean isFirst = true;
@@ -58,21 +66,29 @@ for(Property each : properties.values()){ %>
 	
 	public static void setProperty(Widget widget, String propertyName, Object value){
 <% isFirst = true;
-for(Property each : properties.values()){ %>
+for(Property each : properties.values()){ 
+if(each.settableTypes.size() == 0){
+	continue;
+}
+%>
 		<%= isFirst ? "if" : "else if" %> (propertyName.equalsIgnoreCase("<%=each.propertyName%>")){
 			set<%=each.propertyName%>Switch.setProperty(widget, (<%=each.propertyType.getSimpleName() %>)value);
 		}
 		<% isFirst = false; %>
 <%}%>	
 	}
-<% for(Property each : properties.values()){ %>
+<% for(Property each : properties.values()){%>
+<% if(each.gettableTypes.size() > 0) {%>
 	public static <%=each.propertyType.getSimpleName()%> get<%=each.propertyName%>(Widget widget){
 		return get<%=each.propertyName%>Switch.getProperty(widget);
 	}
+<% } %>
+<% if(each.settableTypes.size() > 0) { %>
 	public static void set<%=each.propertyName%>(Widget widget, <%=each.propertyType.getSimpleName()%> value){
 		set<%=each.propertyName%>Switch.setProperty(widget, value);
 	}
-<%}%>	
+<% } %>
+<% } %>	
 
 	public static Class<?>getPropertyType(String propertyName){
 		PropertyEntry entry = map.get(propertyName.trim().toLowerCase());
