@@ -87,7 +87,7 @@ public class GenerateAdvanced {
 		}
 
 		PropertySwitchGenerator psGenerator = new PropertySwitchGenerator();
-		File psFile = new File(utilFolder, "PropertySwitch.java");
+		File psFile = new File(utilFolder, "WidgetPropertySwitch.java");
 		write(psGenerator.generate(properties), new FileOutputStream(psFile));
 	}
 
