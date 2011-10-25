@@ -10,11 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.swt.graphics.Image;
 
 
 /*

@@ -10,11 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Menu;
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+import org.eclipse.swt.widgets.MenuItem;
 
 
 /*

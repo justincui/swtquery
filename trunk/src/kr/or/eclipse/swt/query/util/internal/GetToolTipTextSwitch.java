@@ -10,18 +10,18 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.TrayItem;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TableColumn;
+import java.lang.String;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.custom.CLabel;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
 
 
 /*

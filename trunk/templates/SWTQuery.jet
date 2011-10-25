@@ -13,6 +13,7 @@ package kr.or.eclipse.swt.query;
 <% GenUtil.startImport();
 GenUtil.addImportStatement(ArrayList.class);
 GenUtil.addImportStatement(List.class);
+GenUtil.addImportStatement(Map.class);
 GenUtil.addImportStatement(IWidgetFilter.class);
 GenUtil.addImportStatement(ChildrenSwitch.class);
 GenUtil.addImportStatement(ParentSwitch.class);
@@ -206,16 +207,46 @@ public final class SWTQuery {
 		});
 		return this;
 	}
+	
+	public SWTQuery addProperties(Map<String, Object> wClass) {
+		for (String each : wClass.keySet()) {
+			for (Widget item : items) {
+				WidgetPropertySwitch.setProperty(item, each, wClass.get(each));
+			}
+		}
+		return this;
+	}
 
 <% for(Property each : properties){ %>
-	
+	/**
+	 * Sets a <%=each.propertyName%>.
+	 * supported by:
+	 * <ul>
+<% for(Class<?> eachWidgetType : each.types){ %>
+	 * <li><%=eachWidgetType.getSimpleName()%></li>
+<% } %>	 
+	 * </ul>
+	 * 
+	 * @param value	 a <%=each.propertyName%>.
+	 */
 	public SWTQuery set<%=each.propertyName%>(<%=each.propertyType.getSimpleName()%> value){
 		for(Widget each : items){
 			WidgetPropertySwitch.set<%=each.propertyName%>(each, value);
 		}
 		return this;
 	}
-	
+
+	/**
+	 * Gets a <%=each.propertyName%>.
+	 * supported by:
+	 * <ul>
+<% for(Class<?> eachWidgetType : each.types){ %>
+	 * <li><%=eachWidgetType.getSimpleName()%></li>
+<% } %>	 
+	 * </ul>
+	 * 
+	 * @return value	 a <%=each.propertyName%>.
+	 */	
 	public <%=each.propertyType.getSimpleName()%> get<%=each.propertyName%>(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.get<%=each.propertyName%>(items.get(0));

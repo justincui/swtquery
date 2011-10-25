@@ -114,43 +114,82 @@ public class SelectorSegment {
 		}
 
 		for (AttributeFilter eachAttr : attributeFilters) {
-			String attributeName = eachAttr.getAttributeName();
-			AttributeOperator operator = eachAttr.getOperator();
-			Class<?> type = WidgetPropertySwitch.getPropertyType(attributeName);
-			if (type == null) {
-				throw new IllegalArgumentException(attributeName + " proerty is not exist.");
-			} else if (type != String.class) {
-				throw new IllegalArgumentException(attributeName + " proerty is not an java.lang.String property.");
-			}
-			String supectedValue = eachAttr.getValue();
-			for (Widget each : children.toArray(new Widget[children.size()])) {
-				String actualValue = WidgetPropertySwitch.getProperty(each, attributeName);
-				if (actualValue == null) {
-					actualValue = "";
-				}
-
-				switch (operator) {
-				case CONTAINS:
-					if (!actualValue.contains(supectedValue)) {
-						children.remove(each);
-					}
-					break;
-
-				case EQUALS:
-					if (!actualValue.equals(supectedValue)) {
-						children.remove(each);
-					}
-					break;
-					
-				case NOT_EQUALS:
-					if (actualValue.equals(supectedValue)) {
-						children.remove(each);
-					}
-					break;
-				}
-			}
+			if (eachAttr.getAttributeName().toLowerCase().startsWith("data-")) {
+				filterByData(children, eachAttr);
+			} else
+				filterByAttribute(children, eachAttr);
 		}
 
 		return children;
+	}
+
+	private void filterByData(List<Widget> children, AttributeFilter eachAttr) {
+		String attributeName = eachAttr.getAttributeName();
+		String dataKey = attributeName.substring(attributeName.indexOf('-') + 1);
+
+		AttributeOperator operator = eachAttr.getOperator();
+		String supectedValue = eachAttr.getValue();
+
+		for (Widget each : children.toArray(new Widget[children.size()])) {
+			Object acutualDataObject = each.getData(dataKey);
+			String actualValue = acutualDataObject != null ? acutualDataObject.toString() : "";
+
+			switch (operator) {
+			case CONTAINS:
+				if (!actualValue.contains(supectedValue)) {
+					children.remove(each);
+				}
+				break;
+
+			case EQUALS:
+				if (!actualValue.equals(supectedValue)) {
+					children.remove(each);
+				}
+				break;
+
+			case NOT_EQUALS:
+				if (actualValue.equals(supectedValue)) {
+					children.remove(each);
+				}
+				break;
+			}
+		}
+	}
+
+	private void filterByAttribute(List<Widget> children, AttributeFilter eachAttr) {
+		String attributeName = eachAttr.getAttributeName();
+		AttributeOperator operator = eachAttr.getOperator();
+		Class<?> type = WidgetPropertySwitch.getPropertyType(attributeName);
+		if (type == null) {
+			throw new IllegalArgumentException(attributeName + " proerty is not exist.");
+		}
+		String supectedValue = eachAttr.getValue();
+
+		for (Widget each : children.toArray(new Widget[children.size()])) {
+			String actualValue = WidgetPropertySwitch.getProperty(each, attributeName);
+			if (actualValue == null) {
+				actualValue = "";
+			}
+
+			switch (operator) {
+			case CONTAINS:
+				if (!actualValue.contains(supectedValue)) {
+					children.remove(each);
+				}
+				break;
+
+			case EQUALS:
+				if (!actualValue.equals(supectedValue)) {
+					children.remove(each);
+				}
+				break;
+
+			case NOT_EQUALS:
+				if (actualValue.equals(supectedValue)) {
+					children.remove(each);
+				}
+				break;
+			}
+		}
 	}
 }

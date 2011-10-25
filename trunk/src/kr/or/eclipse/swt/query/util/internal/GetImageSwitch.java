@@ -10,21 +10,20 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Caret;
-import org.eclipse.swt.widgets.Decorations;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Decorations;
+import org.eclipse.swt.widgets.Caret;
+import org.eclipse.ui.forms.widgets.Form;
 
 
 /*

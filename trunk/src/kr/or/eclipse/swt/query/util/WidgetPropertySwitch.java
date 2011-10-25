@@ -10,37 +10,39 @@
 
 package kr.or.eclipse.swt.query.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
+import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.internal.*;
-
+import org.eclipse.ui.forms.widgets.FormText;
+import java.lang.Boolean;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.custom.CTabFolderRenderer;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.dnd.DragSourceEffect;
-import org.eclipse.swt.dnd.DropTargetEffect;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.graphics.Region;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Caret;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.IME;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
+import java.lang.Character;
 import org.eclipse.swt.widgets.ToolTip;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.dnd.DropTargetEffect;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.forms.HyperlinkSettings;
-import org.eclipse.ui.forms.widgets.FormText;
+import java.lang.Object;
+import org.eclipse.swt.widgets.Layout;
+import java.lang.Integer;
+import java.lang.String;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.dnd.DragSourceEffect;
+import org.eclipse.swt.widgets.IME;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.widgets.MenuItem;
 
 
 /*

@@ -10,14 +10,14 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
-import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.Spinner;
+import java.lang.Integer;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.ScrollBar;
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+import org.eclipse.swt.widgets.Slider;
+import org.eclipse.swt.widgets.Scale;
 
 
 /*

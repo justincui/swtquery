@@ -10,12 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.ViewForm;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.custom.ViewForm;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+import org.eclipse.swt.custom.CTabFolder;
 
 
 /*

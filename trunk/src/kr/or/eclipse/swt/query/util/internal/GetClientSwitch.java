@@ -10,10 +10,9 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Control;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
 

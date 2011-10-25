@@ -10,14 +10,14 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.custom.CCombo;
+import java.lang.Integer;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Spinner;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Text;
 
 
 /*

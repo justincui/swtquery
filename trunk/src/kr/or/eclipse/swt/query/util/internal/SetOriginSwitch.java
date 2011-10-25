@@ -11,10 +11,9 @@
 package kr.or.eclipse.swt.query.util.internal;
 
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.graphics.Point;
 
 
 /*
