@@ -10,10 +10,9 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
 
 
 /*

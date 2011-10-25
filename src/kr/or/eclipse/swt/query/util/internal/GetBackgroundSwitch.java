@@ -10,15 +10,14 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.custom.TableCursor;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.custom.TableCursor;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
 
 
 /*

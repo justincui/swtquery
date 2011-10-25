@@ -11,8 +11,8 @@
 package kr.or.eclipse.swt.query.util.internal;
 
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
 import org.eclipse.swt.browser.Browser;
+import java.lang.String;
 import org.eclipse.swt.widgets.Widget;
 
 

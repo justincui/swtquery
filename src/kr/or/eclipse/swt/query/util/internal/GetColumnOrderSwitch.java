@@ -10,11 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+import org.eclipse.swt.widgets.Table;
 
 
 /*

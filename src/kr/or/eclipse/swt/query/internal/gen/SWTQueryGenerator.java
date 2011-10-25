@@ -26,16 +26,26 @@ public class SWTQueryGenerator
   protected final String TEXT_3 = NL + "package kr.or.eclipse.swt.query;" + NL;
   protected final String TEXT_4 = NL + "import org.eclipse.swt.layout.*;" + NL + "import org.eclipse.swt.widgets.*;" + NL + "import org.eclipse.swt.*;" + NL;
   protected final String TEXT_5 = NL;
-  protected final String TEXT_6 = NL + NL + "public final class SWTQuery {" + NL + "" + NL + "\tpublic static SWTQuery $(Widget w) {" + NL + "\t\treturn new SWTQuery(w);" + NL + "\t}" + NL + "\t" + NL + "\tpublic static SWTQuery $(Event event) {" + NL + "\t\treturn new SWTQuery(event.widget);" + NL + "\t}" + NL + "\t" + NL + "\tpublic static SWTQuery $(Widget context, String selector) {" + NL + "\t\treturn new SWTQuery(context).select(selector);" + NL + "\t}" + NL + "\t" + NL + "\tprivate List<Widget> items;" + NL + "" + NL + "\tpublic SWTQuery(List<Widget> itemList) {" + NL + "\t\tthis.items = itemList;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery(Widget... items) {" + NL + "\t\tthis.items = new ArrayList<Widget>();" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\tthis.items.add(each);" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery setGridLayoutData(int style) {" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\tWidgetPropertySwitch.setLayoutData(each, new GridData(style));" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery setGridLayoutData(int horizontalAlignment, int verticalAlignment, boolean grabExcessHorizontalSpace," + NL + "\t\t\tboolean grabExcessVerticalSpace, int horizontalSpan, int verticalSpan) {" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\tWidgetPropertySwitch.setLayoutData(each, new GridData(horizontalAlignment, verticalAlignment," + NL + "\t\t\t\t\tgrabExcessHorizontalSpace, grabExcessVerticalSpace, horizontalSpan, verticalSpan));" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery select(String selector) {" + NL + "\t\tList<Selector> selectors = SelectorInterpreter.build(selector);" + NL + "" + NL + "\t\tList<Widget> result = new UniqueList<Widget>();" + NL + "\t\tfor (Selector each : selectors) {" + NL + "\t\t\tresult.addAll(each.select(items));" + NL + "\t\t}" + NL + "\t\treturn new SWTQuery(result);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery addListener(int eventType, Listener listener) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\teach.addListener(eventType, listener);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery each(IWidgetFunction f) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tf.doFunction(each);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\t@SuppressWarnings(\"unchecked\")" + NL + "\tpublic <T> T getData(String key) {" + NL + "\t\tif (items.size() > 0) {" + NL + "\t\t\treturn (T) items.get(0).getData(key);" + NL + "\t\t} else {" + NL + "\t\t\treturn null;" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery layout() {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Composite) {" + NL + "\t\t\t\t((Composite) each).layout();" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery layout(boolean changed) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Composite) {" + NL + "\t\t\t\t((Composite) each).layout(changed);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery layout(boolean changed, boolean all) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Composite) {" + NL + "\t\t\t\t((Composite) each).layout(changed, all);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery next() {" + NL + "\t\treturn next(1);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery next(int delta) {" + NL + "\t\treturn translate(delta);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery parent() {" + NL + "\t\tArrayList<Widget> parents = new ArrayList<Widget>();" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tWidget eachParent = ParentSwitch.INSTANCE.doSwitch(each);" + NL + "\t\t\tif (eachParent != null) {" + NL + "\t\t\t\tparents.add(eachParent);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn parent();" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery prev() {" + NL + "\t\treturn prev(-1);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery prev(int delta) {" + NL + "\t\treturn translate(delta);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery redraw() {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Control) {" + NL + "\t\t\t\t((Control) each).redraw();" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery setData(String key, Object data) {" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\teach.setData(key, data);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tprivate SWTQuery translate(int delta) {" + NL + "\t\tArrayList<Widget> result = new ArrayList<Widget>();" + NL + "" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tWidget parent = ParentSwitch.INSTANCE.doSwitch(each);" + NL + "\t\t\tif (parent == null) {" + NL + "\t\t\t\tcontinue;" + NL + "\t\t\t}" + NL + "\t\t\tList<Widget> sibilings = ChildrenSwitch.INSTANCE.doSwitch(parent);" + NL + "\t\t\tint index = sibilings.indexOf(each);" + NL + "" + NL + "\t\t\tint newIndex = index + delta;" + NL + "\t\t\tif (newIndex >= 0 && newIndex < sibilings.size()) {" + NL + "\t\t\t\tresult.add(sibilings.get(newIndex));" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "" + NL + "\t\treturn new SWTQuery(result);" + NL + "\t}" + NL + "\t" + NL + "\tpublic SWTQuery schedule(final IWidgetFunction function) {" + NL + "\t\tDisplay.getCurrent().asyncExec(new Runnable() {" + NL + "\t\t\t@Override" + NL + "\t\t\tpublic void run() {" + NL + "\t\t\t\tSWTQuery.this.each(function);" + NL + "\t\t\t}" + NL + "\t\t});" + NL + "\t\treturn this;" + NL + "\t}" + NL;
-  protected final String TEXT_7 = NL + "\t" + NL + "\tpublic SWTQuery set";
-  protected final String TEXT_8 = "(";
-  protected final String TEXT_9 = " value){" + NL + "\t\tfor(Widget each : items){" + NL + "\t\t\tWidgetPropertySwitch.set";
-  protected final String TEXT_10 = "(each, value);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "\t" + NL + "\tpublic ";
-  protected final String TEXT_11 = " get";
-  protected final String TEXT_12 = "(){" + NL + "\t\tif(items.size() > 0){" + NL + "\t\t\treturn WidgetPropertySwitch.get";
-  protected final String TEXT_13 = "(items.get(0));" + NL + "\t\t}" + NL + "\t\telse{" + NL + "\t\t\treturn null;" + NL + "\t\t}" + NL + "\t}";
-  protected final String TEXT_14 = NL + NL + "}";
-  protected final String TEXT_15 = NL;
+  protected final String TEXT_6 = NL + NL + "public final class SWTQuery {" + NL + "" + NL + "\tpublic static SWTQuery $(Widget w) {" + NL + "\t\treturn new SWTQuery(w);" + NL + "\t}" + NL + "\t" + NL + "\tpublic static SWTQuery $(Event event) {" + NL + "\t\treturn new SWTQuery(event.widget);" + NL + "\t}" + NL + "\t" + NL + "\tpublic static SWTQuery $(Widget context, String selector) {" + NL + "\t\treturn new SWTQuery(context).select(selector);" + NL + "\t}" + NL + "\t" + NL + "\tprivate List<Widget> items;" + NL + "" + NL + "\tpublic SWTQuery(List<Widget> itemList) {" + NL + "\t\tthis.items = itemList;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery(Widget... items) {" + NL + "\t\tthis.items = new ArrayList<Widget>();" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\tthis.items.add(each);" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery setGridLayoutData(int style) {" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\tWidgetPropertySwitch.setLayoutData(each, new GridData(style));" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery setGridLayoutData(int horizontalAlignment, int verticalAlignment, boolean grabExcessHorizontalSpace," + NL + "\t\t\tboolean grabExcessVerticalSpace, int horizontalSpan, int verticalSpan) {" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\tWidgetPropertySwitch.setLayoutData(each, new GridData(horizontalAlignment, verticalAlignment," + NL + "\t\t\t\t\tgrabExcessHorizontalSpace, grabExcessVerticalSpace, horizontalSpan, verticalSpan));" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery select(String selector) {" + NL + "\t\tList<Selector> selectors = SelectorInterpreter.build(selector);" + NL + "" + NL + "\t\tList<Widget> result = new UniqueList<Widget>();" + NL + "\t\tfor (Selector each : selectors) {" + NL + "\t\t\tresult.addAll(each.select(items));" + NL + "\t\t}" + NL + "\t\treturn new SWTQuery(result);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery addListener(int eventType, Listener listener) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\teach.addListener(eventType, listener);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery each(IWidgetFunction f) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tf.doFunction(each);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\t@SuppressWarnings(\"unchecked\")" + NL + "\tpublic <T> T getData(String key) {" + NL + "\t\tif (items.size() > 0) {" + NL + "\t\t\treturn (T) items.get(0).getData(key);" + NL + "\t\t} else {" + NL + "\t\t\treturn null;" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery layout() {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Composite) {" + NL + "\t\t\t\t((Composite) each).layout();" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery layout(boolean changed) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Composite) {" + NL + "\t\t\t\t((Composite) each).layout(changed);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery layout(boolean changed, boolean all) {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Composite) {" + NL + "\t\t\t\t((Composite) each).layout(changed, all);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery next() {" + NL + "\t\treturn next(1);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery next(int delta) {" + NL + "\t\treturn translate(delta);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery parent() {" + NL + "\t\tArrayList<Widget> parents = new ArrayList<Widget>();" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tWidget eachParent = ParentSwitch.INSTANCE.doSwitch(each);" + NL + "\t\t\tif (eachParent != null) {" + NL + "\t\t\t\tparents.add(eachParent);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn parent();" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery prev() {" + NL + "\t\treturn prev(-1);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery prev(int delta) {" + NL + "\t\treturn translate(delta);" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery redraw() {" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tif (each instanceof Control) {" + NL + "\t\t\t\t((Control) each).redraw();" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tpublic SWTQuery setData(String key, Object data) {" + NL + "\t\tfor (Widget each : items) {" + NL + "\t\t\teach.setData(key, data);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\tprivate SWTQuery translate(int delta) {" + NL + "\t\tArrayList<Widget> result = new ArrayList<Widget>();" + NL + "" + NL + "\t\tfor (Widget each : this.items) {" + NL + "\t\t\tWidget parent = ParentSwitch.INSTANCE.doSwitch(each);" + NL + "\t\t\tif (parent == null) {" + NL + "\t\t\t\tcontinue;" + NL + "\t\t\t}" + NL + "\t\t\tList<Widget> sibilings = ChildrenSwitch.INSTANCE.doSwitch(parent);" + NL + "\t\t\tint index = sibilings.indexOf(each);" + NL + "" + NL + "\t\t\tint newIndex = index + delta;" + NL + "\t\t\tif (newIndex >= 0 && newIndex < sibilings.size()) {" + NL + "\t\t\t\tresult.add(sibilings.get(newIndex));" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "" + NL + "\t\treturn new SWTQuery(result);" + NL + "\t}" + NL + "\t" + NL + "\tpublic SWTQuery schedule(final IWidgetFunction function) {" + NL + "\t\tDisplay.getCurrent().asyncExec(new Runnable() {" + NL + "\t\t\t@Override" + NL + "\t\t\tpublic void run() {" + NL + "\t\t\t\tSWTQuery.this.each(function);" + NL + "\t\t\t}" + NL + "\t\t});" + NL + "\t\treturn this;" + NL + "\t}" + NL + "\t" + NL + "\tpublic SWTQuery addProperties(Map<String, Object> wClass) {" + NL + "\t\tfor (String each : wClass.keySet()) {" + NL + "\t\t\tfor (Widget item : items) {" + NL + "\t\t\t\tWidgetPropertySwitch.setProperty(item, each, wClass.get(each));" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL;
+  protected final String TEXT_7 = NL + "\t/**" + NL + "\t * Sets a ";
+  protected final String TEXT_8 = "." + NL + "\t * supported by:" + NL + "\t * <ul>";
+  protected final String TEXT_9 = NL + "\t * <li>";
+  protected final String TEXT_10 = "</li>";
+  protected final String TEXT_11 = "\t " + NL + "\t * </ul>" + NL + "\t * " + NL + "\t * @param value\t a ";
+  protected final String TEXT_12 = "." + NL + "\t */" + NL + "\tpublic SWTQuery set";
+  protected final String TEXT_13 = "(";
+  protected final String TEXT_14 = " value){" + NL + "\t\tfor(Widget each : items){" + NL + "\t\t\tWidgetPropertySwitch.set";
+  protected final String TEXT_15 = "(each, value);" + NL + "\t\t}" + NL + "\t\treturn this;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Gets a ";
+  protected final String TEXT_16 = "." + NL + "\t * supported by:" + NL + "\t * <ul>";
+  protected final String TEXT_17 = NL + "\t * <li>";
+  protected final String TEXT_18 = "</li>";
+  protected final String TEXT_19 = "\t " + NL + "\t * </ul>" + NL + "\t * " + NL + "\t * @return value\t a ";
+  protected final String TEXT_20 = "." + NL + "\t */\t" + NL + "\tpublic ";
+  protected final String TEXT_21 = " get";
+  protected final String TEXT_22 = "(){" + NL + "\t\tif(items.size() > 0){" + NL + "\t\t\treturn WidgetPropertySwitch.get";
+  protected final String TEXT_23 = "(items.get(0));" + NL + "\t\t}" + NL + "\t\telse{" + NL + "\t\t\treturn null;" + NL + "\t\t}" + NL + "\t}";
+  protected final String TEXT_24 = NL + NL + "}";
+  protected final String TEXT_25 = NL;
 
   public String generate(Object argument)
   {
@@ -50,6 +60,7 @@ Collection<Property> properties = (Collection<Property>)argument;
      GenUtil.startImport();
 GenUtil.addImportStatement(ArrayList.class);
 GenUtil.addImportStatement(List.class);
+GenUtil.addImportStatement(Map.class);
 GenUtil.addImportStatement(IWidgetFilter.class);
 GenUtil.addImportStatement(ChildrenSwitch.class);
 GenUtil.addImportStatement(ParentSwitch.class);
@@ -70,19 +81,39 @@ for(Property each : properties){
     stringBuffer.append(TEXT_7);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_8);
-    stringBuffer.append(each.propertyType.getSimpleName());
+     for(Class<?> eachWidgetType : each.types){ 
     stringBuffer.append(TEXT_9);
-    stringBuffer.append(each.propertyName);
+    stringBuffer.append(eachWidgetType.getSimpleName());
     stringBuffer.append(TEXT_10);
-    stringBuffer.append(each.propertyType.getSimpleName());
+     } 
     stringBuffer.append(TEXT_11);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_12);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_13);
-     } 
+    stringBuffer.append(each.propertyType.getSimpleName());
     stringBuffer.append(TEXT_14);
+    stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_15);
+    stringBuffer.append(each.propertyName);
+    stringBuffer.append(TEXT_16);
+     for(Class<?> eachWidgetType : each.types){ 
+    stringBuffer.append(TEXT_17);
+    stringBuffer.append(eachWidgetType.getSimpleName());
+    stringBuffer.append(TEXT_18);
+     } 
+    stringBuffer.append(TEXT_19);
+    stringBuffer.append(each.propertyName);
+    stringBuffer.append(TEXT_20);
+    stringBuffer.append(each.propertyType.getSimpleName());
+    stringBuffer.append(TEXT_21);
+    stringBuffer.append(each.propertyName);
+    stringBuffer.append(TEXT_22);
+    stringBuffer.append(each.propertyName);
+    stringBuffer.append(TEXT_23);
+     } 
+    stringBuffer.append(TEXT_24);
+    stringBuffer.append(TEXT_25);
     return stringBuffer.toString();
   }
 }

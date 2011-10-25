@@ -10,12 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
 import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.dnd.Transfer;
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
 
 
 /*

@@ -10,12 +10,12 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.custom.CCombo;
+import java.lang.Boolean;
 import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+import org.eclipse.swt.widgets.Text;
 
 
 /*

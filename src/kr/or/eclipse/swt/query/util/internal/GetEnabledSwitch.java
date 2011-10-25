@@ -10,16 +10,16 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Shell;
+import java.lang.Boolean;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.swt.widgets.Widget;
 
 
 /*

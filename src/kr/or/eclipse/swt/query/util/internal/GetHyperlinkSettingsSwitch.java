@@ -10,11 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
-
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.forms.HyperlinkSettings;
 import org.eclipse.ui.forms.widgets.FormText;
+import org.eclipse.ui.forms.HyperlinkSettings;
+import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
 
 
 /*

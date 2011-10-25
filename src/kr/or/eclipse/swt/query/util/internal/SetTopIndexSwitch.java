@@ -10,13 +10,13 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.Text;
+import java.lang.Integer;
 import org.eclipse.swt.widgets.Widget;
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Table;
 
 
 /*

@@ -10,10 +10,9 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
-import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.widgets.Widget;
 
 

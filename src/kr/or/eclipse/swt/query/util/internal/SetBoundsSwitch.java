@@ -11,13 +11,12 @@
 package kr.or.eclipse.swt.query.util.internal;
 
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Caret;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Decorations;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.graphics.Rectangle;
 
 
 /*
