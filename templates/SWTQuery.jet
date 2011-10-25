@@ -1,0 +1,219 @@
+<%@ jet
+    package="kr.or.eclipse.swt.query.internal.gen"
+    class="SWTQueryGenerator" 
+    imports="java.util.* org.eclipse.swt.* kr.or.eclipse.swt.query.* kr.or.eclipse.swt.query.internal.grammar.* kr.or.eclipse.swt.query.internal.gen.* kr.or.eclipse.swt.query.filter.* kr.or.eclipse.swt.query.internal.* kr.or.eclipse.swt.query.util.*"
+    %>
+<%@ include file="copyright.txt" %>
+<% 
+@SuppressWarnings("unchecked")
+Collection<Property> properties = (Collection<Property>)argument; 
+%>
+package kr.or.eclipse.swt.query;
+
+<% GenUtil.startImport();
+GenUtil.addImportStatement(ArrayList.class);
+GenUtil.addImportStatement(List.class);
+GenUtil.addImportStatement(IWidgetFilter.class);
+GenUtil.addImportStatement(ChildrenSwitch.class);
+GenUtil.addImportStatement(ParentSwitch.class);
+GenUtil.addImportStatement(WidgetPropertySwitch.class);
+GenUtil.addImportStatement(UniqueList.class);
+GenUtil.addImportStatement(Selector.class);
+GenUtil.addImportStatement(SelectorInterpreter.class);
+
+for(Property each : properties){
+	GenUtil.addImportStatement(each.propertyType);
+}
+%>
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.*;
+
+<%=GenUtil.endImport()%>
+
+public final class SWTQuery {
+
+	public static SWTQuery $(Widget w) {
+		return new SWTQuery(w);
+	}
+	
+	public static SWTQuery $(Event event) {
+		return new SWTQuery(event.widget);
+	}
+	
+	public static SWTQuery $(Widget context, String selector) {
+		return new SWTQuery(context).select(selector);
+	}
+	
+	private List<Widget> items;
+
+	public SWTQuery(List<Widget> itemList) {
+		this.items = itemList;
+	}
+
+	public SWTQuery(Widget... items) {
+		this.items = new ArrayList<Widget>();
+		for (Widget each : items) {
+			this.items.add(each);
+		}
+	}
+
+	public SWTQuery setGridLayoutData(int style) {
+		for (Widget each : items) {
+			WidgetPropertySwitch.setLayoutData(each, new GridData(style));
+		}
+		return this;
+	}
+
+	public SWTQuery setGridLayoutData(int horizontalAlignment, int verticalAlignment, boolean grabExcessHorizontalSpace,
+			boolean grabExcessVerticalSpace, int horizontalSpan, int verticalSpan) {
+		for (Widget each : items) {
+			WidgetPropertySwitch.setLayoutData(each, new GridData(horizontalAlignment, verticalAlignment,
+					grabExcessHorizontalSpace, grabExcessVerticalSpace, horizontalSpan, verticalSpan));
+		}
+		return this;
+	}
+
+	public SWTQuery select(String selector) {
+		List<Selector> selectors = SelectorInterpreter.build(selector);
+
+		List<Widget> result = new UniqueList<Widget>();
+		for (Selector each : selectors) {
+			result.addAll(each.select(items));
+		}
+		return new SWTQuery(result);
+	}
+
+	public SWTQuery addListener(int eventType, Listener listener) {
+		for (Widget each : this.items) {
+			each.addListener(eventType, listener);
+		}
+		return this;
+	}
+
+	public SWTQuery each(IWidgetFunction f) {
+		for (Widget each : this.items) {
+			f.doFunction(each);
+		}
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getData(String key) {
+		if (items.size() > 0) {
+			return (T) items.get(0).getData(key);
+		} else {
+			return null;
+		}
+	}
+
+	public SWTQuery layout() {
+		for (Widget each : this.items) {
+			if (each instanceof Composite) {
+				((Composite) each).layout();
+			}
+		}
+		return this;
+	}
+
+	public SWTQuery layout(boolean changed) {
+		for (Widget each : this.items) {
+			if (each instanceof Composite) {
+				((Composite) each).layout(changed);
+			}
+		}
+		return this;
+	}
+
+	public SWTQuery layout(boolean changed, boolean all) {
+		for (Widget each : this.items) {
+			if (each instanceof Composite) {
+				((Composite) each).layout(changed, all);
+			}
+		}
+		return this;
+	}
+
+	public SWTQuery next() {
+		return next(1);
+	}
+
+	public SWTQuery next(int delta) {
+		return translate(delta);
+	}
+
+	public SWTQuery parent() {
+		ArrayList<Widget> parents = new ArrayList<Widget>();
+		for (Widget each : this.items) {
+			Widget eachParent = ParentSwitch.INSTANCE.doSwitch(each);
+			if (eachParent != null) {
+				parents.add(eachParent);
+			}
+		}
+		return parent();
+	}
+
+	public SWTQuery prev() {
+		return prev(-1);
+	}
+
+	public SWTQuery prev(int delta) {
+		return translate(delta);
+	}
+
+	public SWTQuery redraw() {
+		for (Widget each : this.items) {
+			if (each instanceof Control) {
+				((Control) each).redraw();
+			}
+		}
+		return this;
+	}
+
+	public SWTQuery setData(String key, Object data) {
+		for (Widget each : items) {
+			each.setData(key, data);
+		}
+		return this;
+	}
+
+	private SWTQuery translate(int delta) {
+		ArrayList<Widget> result = new ArrayList<Widget>();
+
+		for (Widget each : this.items) {
+			Widget parent = ParentSwitch.INSTANCE.doSwitch(each);
+			if (parent == null) {
+				continue;
+			}
+			List<Widget> sibilings = ChildrenSwitch.INSTANCE.doSwitch(parent);
+			int index = sibilings.indexOf(each);
+
+			int newIndex = index + delta;
+			if (newIndex >= 0 && newIndex < sibilings.size()) {
+				result.add(sibilings.get(newIndex));
+			}
+		}
+
+		return new SWTQuery(result);
+	}
+
+<% for(Property each : properties){ %>
+	
+	public SWTQuery set<%=each.propertyName%>(<%=each.propertyType.getSimpleName()%> value){
+		for(Widget each : items){
+			WidgetPropertySwitch.set<%=each.propertyName%>(each, value);
+		}
+		return this;
+	}
+	
+	public <%=each.propertyType.getSimpleName()%> get<%=each.propertyName%>(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.get<%=each.propertyName%>(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+<% } %>
+
+}

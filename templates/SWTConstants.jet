@@ -8,6 +8,7 @@
 package kr.or.eclipse.swt.query.util;
 
 import java.util.*;
+import org.eclipse.swt.SWT;
 
 <%@ include file="generation-header.txt" %>
 public class SWTConstants{
@@ -30,7 +31,16 @@ public class SWTConstants{
 		map.put("<%=eachField.getName().toLowerCase().replace("_", "")%>", <%=eachValue%>);
 <% } %>
 	}
-	
+
+	/**
+	 * Converts string contains SWT constant name to int value.
+	 * 
+	 * @param constantName
+	 *        SWT constant name.
+	 * @return flag value for constant name.
+	 * 
+	 * @see SWT
+	 */	
 	public static int toInt(String constantName){
 		if(constantName == null){
 			throw new IllegalArgumentException("constantName can not be null.");

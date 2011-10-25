@@ -5,6 +5,13 @@ public class AttributeFilter {
 	private String value;
 	private AttributeOperator operator;
 
+	public AttributeFilter(AttributeOperator operator, String attributeName, String value) {
+		super();
+		this.operator = operator;
+		this.attributeName = attributeName;
+		this.value = value;
+	}
+
 	public String getAttributeName() {
 		return attributeName;
 	}
@@ -31,8 +38,7 @@ public class AttributeFilter {
 
 	@Override
 	public String toString() {
-		return "AttributeFilter [attributeName=" + attributeName
-				+ ", operator=" + operator + ", value=" + value + "]";
+		return "AttributeFilter [attributeName=" + attributeName + ", operator=" + operator + ", value=" + value + "]";
 	}
 
 }

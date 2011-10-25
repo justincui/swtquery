@@ -12,6 +12,7 @@ Map<String, Property> properties = (Map<String, Property>)argument;
 package kr.or.eclipse.swt.query.util;
 
 <% GenUtil.startImport(); %>
+import java.util.*;
 import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.internal.*;
 <% for(Property each : properties.values()){ %>
@@ -21,12 +22,30 @@ import kr.or.eclipse.swt.query.util.internal.*;
 
 <%@ include file="generation-header.txt" %>
 public class WidgetPropertySwitch{
+	private static final Map<String, PropertyEntry> map = new HashMap();
+	
+	private static class PropertyEntry{
+		public String name;
+		public Class<?> type;
+		
+		public PropertyEntry(String name, Class<?> type){
+			this.name = name.trim().toLowerCase();
+			this.type = type;
+		}
+	}
+	
+	static{
+<%for(Property each : properties.values()){ %>
+		map.put("<%=each.propertyName.trim().toLowerCase()%>", new PropertyEntry("<%=each.propertyName%>", <%=each.propertyType.getSimpleName()%>.class));
+<%}%>	
+	}
+
 <% for(String eachKey : properties.keySet()){ %>
-	private Get<%=eachKey%>Switch get<%=eachKey%>Switch = new Get<%=eachKey%>Switch();
-	private Set<%=eachKey%>Switch set<%=eachKey%>Switch = new Set<%=eachKey%>Switch();
+	private static final Get<%=eachKey%>Switch get<%=eachKey%>Switch = new Get<%=eachKey%>Switch();
+	private static final Set<%=eachKey%>Switch set<%=eachKey%>Switch = new Set<%=eachKey%>Switch();
 <%}%>
 	@SuppressWarnings("unchecked")
-	public <T> T getProperty(Widget widget, String propertyName){
+	public static <T> T getProperty(Widget widget, String propertyName){
 <% boolean isFirst = true;
 for(Property each : properties.values()){ %>
 		<%= isFirst ? "if" : "else if" %> (propertyName.equalsIgnoreCase("<%=each.propertyName%>")){
@@ -37,7 +56,7 @@ for(Property each : properties.values()){ %>
 		return null;
 	}
 	
-	public void setProperty(Widget widget, String propertyName, Object value){
+	public static void setProperty(Widget widget, String propertyName, Object value){
 <% isFirst = true;
 for(Property each : properties.values()){ %>
 		<%= isFirst ? "if" : "else if" %> (propertyName.equalsIgnoreCase("<%=each.propertyName%>")){
@@ -47,11 +66,23 @@ for(Property each : properties.values()){ %>
 <%}%>	
 	}
 <% for(Property each : properties.values()){ %>
-	public <%=each.propertyType.getSimpleName()%> get<%=each.propertyName%>(Widget widget){
+	public static <%=each.propertyType.getSimpleName()%> get<%=each.propertyName%>(Widget widget){
 		return get<%=each.propertyName%>Switch.getProperty(widget);
 	}
-	public void set<%=each.propertyName%>(Widget widget, <%=each.propertyType.getSimpleName()%> value){
+	public static void set<%=each.propertyName%>(Widget widget, <%=each.propertyType.getSimpleName()%> value){
 		set<%=each.propertyName%>Switch.setProperty(widget, value);
 	}
 <%}%>	
+
+	public static Class<?>getPropertyType(String propertyName){
+		PropertyEntry entry = map.get(propertyName.trim().toLowerCase());
+		if(entry == null){
+			return null;
+		}
+		else{
+			return entry.type;
+		}	
+	}
+
+		
 }
