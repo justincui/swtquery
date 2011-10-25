@@ -20,7 +20,7 @@ import kr.or.eclipse.swt.query.util.internal.*;
 <%= GenUtil.endImport() %>
 
 <%@ include file="generation-header.txt" %>
-public class PropertySwitch{
+public class WidgetPropertySwitch{
 <% for(String eachKey : properties.keySet()){ %>
 	private Get<%=eachKey%>Switch get<%=eachKey%>Switch = new Get<%=eachKey%>Switch();
 	private Set<%=eachKey%>Switch set<%=eachKey%>Switch = new Set<%=eachKey%>Switch();

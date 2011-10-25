@@ -51,7 +51,7 @@ import org.eclipse.swt.widgets.MenuItem;
  *
  * http://code.google.com/p/swtquery/
  */
-public class PropertySwitch{
+public class WidgetPropertySwitch{
 	private GetMaximizedSwitch getMaximizedSwitch = new GetMaximizedSwitch();
 	private SetMaximizedSwitch setMaximizedSwitch = new SetMaximizedSwitch();
 	private GetVisibleSwitch getVisibleSwitch = new GetVisibleSwitch();

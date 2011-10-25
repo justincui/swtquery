@@ -7,7 +7,7 @@ import kr.or.eclipse.swt.query.filter.IWidgetFilter;
 import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
 import kr.or.eclipse.swt.query.internal.ParentSwitch;
 import kr.or.eclipse.swt.query.internal.grammar.FilterBuilder;
-import kr.or.eclipse.swt.query.util.PropertySwitch;
+import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Widget;
 
 public final class SWTQuery {
-	private static final PropertySwitch PROPERTY_SWITCH = new PropertySwitch();
+	private static final WidgetPropertySwitch PROPERTY_SWITCH = new WidgetPropertySwitch();
 
 	public static SWTQuery $(Widget w) {
 		return new SWTQuery(w);
