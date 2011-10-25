@@ -9,72 +9,121 @@
  */
 package kr.or.eclipse.swt.query;
 
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.*;
-import org.eclipse.swt.graphics.GC;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import org.eclipse.ui.forms.widgets.FormText;
-import org.eclipse.swt.widgets.TableItem;
-import java.lang.Boolean;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Monitor;
+import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
+import kr.or.eclipse.swt.query.internal.ParentSwitch;
+import kr.or.eclipse.swt.query.internal.UniqueList;
+import kr.or.eclipse.swt.query.internal.grammar.Selector;
+import kr.or.eclipse.swt.query.internal.grammar.SelectorInterpreter;
+import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
+
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.swt.graphics.Region;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.wizard.ProgressMonitorPart;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.custom.CBanner;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabFolderRenderer;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSourceEffect;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEffect;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import java.lang.Object;
-import java.util.List;
-import java.lang.Integer;
-import org.eclipse.swt.dnd.DND;
-import kr.or.eclipse.swt.query.internal.grammar.Selector;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.Display;
-import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
-import java.util.Map;
-import kr.or.eclipse.swt.query.filter.IWidgetFilter;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.graphics.Color;
-import java.lang.Character;
-import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.graphics.TextStyle;
-import org.eclipse.swt.widgets.Caret;
-import org.eclipse.swt.dnd.DropTargetEffect;
-import org.eclipse.ui.dialogs.PatternFilter;
-import org.eclipse.swt.accessibility.Accessible;
-import org.eclipse.ui.forms.widgets.Form;
-import java.util.ArrayList;
-import org.eclipse.ui.forms.HyperlinkSettings;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.forms.IMessage;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.dnd.DropTarget;
-import java.lang.String;
-import org.eclipse.swt.dnd.DropTargetListener;
-import org.eclipse.ui.forms.IMessageManager;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.dnd.DragSourceListener;
-import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.opengl.GLData;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.dnd.DragSourceEffect;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.CoolItem;
+import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Decorations;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.ExpandItem;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.IME;
-import kr.or.eclipse.swt.query.internal.grammar.SelectorInterpreter;
-import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
-import kr.or.eclipse.swt.query.internal.UniqueList;
-import kr.or.eclipse.swt.query.internal.ParentSwitch;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.ScrollBar;
+import org.eclipse.swt.widgets.Scrollable;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
+import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.swt.widgets.Tracker;
+import org.eclipse.swt.widgets.Tray;
+import org.eclipse.swt.widgets.TrayItem;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.dialogs.FilteredList;
+import org.eclipse.ui.dialogs.FilteredTree;
+import org.eclipse.ui.dialogs.PatternFilter;
+import org.eclipse.ui.forms.HyperlinkSettings;
+import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.forms.IMessageManager;
+import org.eclipse.ui.forms.widgets.AbstractHyperlink;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormText;
+import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.ScrolledFormText;
+import org.eclipse.ui.forms.widgets.ScrolledPageBook;
+import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
+import org.eclipse.ui.forms.widgets.ToggleHyperlink;
 
 
 public final class SWTQuery {
@@ -393,19 +442,6 @@ public final class SWTQuery {
 	public SWTQuery setUnderlined(Boolean value){
 		for(Widget each : items){
 			WidgetPropertySwitch.setUnderlined(each, value);
-		}
-		return this;
-	}
-	/**
-	 * Sets a BackgroundImageClipped property.
-	 * 
-	 * @param value a BackgroundImageClipped value to set.
-	 *
-	 * @see Form	 
-	 */
-	public SWTQuery setBackgroundImageClipped(Boolean value){
-		for(Widget each : items){
-			WidgetPropertySwitch.setBackgroundImageClipped(each, value);
 		}
 		return this;
 	}
@@ -2362,21 +2398,6 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Gets a BackgroundImageClipped property value.
-	 * 
-	 * @return value a BackgroundImageClipped.
-	 *
-	 * @see Form	 
-	 */	
-	public Boolean isBackgroundImageClipped(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getBackgroundImageClipped(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
 	 * Gets a ChildrenMessages property value.
 	 * 
 	 * @return value a ChildrenMessages.
@@ -2493,21 +2514,6 @@ public final class SWTQuery {
 	public Integer getMessageType(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.getMessageType(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
-	 * Gets a Loading property value.
-	 * 
-	 * @return value a Loading.
-	 *
-	 * @see FormText	 
-	 */	
-	public Boolean isLoading(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getLoading(items.get(0));
 		}
 		else{
 			return null;
@@ -3790,21 +3796,6 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Gets a HorizontalBar property value.
-	 * 
-	 * @return value a HorizontalBar.
-	 *
-	 * @see Scrollable	 
-	 */	
-	public ScrollBar getHorizontalBar(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getHorizontalBar(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
 	 * Gets a Seconds property value.
 	 * 
 	 * @return value a Seconds.
@@ -3830,6 +3821,21 @@ public final class SWTQuery {
 	public Integer getSortDirection(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.getSortDirection(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a HorizontalBar property value.
+	 * 
+	 * @return value a HorizontalBar.
+	 *
+	 * @see Scrollable	 
+	 */	
+	public ScrollBar getHorizontalBar(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getHorizontalBar(items.get(0));
 		}
 		else{
 			return null;
@@ -4625,21 +4631,6 @@ public final class SWTQuery {
 		}
 	}
 	/**
-	 * Gets a VerticalBar property value.
-	 * 
-	 * @return value a VerticalBar.
-	 *
-	 * @see Scrollable	 
-	 */	
-	public ScrollBar getVerticalBar(){
-		if(items.size() > 0){
-			return WidgetPropertySwitch.getVerticalBar(items.get(0));
-		}
-		else{
-			return null;
-		}
-	}
-	/**
 	 * Gets a TextClient property value.
 	 * 
 	 * @return value a TextClient.
@@ -4649,6 +4640,21 @@ public final class SWTQuery {
 	public Control getTextClient(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.getTextClient(items.get(0));
+		}
+		else{
+			return null;
+		}
+	}
+	/**
+	 * Gets a VerticalBar property value.
+	 * 
+	 * @return value a VerticalBar.
+	 *
+	 * @see Scrollable	 
+	 */	
+	public ScrollBar getVerticalBar(){
+		if(items.size() > 0){
+			return WidgetPropertySwitch.getVerticalBar(items.get(0));
 		}
 		else{
 			return null;

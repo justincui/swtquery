@@ -1,6 +1,8 @@
+BackgroundImageClipped
 BackgroundImageAlignment
 BidiColoring
 LoadingText
 SeparatorColor
 ImageIndent
 DisabledImage
+Loading
