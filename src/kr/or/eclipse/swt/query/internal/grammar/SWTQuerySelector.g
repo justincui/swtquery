@@ -31,25 +31,25 @@ selectorSegment :
     ID
     | ASTERIK
   )^
-  psudo? attributes?;
+  styleFilter? attributeFilters?;
 
 idList :
   ID (',' ID)*
     -> ID+;
 
-psudo :
+styleFilter :
   COLON^ ID
   | COLON^ '('! idList ')'!;
 
-attributes :
-  OPEN_BR attribute (',' attribute)* CLOSE_BR
-    -> attribute+;
+attributeFilters :
+  OPEN_BR attributeFilter (',' attributeFilter)* CLOSE_BR
+    -> attributeFilter+;
 
-attribute :
-  ID ATTR_OP^ attributeValue?
+attributeFilter :
+  ID ATTR_OP^ operand?
   | EXCLAMATION ID^;
 
-attributeValue :
+operand :
   LITERAL
   | ID
   | NUMBER;

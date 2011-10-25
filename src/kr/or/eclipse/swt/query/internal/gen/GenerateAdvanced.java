@@ -85,8 +85,11 @@ public class GenerateAdvanced {
 
 			File getterFile = new File(internalUtilFolder, "Get" + each.propertyName + "Switch.java");
 			File setterFile = new File(internalUtilFolder, "Set" + each.propertyName + "Switch.java");
-			write(getterGenerator.generate(each), new FileOutputStream(getterFile));
-			write(setterGenerator.generate(each), new FileOutputStream(setterFile));
+			if (each.gettableTypes.size() > 0)
+				write(getterGenerator.generate(each), new FileOutputStream(getterFile));
+
+			if (each.settableTypes.size() > 0)
+				write(setterGenerator.generate(each), new FileOutputStream(setterFile));
 		}
 
 		PropertySwitchGenerator psGenerator = new PropertySwitchGenerator();
@@ -106,42 +109,51 @@ public class GenerateAdvanced {
 		}
 
 		properties = new HashMap<String, Property>();
+
 		for (Class<?> each : types) {
 			Method[] methods = each.getDeclaredMethods();
 			for (Method eachMethod : methods) {
+				boolean setterExist = true;
+
 				if ((eachMethod.getModifiers() & Modifier.PUBLIC) == 0) {
 					continue;
 				}
-
-				if (!eachMethod.getName().startsWith("get")) {
+				if (eachMethod.getParameterTypes().length > 0) {
 					continue;
 				}
 
 				if (eachMethod.getReturnType() == null) {
 					continue;
 				}
+				Class<?> propertyType = eachMethod.getReturnType();
 
-				if (eachMethod.getParameterTypes().length > 0) {
-					continue;
+				String propertyName;
+				if (propertyType == Boolean.class || propertyType == boolean.class) {
+					if (!eachMethod.getName().startsWith("is")) {
+						continue;
+					}
+					propertyName = eachMethod.getName().substring(2);
+
+				} else {
+					propertyName = eachMethod.getName().substring(3);
+					if (!eachMethod.getName().startsWith("get")) {
+						continue;
+					}
 				}
 
 				if (eachMethod.getAnnotation(Deprecated.class) != null) {
 					continue;
 				}
 
-				String propertyName = eachMethod.getName().substring(3);
 				if (filters.contains(propertyName)) {
 					continue;
 				}
-				Class<?> propertyType = eachMethod.getReturnType();
+
 				String setterName = "set" + propertyName;
 				try {
-					Method setter = each.getMethod(setterName, propertyType);
-					if (setter == null) {
-						continue;
-					}
+					each.getMethod(setterName, propertyType);
 				} catch (NoSuchMethodException e) {
-					continue;
+					setterExist = false;
 				}
 
 				if (propertyType.isPrimitive()) {
@@ -166,11 +178,15 @@ public class GenerateAdvanced {
 					properties.put(propertyName, property);
 				}
 
-				if (!property.types.contains(each)) {
-					property.types.add(each);
-				}
 				if (propertyType != property.propertyType) {
 					property.isValid = false;
+				}
+
+				if (!property.gettableTypes.contains(each)) {
+					property.gettableTypes.add(each);
+				}
+				if (setterExist && !property.settableTypes.contains(each)) {
+					property.settableTypes.add(each);
 				}
 			}
 		}

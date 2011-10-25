@@ -30,31 +30,33 @@ public class PropertySwitchGenerator
   protected final String TEXT_13 = NL + "\tprivate static final Get";
   protected final String TEXT_14 = "Switch get";
   protected final String TEXT_15 = "Switch = new Get";
-  protected final String TEXT_16 = "Switch();" + NL + "\tprivate static final Set";
-  protected final String TEXT_17 = "Switch set";
-  protected final String TEXT_18 = "Switch = new Set";
-  protected final String TEXT_19 = "Switch();";
-  protected final String TEXT_20 = NL + "\t@SuppressWarnings(\"unchecked\")" + NL + "\tpublic static <T> T getProperty(Widget widget, String propertyName){";
-  protected final String TEXT_21 = NL + "\t\t";
-  protected final String TEXT_22 = " (propertyName.equalsIgnoreCase(\"";
-  protected final String TEXT_23 = "\")){" + NL + "\t\t\treturn (T) get";
-  protected final String TEXT_24 = "Switch.getProperty(widget);" + NL + "\t\t}" + NL + "\t\t";
-  protected final String TEXT_25 = "\t" + NL + "\t\treturn null;" + NL + "\t}" + NL + "\t" + NL + "\tpublic static void setProperty(Widget widget, String propertyName, Object value){";
-  protected final String TEXT_26 = NL + "\t\t";
-  protected final String TEXT_27 = " (propertyName.equalsIgnoreCase(\"";
-  protected final String TEXT_28 = "\")){" + NL + "\t\t\tset";
-  protected final String TEXT_29 = "Switch.setProperty(widget, (";
-  protected final String TEXT_30 = ")value);" + NL + "\t\t}" + NL + "\t\t";
-  protected final String TEXT_31 = "\t" + NL + "\t}";
-  protected final String TEXT_32 = NL + "\tpublic static ";
-  protected final String TEXT_33 = " get";
-  protected final String TEXT_34 = "(Widget widget){" + NL + "\t\treturn get";
-  protected final String TEXT_35 = "Switch.getProperty(widget);" + NL + "\t}" + NL + "\tpublic static void set";
-  protected final String TEXT_36 = "(Widget widget, ";
-  protected final String TEXT_37 = " value){" + NL + "\t\tset";
-  protected final String TEXT_38 = "Switch.setProperty(widget, value);" + NL + "\t}";
-  protected final String TEXT_39 = "\t" + NL + "" + NL + "\tpublic static Class<?>getPropertyType(String propertyName){" + NL + "\t\tPropertyEntry entry = map.get(propertyName.trim().toLowerCase());" + NL + "\t\tif(entry == null){" + NL + "\t\t\treturn null;" + NL + "\t\t}" + NL + "\t\telse{" + NL + "\t\t\treturn entry.type;" + NL + "\t\t}\t" + NL + "\t}" + NL + "" + NL + "\t\t" + NL + "}";
-  protected final String TEXT_40 = NL;
+  protected final String TEXT_16 = "Switch();";
+  protected final String TEXT_17 = NL + "\tprivate static final Set";
+  protected final String TEXT_18 = "Switch set";
+  protected final String TEXT_19 = "Switch = new Set";
+  protected final String TEXT_20 = "Switch();";
+  protected final String TEXT_21 = NL + "\t@SuppressWarnings(\"unchecked\")" + NL + "\tpublic static <T> T getProperty(Widget widget, String propertyName){";
+  protected final String TEXT_22 = NL + "\t\t";
+  protected final String TEXT_23 = " (propertyName.equalsIgnoreCase(\"";
+  protected final String TEXT_24 = "\")){" + NL + "\t\t\treturn (T) get";
+  protected final String TEXT_25 = "Switch.getProperty(widget);" + NL + "\t\t}" + NL + "\t\t";
+  protected final String TEXT_26 = "\t" + NL + "\t\treturn null;" + NL + "\t}" + NL + "\t" + NL + "\tpublic static void setProperty(Widget widget, String propertyName, Object value){";
+  protected final String TEXT_27 = NL + "\t\t";
+  protected final String TEXT_28 = " (propertyName.equalsIgnoreCase(\"";
+  protected final String TEXT_29 = "\")){" + NL + "\t\t\tset";
+  protected final String TEXT_30 = "Switch.setProperty(widget, (";
+  protected final String TEXT_31 = ")value);" + NL + "\t\t}" + NL + "\t\t";
+  protected final String TEXT_32 = "\t" + NL + "\t}";
+  protected final String TEXT_33 = NL + "\tpublic static ";
+  protected final String TEXT_34 = " get";
+  protected final String TEXT_35 = "(Widget widget){" + NL + "\t\treturn get";
+  protected final String TEXT_36 = "Switch.getProperty(widget);" + NL + "\t}";
+  protected final String TEXT_37 = NL + "\tpublic static void set";
+  protected final String TEXT_38 = "(Widget widget, ";
+  protected final String TEXT_39 = " value){" + NL + "\t\tset";
+  protected final String TEXT_40 = "Switch.setProperty(widget, value);" + NL + "\t}";
+  protected final String TEXT_41 = "\t" + NL + "" + NL + "\tpublic static Class<?>getPropertyType(String propertyName){" + NL + "\t\tPropertyEntry entry = map.get(propertyName.trim().toLowerCase());" + NL + "\t\tif(entry == null){" + NL + "\t\t\treturn null;" + NL + "\t\t}" + NL + "\t\telse{" + NL + "\t\t\treturn entry.type;" + NL + "\t\t}\t" + NL + "\t}" + NL + "" + NL + "\t\t" + NL + "}";
+  protected final String TEXT_42 = NL;
 
   public String generate(Object argument)
   {
@@ -86,6 +88,8 @@ Map<String, Property> properties = (Map<String, Property>)argument;
     }
     stringBuffer.append(TEXT_12);
      for(String eachKey : properties.keySet()){ 
+	Property each = properties.get(eachKey);  
+	if(each.gettableTypes.size()>0){ 
     stringBuffer.append(TEXT_13);
     stringBuffer.append(eachKey);
     stringBuffer.append(TEXT_14);
@@ -93,57 +97,73 @@ Map<String, Property> properties = (Map<String, Property>)argument;
     stringBuffer.append(TEXT_15);
     stringBuffer.append(eachKey);
     stringBuffer.append(TEXT_16);
-    stringBuffer.append(eachKey);
+     
+	}
+	if(each.settableTypes.size()>0){ 
     stringBuffer.append(TEXT_17);
     stringBuffer.append(eachKey);
     stringBuffer.append(TEXT_18);
     stringBuffer.append(eachKey);
     stringBuffer.append(TEXT_19);
-    }
+    stringBuffer.append(eachKey);
     stringBuffer.append(TEXT_20);
+     
+	} 
+} 
+
+    stringBuffer.append(TEXT_21);
      boolean isFirst = true;
 for(Property each : properties.values()){ 
-    stringBuffer.append(TEXT_21);
-    stringBuffer.append( isFirst ? "if" : "else if" );
     stringBuffer.append(TEXT_22);
-    stringBuffer.append(each.propertyName);
+    stringBuffer.append( isFirst ? "if" : "else if" );
     stringBuffer.append(TEXT_23);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_24);
+    stringBuffer.append(each.propertyName);
+    stringBuffer.append(TEXT_25);
      isFirst = false; 
     }
-    stringBuffer.append(TEXT_25);
+    stringBuffer.append(TEXT_26);
      isFirst = true;
 for(Property each : properties.values()){ 
-    stringBuffer.append(TEXT_26);
-    stringBuffer.append( isFirst ? "if" : "else if" );
+if(each.settableTypes.size() == 0){
+	continue;
+}
+
     stringBuffer.append(TEXT_27);
-    stringBuffer.append(each.propertyName);
+    stringBuffer.append( isFirst ? "if" : "else if" );
     stringBuffer.append(TEXT_28);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_29);
-    stringBuffer.append(each.propertyType.getSimpleName() );
+    stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_30);
+    stringBuffer.append(each.propertyType.getSimpleName() );
+    stringBuffer.append(TEXT_31);
      isFirst = false; 
     }
-    stringBuffer.append(TEXT_31);
-     for(Property each : properties.values()){ 
     stringBuffer.append(TEXT_32);
-    stringBuffer.append(each.propertyType.getSimpleName());
+     for(Property each : properties.values()){
+     if(each.gettableTypes.size() > 0) {
     stringBuffer.append(TEXT_33);
-    stringBuffer.append(each.propertyName);
+    stringBuffer.append(each.propertyType.getSimpleName());
     stringBuffer.append(TEXT_34);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_35);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_36);
-    stringBuffer.append(each.propertyType.getSimpleName());
+     } 
+     if(each.settableTypes.size() > 0) { 
     stringBuffer.append(TEXT_37);
     stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_38);
-    }
+    stringBuffer.append(each.propertyType.getSimpleName());
     stringBuffer.append(TEXT_39);
+    stringBuffer.append(each.propertyName);
     stringBuffer.append(TEXT_40);
+     } 
+     } 
+    stringBuffer.append(TEXT_41);
+    stringBuffer.append(TEXT_42);
     return stringBuffer.toString();
   }
 }

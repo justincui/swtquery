@@ -21,19 +21,24 @@ GenUtil.addImportStatement(WidgetPropertySwitch.class);
 GenUtil.addImportStatement(UniqueList.class);
 GenUtil.addImportStatement(Selector.class);
 GenUtil.addImportStatement(SelectorInterpreter.class);
-
+GenUtil.addImportStatement(org.eclipse.swt.dnd.DropTarget.class);
+GenUtil.addImportStatement(org.eclipse.swt.dnd.DND.class);
 for(Property each : properties){
-	GenUtil.addImportStatement(each.propertyType);
+	if(each.gettableTypes.size() + each.settableTypes.size() > 0){
+		GenUtil.addImportStatement(each.propertyType);
+	}
 }
 %>
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.GC;
 
 <%=GenUtil.endImport()%>
 
 public final class SWTQuery {
-
+	private static int CURRENT_DEBUG_COLOR = 0;
+	
 	public static SWTQuery $(Widget w) {
 		return new SWTQuery(w);
 	}
@@ -217,17 +222,17 @@ public final class SWTQuery {
 		return this;
 	}
 
-<% for(Property each : properties){ %>
+<% for(Property each : properties){
+	if(each.settableTypes.size() == 0) continue;
+ %>
 	/**
-	 * Sets a <%=each.propertyName%>.
-	 * supported by:
-	 * <ul>
-<% for(Class<?> eachWidgetType : each.types){ %>
-	 * <li><%=eachWidgetType.getSimpleName()%></li>
-<% } %>	 
-	 * </ul>
+	 * Sets a <%=each.propertyName%> property.
 	 * 
-	 * @param value	 a <%=each.propertyName%>.
+	 * @param value a <%=each.propertyName%> value to set.
+	 *
+<% for(Class<?> eachWidgetType : each.settableTypes){ %>
+	 * @see <%=eachWidgetType.getSimpleName()%>
+<% } %>	 
 	 */
 	public SWTQuery set<%=each.propertyName%>(<%=each.propertyType.getSimpleName()%> value){
 		for(Widget each : items){
@@ -235,19 +240,21 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+<% } %>
 
+<% for(Property each : properties){
+	if(each.gettableTypes.size() == 0) continue;
+ %>
 	/**
-	 * Gets a <%=each.propertyName%>.
-	 * supported by:
-	 * <ul>
-<% for(Class<?> eachWidgetType : each.types){ %>
-	 * <li><%=eachWidgetType.getSimpleName()%></li>
-<% } %>	 
-	 * </ul>
+	 * Gets a <%=each.propertyName%> property value.
 	 * 
-	 * @return value	 a <%=each.propertyName%>.
+	 * @return value a <%=each.propertyName%>.
+	 *
+<% for(Class<?> eachWidgetType : each.gettableTypes){ %>
+	 * @see <%=eachWidgetType.getSimpleName()%>
+<% } %>	 
 	 */	
-	public <%=each.propertyType.getSimpleName()%> get<%=each.propertyName%>(){
+	public <%=each.propertyType.getSimpleName()%> <%=each.propertyType == Boolean.class ? "is" : "get"%><%=each.propertyName%>(){
 		if(items.size() > 0){
 			return WidgetPropertySwitch.get<%=each.propertyName%>(items.get(0));
 		}
@@ -256,5 +263,70 @@ public final class SWTQuery {
 		}
 	}
 <% } %>
+	public SWTQuery debug(final String text) {
+		final int color = (CURRENT_DEBUG_COLOR + 2);
+		CURRENT_DEBUG_COLOR = (++CURRENT_DEBUG_COLOR % 15);
+		
+		this.addListener(SWT.Paint, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				Rectangle bounds = $(event).getBounds();
+				GC gc = event.gc;
+				gc.setAlpha(150);
+				gc.setBackground(Display.getDefault().getSystemColor(color));
+				gc.fillRectangle(0, 0, bounds.width - 1, bounds.height - 1);
+				gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+				gc.setAlpha(255);
+				gc.drawText(text, 1, 1, true);
+			}
+		});
+		return this;
+	}
+	
+	public SWTQuery debug() {
+		final int color = (CURRENT_DEBUG_COLOR + 2);
+		CURRENT_DEBUG_COLOR = (++CURRENT_DEBUG_COLOR % 15);
+		
+		this.addListener(SWT.Paint, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				Rectangle bounds = $(event).getBounds();
+				GC gc = event.gc;
+				gc.setAlpha(150);
+				gc.setBackground(Display.getDefault().getSystemColor(color));
+				gc.fillRectangle(0, 0, bounds.width - 1, bounds.height - 1);
+				gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			}
+		});
+		return this;
+	}
+	
+	public SWTQuery createDropTarget(int style) {
+		ArrayList<Widget> dropTargets = new ArrayList<Widget>();
+		for (Widget each : items) {
+			if (each instanceof Control) {
+				dropTargets.add(new DropTarget((Control) each, style));
+			}
+		}
+		return new SWTQuery(dropTargets);
+	}
+
+	public SWTQuery getDropTarget(int style) {
+		ArrayList<Widget> dropTargets = new ArrayList<Widget>();
+		for (Widget each : items) {
+			if (each instanceof Control) {
+				Object target = ((Control) each).getData(DND.DROP_TARGET_KEY);
+				if (target instanceof DropTarget) {
+					dropTargets.add((Widget) target);
+				}
+			}
+		}
+		return new SWTQuery(dropTargets);
+	}
+
+	public int size() {
+		return items.size();
+	}
+	
 
 }

@@ -28,7 +28,7 @@ public class GetPropertySwitchGenerator
   protected final String TEXT_10 = NL + "\tpublic ";
   protected final String TEXT_11 = " case";
   protected final String TEXT_12 = "(";
-  protected final String TEXT_13 = " widget){" + NL + "\t\treturn widget.get";
+  protected final String TEXT_13 = " widget){" + NL + "\t\treturn widget.";
   protected final String TEXT_14 = "();" + NL + "\t}";
   protected final String TEXT_15 = NL + "}";
   protected final String TEXT_16 = NL + "    ";
@@ -43,7 +43,7 @@ public class GetPropertySwitchGenerator
      GenUtil.addImportStatement(property.propertyType);
      GenUtil.addImportStatement(Widget.class);
      GenUtil.addImportStatement(WidgetSwitch.class);
-     for(Class<?> each : property.types) { 
+     for(Class<?> each : property.gettableTypes) { 
      GenUtil.addImportStatement(each);
      } 
     stringBuffer.append(TEXT_3);
@@ -57,7 +57,7 @@ public class GetPropertySwitchGenerator
     stringBuffer.append(TEXT_8);
     stringBuffer.append(property.propertyType.getSimpleName() );
     stringBuffer.append(TEXT_9);
-     for(Class<?> each : property.types) { 
+     for(Class<?> each : property.gettableTypes) { 
     stringBuffer.append(TEXT_10);
     stringBuffer.append(property.propertyType.getSimpleName());
     stringBuffer.append(TEXT_11);
@@ -65,6 +65,7 @@ public class GetPropertySwitchGenerator
     stringBuffer.append(TEXT_12);
     stringBuffer.append(each.getSimpleName());
     stringBuffer.append(TEXT_13);
+    stringBuffer.append(property.propertyType == Boolean.class ? "is" : "get");
     stringBuffer.append(property.propertyName);
     stringBuffer.append(TEXT_14);
      } 

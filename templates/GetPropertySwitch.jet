@@ -12,7 +12,7 @@ package kr.or.eclipse.swt.query.util.internal;
 <% GenUtil.addImportStatement(property.propertyType);%>
 <% GenUtil.addImportStatement(Widget.class);%>
 <% GenUtil.addImportStatement(WidgetSwitch.class);%>
-<% for(Class<?> each : property.types) { %>
+<% for(Class<?> each : property.gettableTypes) { %>
 <% GenUtil.addImportStatement(each);%>
 <% } %>
 <%=GenUtil.endImport() %>
@@ -23,9 +23,9 @@ public class Get<%=property.propertyName %>Switch extends WidgetSwitch<<%=proper
 		return doSwitch(widget);
 	}
 
-<% for(Class<?> each : property.types) { %>
+<% for(Class<?> each : property.gettableTypes) { %>
 	public <%=property.propertyType.getSimpleName()%> case<%=each.getSimpleName()%>(<%=each.getSimpleName()%> widget){
-		return widget.get<%=property.propertyName%>();
+		return widget.<%=property.propertyType == Boolean.class ? "is" : "get"%><%=property.propertyName%>();
 	}
 <% } %>
 }
