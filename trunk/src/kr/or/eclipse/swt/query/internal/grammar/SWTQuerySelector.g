@@ -47,7 +47,8 @@ attributeFilters :
 
 attributeFilter :
   ID ATTR_OP^ operand?
-  | EXCLAMATION ID^;
+  | EXCLAMATION^ ID
+  | ID^;
 
 operand :
   LITERAL

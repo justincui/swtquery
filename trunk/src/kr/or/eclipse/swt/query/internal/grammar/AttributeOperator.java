@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum AttributeOperator {
-	EQUALS(0, "="), CONTAINS(1, "*="), NOT_EQUALS(2, "!=");
-	public static final AttributeOperator[] VALUE_ARRAY = { EQUALS, CONTAINS, NOT_EQUALS };
+	EQUALS(0, "="), CONTAINS(1, "*="), NOT_EQUALS(2, "!="), NOT_EXISTS(3, "!"), EXISTS(4, "");
+	public static final AttributeOperator[] VALUE_ARRAY = { EQUALS, CONTAINS, NOT_EQUALS, NOT_EXISTS, EXISTS };
 	public static final List<AttributeOperator> VALUES = Arrays.asList(VALUE_ARRAY);
 
 	public static AttributeOperator get(String operatorText) {

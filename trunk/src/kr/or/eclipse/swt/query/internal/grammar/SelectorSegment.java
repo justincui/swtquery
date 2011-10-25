@@ -36,6 +36,15 @@ public class SelectorSegment {
 
 			case SWTQuerySelectorLexer.ATTR_OP:
 				addAttribute(child);
+				break;
+
+			case SWTQuerySelectorLexer.EXCLAMATION:
+				attributeFilters.add(new AttributeFilter(AttributeOperator.NOT_EXISTS, child.getChild(0).getText(), null));
+				break;
+
+			case SWTQuerySelectorLexer.ID:
+				attributeFilters.add(new AttributeFilter(AttributeOperator.EXISTS, child.getText(), null));
+				break;
 			}
 		}
 	}
@@ -152,6 +161,18 @@ public class SelectorSegment {
 					children.remove(each);
 				}
 				break;
+
+			case EXISTS:
+				if (acutualDataObject == null) {
+					children.remove(each);
+				}
+				break;
+
+			case NOT_EXISTS:
+				if (acutualDataObject != null) {
+					children.remove(each);
+				}
+				break;
 			}
 		}
 	}
@@ -166,26 +187,36 @@ public class SelectorSegment {
 		String supectedValue = eachAttr.getValue();
 
 		for (Widget each : children.toArray(new Widget[children.size()])) {
-			String actualValue = WidgetPropertySwitch.getProperty(each, attributeName);
-			if (actualValue == null) {
-				actualValue = "";
-			}
+			Object actualValue = WidgetPropertySwitch.getProperty(each, attributeName);
+			String actualValueExp = actualValue != null ? actualValue.toString() : "";
 
 			switch (operator) {
 			case CONTAINS:
-				if (!actualValue.contains(supectedValue)) {
+				if (!actualValueExp.contains(supectedValue)) {
 					children.remove(each);
 				}
 				break;
 
 			case EQUALS:
-				if (!actualValue.equals(supectedValue)) {
+				if (!actualValueExp.equals(supectedValue)) {
 					children.remove(each);
 				}
 				break;
 
 			case NOT_EQUALS:
-				if (actualValue.equals(supectedValue)) {
+				if (actualValueExp.equals(supectedValue)) {
+					children.remove(each);
+				}
+				break;
+
+			case EXISTS:
+				if (actualValue == null) {
+					children.remove(each);
+				}
+				break;
+
+			case NOT_EXISTS:
+				if (actualValue != null) {
 					children.remove(each);
 				}
 				break;
