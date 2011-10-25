@@ -196,6 +196,16 @@ public final class SWTQuery {
 
 		return new SWTQuery(result);
 	}
+	
+	public SWTQuery schedule(final IWidgetFunction function) {
+		Display.getCurrent().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				SWTQuery.this.each(function);
+			}
+		});
+		return this;
+	}
 
 <% for(Property each : properties){ %>
 	

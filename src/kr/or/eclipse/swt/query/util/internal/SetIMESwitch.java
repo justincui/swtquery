@@ -11,9 +11,10 @@
 package kr.or.eclipse.swt.query.util.internal;
 
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.IME;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swt.widgets.Canvas;
 
 
 /*

@@ -10,10 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.widgets.CoolBar;
-import java.lang.Boolean;
-import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

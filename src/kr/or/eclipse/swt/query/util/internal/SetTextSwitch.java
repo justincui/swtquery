@@ -10,28 +10,28 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Hyperlink;
-import org.eclipse.swt.browser.Browser;
-import java.lang.String;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-import org.eclipse.swt.widgets.Label;
+
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Decorations;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
-import org.eclipse.swt.widgets.Decorations;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 
 /*

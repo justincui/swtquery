@@ -10,11 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+
 import org.eclipse.swt.widgets.TableItem;
-import java.lang.Boolean;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
 
 
 /*

@@ -10,10 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.ui.forms.widgets.FormText;
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-import java.lang.Boolean;
+
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.forms.widgets.FormText;
 
 
 /*

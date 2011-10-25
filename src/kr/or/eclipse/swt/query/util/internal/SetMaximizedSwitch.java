@@ -11,10 +11,10 @@
 package kr.or.eclipse.swt.query.util.internal;
 
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-import org.eclipse.swt.widgets.Shell;
+
 import org.eclipse.swt.custom.CTabFolder;
-import java.lang.Boolean;
 import org.eclipse.swt.widgets.Decorations;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
 

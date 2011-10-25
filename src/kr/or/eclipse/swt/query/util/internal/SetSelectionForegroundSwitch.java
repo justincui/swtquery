@@ -10,11 +10,12 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

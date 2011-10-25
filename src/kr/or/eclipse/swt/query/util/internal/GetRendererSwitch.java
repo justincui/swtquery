@@ -10,10 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.custom.CTabFolderRenderer;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabFolderRenderer;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

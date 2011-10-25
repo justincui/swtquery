@@ -10,12 +10,13 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Widget;
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

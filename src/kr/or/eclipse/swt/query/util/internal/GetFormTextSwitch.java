@@ -10,10 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.ui.forms.widgets.FormText;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.forms.widgets.ScrolledFormText;
 import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.forms.widgets.FormText;
+import org.eclipse.ui.forms.widgets.ScrolledFormText;
 
 
 /*

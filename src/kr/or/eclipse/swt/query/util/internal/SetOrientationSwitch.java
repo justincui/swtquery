@@ -10,15 +10,15 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.custom.StyledText;
-import java.lang.Integer;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Menu;
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-import org.eclipse.swt.widgets.Text;
+
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*
