@@ -10,9 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swt.custom.SashForm;
 import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

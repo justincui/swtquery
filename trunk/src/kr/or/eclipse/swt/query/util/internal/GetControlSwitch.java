@@ -10,14 +10,15 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.CoolItem;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.ExpandItem;
 import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.CoolItem;
+import org.eclipse.swt.widgets.ExpandItem;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

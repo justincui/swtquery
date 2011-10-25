@@ -22,7 +22,7 @@ import kr.or.eclipse.swt.query.util.internal.*;
 
 <%@ include file="generation-header.txt" %>
 public class WidgetPropertySwitch{
-	private static final Map<String, PropertyEntry> map = new HashMap();
+	private static final Map<String, PropertyEntry> map = new HashMap<String, PropertyEntry>();
 	
 	private static class PropertyEntry{
 		public String name;

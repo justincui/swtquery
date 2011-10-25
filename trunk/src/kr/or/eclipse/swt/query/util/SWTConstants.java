@@ -10,7 +10,9 @@
 
 package kr.or.eclipse.swt.query.util;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 
 /*

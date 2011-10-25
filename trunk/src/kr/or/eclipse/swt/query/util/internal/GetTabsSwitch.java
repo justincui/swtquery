@@ -10,11 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.custom.StyledText;
-import java.lang.Integer;
-import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

@@ -11,9 +11,10 @@
 package kr.or.eclipse.swt.query.util.internal;
 
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-import org.eclipse.ui.dialogs.FilteredList;
-import org.eclipse.swt.widgets.Widget;
+
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.dialogs.FilteredList;
 
 
 /*

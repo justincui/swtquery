@@ -10,12 +10,13 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.ui.forms.widgets.ScrolledForm;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
 import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 
 /*

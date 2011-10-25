@@ -10,10 +10,10 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import java.lang.Boolean;
+import kr.or.eclipse.swt.query.util.WidgetSwitch;
+
 import org.eclipse.swt.widgets.Tracker;
 import org.eclipse.swt.widgets.Widget;
-import kr.or.eclipse.swt.query.util.WidgetSwitch;
 
 
 /*

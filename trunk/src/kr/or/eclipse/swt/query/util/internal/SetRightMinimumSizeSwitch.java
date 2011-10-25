@@ -10,10 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import org.eclipse.swt.custom.CBanner;
-import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+
+import org.eclipse.swt.custom.CBanner;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Widget;
 
 
 /*

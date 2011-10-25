@@ -10,10 +10,11 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
+import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
-import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
-import org.eclipse.swt.graphics.Color;
 
 
 /*

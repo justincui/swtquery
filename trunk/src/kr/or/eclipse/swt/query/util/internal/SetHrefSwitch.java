@@ -10,9 +10,9 @@
 
 package kr.or.eclipse.swt.query.util.internal;
 
-import java.lang.Object;
-import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument;
+
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.forms.widgets.AbstractHyperlink;
 
 
