@@ -5,6 +5,7 @@ import java.util.List;
 
 import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
 import kr.or.eclipse.swt.query.util.SWTConstants;
+import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
 
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.swt.widgets.Widget;
@@ -112,9 +113,44 @@ public class SelectorSegment {
 			}
 		}
 
-		// FIXME 어트리뷰터 필터 걸어야 해요
+		for (AttributeFilter eachAttr : attributeFilters) {
+			String attributeName = eachAttr.getAttributeName();
+			AttributeOperator operator = eachAttr.getOperator();
+			Class<?> type = WidgetPropertySwitch.getPropertyType(attributeName);
+			if (type == null) {
+				throw new IllegalArgumentException(attributeName + " proerty is not exist.");
+			} else if (type != String.class) {
+				throw new IllegalArgumentException(attributeName + " proerty is not an java.lang.String property.");
+			}
+			String supectedValue = eachAttr.getValue();
+			for (Widget each : children.toArray(new Widget[children.size()])) {
+				String actualValue = WidgetPropertySwitch.getProperty(each, attributeName);
+				if (actualValue == null) {
+					actualValue = "";
+				}
+
+				switch (operator) {
+				case CONTAINS:
+					if (!actualValue.contains(supectedValue)) {
+						children.remove(each);
+					}
+					break;
+
+				case EQUALS:
+					if (!actualValue.equals(supectedValue)) {
+						children.remove(each);
+					}
+					break;
+					
+				case NOT_EQUALS:
+					if (actualValue.equals(supectedValue)) {
+						children.remove(each);
+					}
+					break;
+				}
+			}
+		}
 
 		return children;
 	}
-
 }

@@ -3,8 +3,6 @@ package kr.or.eclipse.swt.query.internal.grammar;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -13,7 +11,7 @@ import org.antlr.runtime.tree.Tree;
 public class SelectorInterpreter {
 
 	public static void main(String[] args) throws RecognitionException {
-		String selector = "label:(border,readonly)[a=twest, c=-24.392] bbb, cba > system,";
+		String selector = "label:(border,readonly)[a=twest, c=-24.392] bbb, cba > system";
 
 		SWTQuerySelectorLexer lexer = new SWTQuerySelectorLexer(new ANTLRStringStream(selector));
 		SWTQuerySelectorParser parser = new SWTQuerySelectorParser(new CommonTokenStream(lexer));

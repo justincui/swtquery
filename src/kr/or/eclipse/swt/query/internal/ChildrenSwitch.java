@@ -84,6 +84,15 @@ public class ChildrenSwitch extends WidgetSwitch<List<Widget>> {
 		}
 		return result;
 	}
+	
+	@Override
+	public List<Widget> caseTreeItem(TreeItem treeItem) {
+		ArrayList<Widget> result = new ArrayList<Widget>();
+		for (TreeItem each : treeItem.getItems()) {
+			result.add(each);
+		}
+		return result;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
