@@ -10,58 +10,56 @@
 
 package kr.or.eclipse.swt.query.util;
 
-import java.util.*;
-import org.eclipse.swt.widgets.Widget;
+import java.util.HashMap;
+import java.util.Map;
+
 import kr.or.eclipse.swt.query.util.internal.*;
-import org.eclipse.ui.forms.widgets.FormText;
-import org.eclipse.swt.widgets.TableItem;
-import java.lang.Boolean;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Monitor;
-import org.eclipse.swt.graphics.Region;
+
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.accessibility.Accessible;
 import org.eclipse.swt.custom.CTabFolderRenderer;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.dnd.DragSourceEffect;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.DropTargetEffect;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import java.lang.Object;
-import java.lang.Integer;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.graphics.Color;
-import java.lang.Character;
-import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.graphics.TextStyle;
-import org.eclipse.swt.dnd.DropTargetEffect;
-import org.eclipse.swt.widgets.Caret;
-import org.eclipse.ui.dialogs.PatternFilter;
-import org.eclipse.swt.accessibility.Accessible;
-import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.HyperlinkSettings;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.forms.IMessage;
-import org.eclipse.swt.widgets.Layout;
-import java.lang.String;
-import org.eclipse.swt.dnd.DropTargetListener;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.forms.IMessageManager;
-import org.eclipse.swt.dnd.DragSourceListener;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.opengl.GLData;
-import org.eclipse.swt.dnd.DragSourceEffect;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.IME;
+import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.ScrollBar;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.dialogs.PatternFilter;
+import org.eclipse.ui.forms.HyperlinkSettings;
+import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.forms.IMessageManager;
+import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormText;
 
 
 /*
@@ -97,7 +95,6 @@ public class WidgetPropertySwitch{
 		map.put("filtercontrol", new PropertyEntry("FilterControl", Text.class));
 		map.put("caretoffset", new PropertyEntry("CaretOffset", Integer.class));
 		map.put("underlined", new PropertyEntry("Underlined", Boolean.class));
-		map.put("backgroundimageclipped", new PropertyEntry("BackgroundImageClipped", Boolean.class));
 		map.put("childrenmessages", new PropertyEntry("ChildrenMessages", IMessage[].class));
 		map.put("filter", new PropertyEntry("Filter", String.class));
 		map.put("layout", new PropertyEntry("Layout", Layout.class));
@@ -106,7 +103,6 @@ public class WidgetPropertySwitch{
 		map.put("ime", new PropertyEntry("IME", IME.class));
 		map.put("textchars", new PropertyEntry("TextChars", char[].class));
 		map.put("messagetype", new PropertyEntry("MessageType", Integer.class));
-		map.put("loading", new PropertyEntry("Loading", Boolean.class));
 		map.put("topmargin", new PropertyEntry("TopMargin", Integer.class));
 		map.put("gridlinewidth", new PropertyEntry("GridLineWidth", Integer.class));
 		map.put("weights", new PropertyEntry("Weights", int[].class));
@@ -187,9 +183,9 @@ public class WidgetPropertySwitch{
 		map.put("url", new PropertyEntry("Url", String.class));
 		map.put("backenabled", new PropertyEntry("BackEnabled", Boolean.class));
 		map.put("selectioncount", new PropertyEntry("SelectionCount", Integer.class));
-		map.put("horizontalbar", new PropertyEntry("HorizontalBar", ScrollBar.class));
 		map.put("seconds", new PropertyEntry("Seconds", Integer.class));
 		map.put("sortdirection", new PropertyEntry("SortDirection", Integer.class));
+		map.put("horizontalbar", new PropertyEntry("HorizontalBar", ScrollBar.class));
 		map.put("menumanager", new PropertyEntry("MenuManager", IMenuManager.class));
 		map.put("visibleitemcount", new PropertyEntry("VisibleItemCount", Integer.class));
 		map.put("thumb", new PropertyEntry("Thumb", Integer.class));
@@ -239,8 +235,8 @@ public class WidgetPropertySwitch{
 		map.put("layoutdeferred", new PropertyEntry("LayoutDeferred", Boolean.class));
 		map.put("parentmenu", new PropertyEntry("ParentMenu", Menu.class));
 		map.put("style", new PropertyEntry("Style", Integer.class));
-		map.put("verticalbar", new PropertyEntry("VerticalBar", ScrollBar.class));
 		map.put("textclient", new PropertyEntry("TextClient", Control.class));
+		map.put("verticalbar", new PropertyEntry("VerticalBar", ScrollBar.class));
 		map.put("column", new PropertyEntry("Column", Integer.class));
 		map.put("toprightalignment", new PropertyEntry("TopRightAlignment", Integer.class));
 		map.put("id", new PropertyEntry("ID", Integer.class));
@@ -319,8 +315,6 @@ public class WidgetPropertySwitch{
 	private static final SetCaretOffsetSwitch setCaretOffsetSwitch = new SetCaretOffsetSwitch();
 	private static final GetUnderlinedSwitch getUnderlinedSwitch = new GetUnderlinedSwitch();
 	private static final SetUnderlinedSwitch setUnderlinedSwitch = new SetUnderlinedSwitch();
-	private static final GetBackgroundImageClippedSwitch getBackgroundImageClippedSwitch = new GetBackgroundImageClippedSwitch();
-	private static final SetBackgroundImageClippedSwitch setBackgroundImageClippedSwitch = new SetBackgroundImageClippedSwitch();
 	private static final GetChildrenMessagesSwitch getChildrenMessagesSwitch = new GetChildrenMessagesSwitch();
 	private static final GetFilterSwitch getFilterSwitch = new GetFilterSwitch();
 	private static final SetFilterSwitch setFilterSwitch = new SetFilterSwitch();
@@ -334,7 +328,6 @@ public class WidgetPropertySwitch{
 	private static final GetTextCharsSwitch getTextCharsSwitch = new GetTextCharsSwitch();
 	private static final SetTextCharsSwitch setTextCharsSwitch = new SetTextCharsSwitch();
 	private static final GetMessageTypeSwitch getMessageTypeSwitch = new GetMessageTypeSwitch();
-	private static final GetLoadingSwitch getLoadingSwitch = new GetLoadingSwitch();
 	private static final GetTopMarginSwitch getTopMarginSwitch = new GetTopMarginSwitch();
 	private static final SetTopMarginSwitch setTopMarginSwitch = new SetTopMarginSwitch();
 	private static final GetGridLineWidthSwitch getGridLineWidthSwitch = new GetGridLineWidthSwitch();
@@ -472,11 +465,11 @@ public class WidgetPropertySwitch{
 	private static final SetUrlSwitch setUrlSwitch = new SetUrlSwitch();
 	private static final GetBackEnabledSwitch getBackEnabledSwitch = new GetBackEnabledSwitch();
 	private static final GetSelectionCountSwitch getSelectionCountSwitch = new GetSelectionCountSwitch();
-	private static final GetHorizontalBarSwitch getHorizontalBarSwitch = new GetHorizontalBarSwitch();
 	private static final GetSecondsSwitch getSecondsSwitch = new GetSecondsSwitch();
 	private static final SetSecondsSwitch setSecondsSwitch = new SetSecondsSwitch();
 	private static final GetSortDirectionSwitch getSortDirectionSwitch = new GetSortDirectionSwitch();
 	private static final SetSortDirectionSwitch setSortDirectionSwitch = new SetSortDirectionSwitch();
+	private static final GetHorizontalBarSwitch getHorizontalBarSwitch = new GetHorizontalBarSwitch();
 	private static final GetMenuManagerSwitch getMenuManagerSwitch = new GetMenuManagerSwitch();
 	private static final GetVisibleItemCountSwitch getVisibleItemCountSwitch = new GetVisibleItemCountSwitch();
 	private static final SetVisibleItemCountSwitch setVisibleItemCountSwitch = new SetVisibleItemCountSwitch();
@@ -554,9 +547,9 @@ public class WidgetPropertySwitch{
 	private static final SetLayoutDeferredSwitch setLayoutDeferredSwitch = new SetLayoutDeferredSwitch();
 	private static final GetParentMenuSwitch getParentMenuSwitch = new GetParentMenuSwitch();
 	private static final GetStyleSwitch getStyleSwitch = new GetStyleSwitch();
-	private static final GetVerticalBarSwitch getVerticalBarSwitch = new GetVerticalBarSwitch();
 	private static final GetTextClientSwitch getTextClientSwitch = new GetTextClientSwitch();
 	private static final SetTextClientSwitch setTextClientSwitch = new SetTextClientSwitch();
+	private static final GetVerticalBarSwitch getVerticalBarSwitch = new GetVerticalBarSwitch();
 	private static final GetColumnSwitch getColumnSwitch = new GetColumnSwitch();
 	private static final GetTopRightAlignmentSwitch getTopRightAlignmentSwitch = new GetTopRightAlignmentSwitch();
 	private static final GetIDSwitch getIDSwitch = new GetIDSwitch();
@@ -695,10 +688,6 @@ public class WidgetPropertySwitch{
 			return (T) getUnderlinedSwitch.getProperty(widget);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("BackgroundImageClipped")){
-			return (T) getBackgroundImageClippedSwitch.getProperty(widget);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("ChildrenMessages")){
 			return (T) getChildrenMessagesSwitch.getProperty(widget);
 		}
@@ -729,10 +718,6 @@ public class WidgetPropertySwitch{
 		
 		else if (propertyName.equalsIgnoreCase("MessageType")){
 			return (T) getMessageTypeSwitch.getProperty(widget);
-		}
-		
-		else if (propertyName.equalsIgnoreCase("Loading")){
-			return (T) getLoadingSwitch.getProperty(widget);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("TopMargin")){
@@ -1055,16 +1040,16 @@ public class WidgetPropertySwitch{
 			return (T) getSelectionCountSwitch.getProperty(widget);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("HorizontalBar")){
-			return (T) getHorizontalBarSwitch.getProperty(widget);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("Seconds")){
 			return (T) getSecondsSwitch.getProperty(widget);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("SortDirection")){
 			return (T) getSortDirectionSwitch.getProperty(widget);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("HorizontalBar")){
+			return (T) getHorizontalBarSwitch.getProperty(widget);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("MenuManager")){
@@ -1263,12 +1248,12 @@ public class WidgetPropertySwitch{
 			return (T) getStyleSwitch.getProperty(widget);
 		}
 		
-		else if (propertyName.equalsIgnoreCase("VerticalBar")){
-			return (T) getVerticalBarSwitch.getProperty(widget);
-		}
-		
 		else if (propertyName.equalsIgnoreCase("TextClient")){
 			return (T) getTextClientSwitch.getProperty(widget);
+		}
+		
+		else if (propertyName.equalsIgnoreCase("VerticalBar")){
+			return (T) getVerticalBarSwitch.getProperty(widget);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("Column")){
@@ -1529,10 +1514,6 @@ public class WidgetPropertySwitch{
 		
 		else if (propertyName.equalsIgnoreCase("Underlined")){
 			setUnderlinedSwitch.setProperty(widget, (Boolean)value);
-		}
-		
-		else if (propertyName.equalsIgnoreCase("BackgroundImageClipped")){
-			setBackgroundImageClippedSwitch.setProperty(widget, (Boolean)value);
 		}
 		
 		else if (propertyName.equalsIgnoreCase("Filter")){
@@ -2103,12 +2084,6 @@ public class WidgetPropertySwitch{
 	public static void setUnderlined(Widget widget, Boolean value){
 		setUnderlinedSwitch.setProperty(widget, value);
 	}
-	public static Boolean getBackgroundImageClipped(Widget widget){
-		return getBackgroundImageClippedSwitch.getProperty(widget);
-	}
-	public static void setBackgroundImageClipped(Widget widget, Boolean value){
-		setBackgroundImageClippedSwitch.setProperty(widget, value);
-	}
 	public static IMessage[] getChildrenMessages(Widget widget){
 		return getChildrenMessagesSwitch.getProperty(widget);
 	}
@@ -2147,9 +2122,6 @@ public class WidgetPropertySwitch{
 	}
 	public static Integer getMessageType(Widget widget){
 		return getMessageTypeSwitch.getProperty(widget);
-	}
-	public static Boolean getLoading(Widget widget){
-		return getLoadingSwitch.getProperty(widget);
 	}
 	public static Integer getTopMargin(Widget widget){
 		return getTopMarginSwitch.getProperty(widget);
@@ -2562,9 +2534,6 @@ public class WidgetPropertySwitch{
 	public static Integer getSelectionCount(Widget widget){
 		return getSelectionCountSwitch.getProperty(widget);
 	}
-	public static ScrollBar getHorizontalBar(Widget widget){
-		return getHorizontalBarSwitch.getProperty(widget);
-	}
 	public static Integer getSeconds(Widget widget){
 		return getSecondsSwitch.getProperty(widget);
 	}
@@ -2576,6 +2545,9 @@ public class WidgetPropertySwitch{
 	}
 	public static void setSortDirection(Widget widget, Integer value){
 		setSortDirectionSwitch.setProperty(widget, value);
+	}
+	public static ScrollBar getHorizontalBar(Widget widget){
+		return getHorizontalBarSwitch.getProperty(widget);
 	}
 	public static IMenuManager getMenuManager(Widget widget){
 		return getMenuManagerSwitch.getProperty(widget);
@@ -2808,14 +2780,14 @@ public class WidgetPropertySwitch{
 	public static Integer getStyle(Widget widget){
 		return getStyleSwitch.getProperty(widget);
 	}
-	public static ScrollBar getVerticalBar(Widget widget){
-		return getVerticalBarSwitch.getProperty(widget);
-	}
 	public static Control getTextClient(Widget widget){
 		return getTextClientSwitch.getProperty(widget);
 	}
 	public static void setTextClient(Widget widget, Control value){
 		setTextClientSwitch.setProperty(widget, value);
+	}
+	public static ScrollBar getVerticalBar(Widget widget){
+		return getVerticalBarSwitch.getProperty(widget);
 	}
 	public static Integer getColumn(Widget widget){
 		return getColumnSwitch.getProperty(widget);
