@@ -4,6 +4,8 @@ import static kr.or.eclipse.swt.query.SWTQuery.$;
 
 import java.io.File;
 
+import kr.or.eclipse.swt.query.IWidgetFunction;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -23,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
 
 public class Test1 {
 	public static void main(String[] args) {
@@ -51,8 +54,7 @@ public class Test1 {
 
 		$(shell, "group").setGridLayoutData(GridData.FILL_BOTH);
 		$(shell, "group>text").setGridLayoutData(GridData.FILL_HORIZONTAL);
-
-		$(shell, "group>button:push").addListener(SWT.Selection, new Listener() {
+		$(shell, "group>button:push[text='Ã£±â..']").addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				FileDialog dialog = new FileDialog(shell, SWT.OPEN);
@@ -63,6 +65,18 @@ public class Test1 {
 			}
 		});
 
+		$(shell, "text").addListener(SWT.FocusIn, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(event).schedule(new IWidgetFunction() {
+					@Override
+					public void doFunction(Widget w) {
+						((Text) w).selectAll();
+					}
+				});
+			}
+		});
+
 		$(shell, "link").addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -70,6 +84,15 @@ public class Test1 {
 				if (file.exists()) {
 					Program.launch(file.getAbsolutePath());
 				}
+			}
+		});
+
+		$(shell, "treeitem").setText("ÀÀ");
+
+		$(shell, "tree").addListener(SWT.MouseDoubleClick, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(event).select("treeitem").setText("Áö¶ö");
 			}
 		});
 
