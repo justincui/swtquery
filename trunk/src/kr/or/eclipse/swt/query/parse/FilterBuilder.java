@@ -49,7 +49,7 @@ public class FilterBuilder {
 	}
 
 	public static void main(String[] args) throws RecognitionException {
-		String selector = "label[a=test]";
+		String selector = "label[a=test], cba";
 
 		SWTQuerySelectorLexer lexer = new SWTQuerySelectorLexer(
 				new ANTLRStringStream(selector));

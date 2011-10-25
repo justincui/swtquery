@@ -1,71 +1,127 @@
 grammar SWTQuerySelector;
 
 options {
-    output=AST;
+  output = AST;
 }
 
-@lexer::header{
+@lexer::header {
 package kr.or.eclipse.swt.query.parse;
 }
 
-@parser::header{
+@parser::header {
 package kr.or.eclipse.swt.query.parse;
 }
 
+OPEN_BR :
+  '[';
 
-fragment SQUOTE : '\'';
-fragment DQUOTE : '"';
-fragment BSLASH	: '\\';
+CLOSE_BR :
+  ']';
 
-ID		: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'-'|'_')*;
-OPEN_BR		: '[';
-CLOSE_BR		: ']';
-ATTR_OP		: ('='|'~='|'!=');
-ASTERIK		: '*';
-WHITESPACE 	: ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; };
-LITERAL		: SQUOTE  ((~SQUOTE|BSLASH SQUOTE )*) SQUOTE | DQUOTE  ((~DQUOTE|BSLASH DQUOTE )*) DQUOTE;
-LT		: '>';
-COLON		: ':';
-EXCLAMATION	: '!';
-COMMA		: ',';
+ASTERIK :
+  '*';
 
-// Main Rule
-selectors	: 
-	selector (COMMA selector)*;
+SQUOTE :
+  '\'';
 
-selector:	
-	selectorSegment (selectorSegment)* -> selectorSegment+;
-	
-	
+DQUOTE :
+  '"';
+
+BSLASH :
+  '\\';
+
+LT :
+  '>';
+
+COLON :
+  ':';
+
+EXCLAMATION :
+  '!';
+
+COMMA :
+  ',';
+
+ID :
+  (
+    'a'..'z'
+    | 'A'..'Z'
+  )
+  (
+    'a'..'z'
+    | 'A'..'Z'
+    | '0'..'9'
+    | '-'
+    | '_'
+  )*;
+
+ATTR_OP :
+  (
+    '='
+    | '!='
+    | '*='
+  );
+
+LITERAL :
+  SQUOTE
+  (
+    ~SQUOTE
+    | BSLASH SQUOTE
+  )*
+  SQUOTE
+  | DQUOTE
+  (
+    ~DQUOTE
+    | BSLASH DQUOTE
+  )*
+  DQUOTE;
+
+WHITESPACE :
+  (
+    '\t'
+    | ' '
+    | '\r'
+    | '\n'
+    | '\u000C'
+  )+ { $channel = HIDDEN; };
+/*------------------------------------------------------------------
+ * PARSER RULES 
+ *------------------------------------------------------------------*/
+
+
+selectors :
+  selector (COMMA selector)*;
+
+selector :
+  selectorSegment (selectorSegment)*
+    -> selectorSegment+;
+
 // Selector Segment
-selectorSegment:	
-	LT? (ID|ASTERIK)^ psudo? attributes?;
 
-idList 	:	
-	ID (',' ID)* -> ID+;
-/*
- * 스타일 필터
- */
-psudo		:
-	COLON^ ID |
-	COLON^ '('! idList ')'!;
+selectorSegment :
+  LT?
+  (
+    ID
+    | ASTERIK
+  )^
+  psudo? attributes?;
 
-/**
- * 속성 필터.
- */
-attributes	:
-	OPEN_BR attribute (',' attribute)* CLOSE_BR -> attribute+;
+idList :
+  ID (',' ID)*
+    -> ID+;
 
-/*
- * 각각의 속성.
- */	
-attribute	:	
-	ID ATTR_OP^ attributeValue? |
-	EXCLAMATION ID^;
-	
-/*
- * 속성 값.
- */
-attributeValue	:
-	LITERAL | ID;
+psudo :
+  COLON^ ID
+  | COLON^ '('! idList ')'!;
 
+attributes :
+  OPEN_BR attribute (',' attribute)* CLOSE_BR
+    -> attribute+;
+
+attribute :
+  ID ATTR_OP^ attributeValue?
+  | EXCLAMATION ID^;
+
+attributeValue :
+  LITERAL
+  | ID;

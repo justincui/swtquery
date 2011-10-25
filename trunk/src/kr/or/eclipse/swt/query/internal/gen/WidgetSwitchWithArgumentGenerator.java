@@ -16,7 +16,7 @@ public class WidgetSwitchWithArgumentGenerator
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "";
-  protected final String TEXT_2 = "/*" + NL + " * Copyright 2011 jeeeyul@gmail.com" + NL + " *" + NL + " * All rights reserved. This program and the accompanying materials" + NL + " * are made available under the terms of the Eclipse Public License v1.0" + NL + " * which accompanies this distribution, and is available at" + NL + " * http://www.eclipse.org/legal/epl-v10.html" + NL + " *" + NL + " */" + NL + "" + NL + "package kr.or.eclipse.swt.query.util;" + NL;
+  protected final String TEXT_2 = "/**" + NL + " * Copyright 2011 jeeeyul@gmail.com" + NL + " *" + NL + " * All rights reserved. This program and the accompanying materials" + NL + " * are made available under the terms of the Eclipse Public License v1.0" + NL + " * which accompanies this distribution, and is available at" + NL + " * http://www.eclipse.org/legal/epl-v10.html" + NL + " *" + NL + " */" + NL + "" + NL + "package kr.or.eclipse.swt.query.util;" + NL;
   protected final String TEXT_3 = NL + "import ";
   protected final String TEXT_4 = ";";
   protected final String TEXT_5 = NL;
