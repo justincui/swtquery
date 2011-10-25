@@ -22,7 +22,7 @@ public class SWTConstantsGenerator
   protected final String TEXT_5 = NL + "\t\tmap.put(\"";
   protected final String TEXT_6 = "\", ";
   protected final String TEXT_7 = ");";
-  protected final String TEXT_8 = NL + "\t}" + NL + "}";
+  protected final String TEXT_8 = NL + "\t}" + NL + "\t" + NL + "\tpublic static int toInt(String constantName){" + NL + "\t\tif(constantName == null){" + NL + "\t\t\tthrow new IllegalArgumentException(\"constantName can not be null.\");" + NL + "\t\t}" + NL + "\t\t" + NL + "\t\tString key = constantName.replace(\"-\", \"\").replace(\"_\", \"\").toLowerCase();" + NL + "\t\tif(map.containsKey(key)){" + NL + "\t\t\treturn map.get(key);" + NL + "\t\t}" + NL + "\t\t" + NL + "\t\tthrow new IllegalArgumentException(constantName + \" is not a valid constant name.\");" + NL + "\t}" + NL + "}";
 
   public String generate(Object argument)
   {

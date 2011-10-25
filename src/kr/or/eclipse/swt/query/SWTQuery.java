@@ -6,8 +6,8 @@ import java.util.List;
 import kr.or.eclipse.swt.query.filter.IWidgetFilter;
 import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
 import kr.or.eclipse.swt.query.internal.ParentSwitch;
-import kr.or.eclipse.swt.query.internal.TextSwitch;
-import kr.or.eclipse.swt.query.parse.FilterBuilder;
+import kr.or.eclipse.swt.query.internal.grammar.FilterBuilder;
+import kr.or.eclipse.swt.query.util.PropertySwitch;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -15,6 +15,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Widget;
 
 public final class SWTQuery {
+	private static final PropertySwitch PROPERTY_SWITCH = new PropertySwitch();
+
 	public static SWTQuery $(Widget w) {
 		return new SWTQuery(w);
 	}
@@ -32,8 +34,7 @@ public final class SWTQuery {
 		return new SWTQuery(list);
 	}
 
-	private static void gatherChildren(Widget w, List<Widget> target,
-			IWidgetFilter filter) {
+	private static void gatherChildren(Widget w, List<Widget> target, IWidgetFilter filter) {
 		if (!target.contains(w) && filter.matches(w)) {
 			target.add(w);
 		}
@@ -89,7 +90,7 @@ public final class SWTQuery {
 
 	public String getText() {
 		if (this.items.size() > 0) {
-			return TextSwitch.INSTANCE.getText(this.items.get(0));
+			return PROPERTY_SWITCH.getText(items.get(0));
 		} else {
 			return null;
 		}
@@ -174,7 +175,7 @@ public final class SWTQuery {
 
 	public SWTQuery setText(String text) {
 		for (Widget each : this.items) {
-			TextSwitch.INSTANCE.setText(each, text);
+			PROPERTY_SWITCH.setText(each, text);
 		}
 		return this;
 	}
