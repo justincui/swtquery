@@ -115,6 +115,8 @@ public class Test1 {
 				$(shell, "group[data-role=file] > *").toggleEnabled();
 			}
 		});
+		
+		$(shell, "*[text]").setText("fuck");
 		shell.pack();
 		shell.open();
 

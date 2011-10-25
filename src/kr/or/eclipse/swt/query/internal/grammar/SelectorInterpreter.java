@@ -11,7 +11,7 @@ import org.antlr.runtime.tree.Tree;
 public class SelectorInterpreter {
 
 	public static void main(String[] args) throws RecognitionException {
-		String selector = "label:(border,readonly)[a=twest, c=-24.392] bbb, cba > system";
+		String selector = "group > button:push[text='Ã£±â..']";
 
 		SWTQuerySelectorLexer lexer = new SWTQuerySelectorLexer(new ANTLRStringStream(selector));
 		SWTQuerySelectorParser parser = new SWTQuerySelectorParser(new CommonTokenStream(lexer));
@@ -23,7 +23,6 @@ public class SelectorInterpreter {
 		visit(root, 0);
 
 		List<Selector> build = build(selector);
-		System.out.println(build);
 	}
 
 	public static List<Selector> build(String selectorExp) {
