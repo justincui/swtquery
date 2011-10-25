@@ -464,4 +464,17 @@ public class SWTConstants{
 		map.put("idshowall", -5);
 		map.put("idquit", -6);
 	}
+	
+	public static int toInt(String constantName){
+		if(constantName == null){
+			throw new IllegalArgumentException("constantName can not be null.");
+		}
+		
+		String key = constantName.replace("-", "").replace("_", "").toLowerCase();
+		if(map.containsKey(key)){
+			return map.get(key);
+		}
+		
+		throw new IllegalArgumentException(constantName + " is not a valid constant name.");
+	}
 }
