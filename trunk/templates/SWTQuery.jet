@@ -149,14 +149,14 @@ public final class SWTQuery {
 	}
 
 	public SWTQuery parent() {
-		ArrayList<Widget> parents = new ArrayList<Widget>();
+		ArrayList<Widget> parents = new UniqueList<Widget>();
 		for (Widget each : this.items) {
 			Widget eachParent = ParentSwitch.INSTANCE.doSwitch(each);
 			if (eachParent != null) {
 				parents.add(eachParent);
 			}
 		}
-		return parent();
+		return new SWTQuery(parents);
 	}
 
 	public SWTQuery prev() {
@@ -240,6 +240,24 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+<% if(each.propertyType == Boolean.class) { %>
+
+	/**
+	 *Inverts <%=each.propertyName%> property.
+	 *
+<% for(Class<?> eachWidgetType : each.settableTypes){ %>
+	 * @see <%=eachWidgetType.getSimpleName()%>
+<% } %>	 
+	 */
+	public SWTQuery toggle<%=each.propertyName%>(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.get<%=each.propertyName%>(each);
+			WidgetPropertySwitch.set<%=each.propertyName%>(each, !old);
+		}
+		return this;
+	}
+<% } %>	
+
 <% } %>
 
 <% for(Property each : properties){
@@ -280,6 +298,8 @@ public final class SWTQuery {
 				gc.drawText(text, 1, 1, true);
 			}
 		});
+		
+		this.redraw();
 		return this;
 	}
 	
@@ -298,6 +318,7 @@ public final class SWTQuery {
 				gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 			}
 		});
+		this.redraw();
 		return this;
 	}
 	
@@ -328,5 +349,30 @@ public final class SWTQuery {
 		return items.size();
 	}
 	
-
+	public SWTQuery first(){
+		if(items.size() > 0){
+			return new SWTQuery(items.get(0));
+		}
+		else {
+			return new SWTQuery(new UniqueList<Widget>());
+		}
+	}
+	
+	public SWTQuery last(){
+		if(items.size() > 0){
+			return new SWTQuery(items.get(items.size()-1));
+		}
+		else {
+			return new SWTQuery(new UniqueList<Widget>());
+		}
+	}
+	
+	public SWTQuery get(int index){
+		if(items.size() > index){
+			return new SWTQuery(items.get(index));
+		}
+		else {
+			return new SWTQuery(new UniqueList<Widget>());
+		}
+	}
 }

@@ -5,21 +5,12 @@ import static kr.or.eclipse.swt.query.SWTQuery.$;
 import java.io.File;
 
 import kr.or.eclipse.swt.query.IWidgetFunction;
-import kr.or.eclipse.swt.query.SWTQuery;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.DropTargetAdapter;
-import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.DropTargetListener;
-import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
@@ -41,6 +32,7 @@ public class Test1 {
 		Group group = new Group(shell, SWT.NORMAL);
 		group.setText("파일을 선택하세요.");
 		group.setLayout(new GridLayout(3, false));
+		group.setData("role", "file");
 
 		for (int i = 0; i < 10; i++) {
 			new Link(group, SWT.NORMAL).setText("<a href=\"#\">열기</a>");
@@ -97,7 +89,7 @@ public class Test1 {
 				$(event).setBackground(null);
 			}
 		});
-		
+
 		$(shell, "link").addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -115,6 +107,14 @@ public class Test1 {
 			}
 		});
 
+		new Button(shell, SWT.PUSH).setText("left");
+
+		$(shell, "button[text='left']").addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(shell, "group[data-role=file] > *").toggleEnabled();
+			}
+		});
 		shell.pack();
 		shell.open();
 

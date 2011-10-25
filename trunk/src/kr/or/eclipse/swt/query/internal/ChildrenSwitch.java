@@ -84,7 +84,7 @@ public class ChildrenSwitch extends WidgetSwitch<List<Widget>> {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public List<Widget> caseTreeItem(TreeItem treeItem) {
 		ArrayList<Widget> result = new ArrayList<Widget>();
@@ -115,10 +115,11 @@ public class ChildrenSwitch extends WidgetSwitch<List<Widget>> {
 			result.add(0, parent);
 		}
 
-		if (recursive == false) {
-			result.addAll(doSwitch(parent));
-		} else {
-			gatherChildren(parent, result);
+		result.addAll(doSwitch(parent));
+		if (recursive) {
+			for (Widget eachDirectChild : result.toArray(new Widget[result.size()])) {
+				gatherChildren(eachDirectChild, result);
+			}
 		}
 
 		return result;
