@@ -51,7 +51,8 @@ attribute :
 
 attributeValue :
   LITERAL
-  | ID;
+  | ID
+  | NUMBER;
 
 OPEN_BR :
   '[';
@@ -117,6 +118,13 @@ LITERAL :
   )*
   DQUOTE;
 
+NUMBER :
+  (
+    '+'
+    | '-'
+  )?
+  '0'..'9'+ ('.' '0'..'9'+)?;
+
 WHITESPACE :
   (
     '\t'
@@ -124,4 +132,5 @@ WHITESPACE :
     | '\r'
     | '\n'
     | '\u000C'
-  )+ { $channel = HIDDEN; };
+  )+
+   { $channel = HIDDEN; };

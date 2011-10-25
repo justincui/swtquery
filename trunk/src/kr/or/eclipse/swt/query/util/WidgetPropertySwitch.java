@@ -10,6 +10,7 @@
 
 package kr.or.eclipse.swt.query.util;
 
+import java.util.*;
 import org.eclipse.swt.widgets.Widget;
 import kr.or.eclipse.swt.query.util.internal.*;
 import org.eclipse.ui.forms.widgets.FormText;
@@ -52,346 +53,530 @@ import org.eclipse.swt.widgets.MenuItem;
  * http://code.google.com/p/swtquery/
  */
 public class WidgetPropertySwitch{
-	private GetMaximizedSwitch getMaximizedSwitch = new GetMaximizedSwitch();
-	private SetMaximizedSwitch setMaximizedSwitch = new SetMaximizedSwitch();
-	private GetVisibleSwitch getVisibleSwitch = new GetVisibleSwitch();
-	private SetVisibleSwitch setVisibleSwitch = new SetVisibleSwitch();
-	private GetHorizontalPixelSwitch getHorizontalPixelSwitch = new GetHorizontalPixelSwitch();
-	private SetHorizontalPixelSwitch setHorizontalPixelSwitch = new SetHorizontalPixelSwitch();
-	private GetMoveableSwitch getMoveableSwitch = new GetMoveableSwitch();
-	private SetMoveableSwitch setMoveableSwitch = new SetMoveableSwitch();
-	private GetHorizontalIndexSwitch getHorizontalIndexSwitch = new GetHorizontalIndexSwitch();
-	private SetHorizontalIndexSwitch setHorizontalIndexSwitch = new SetHorizontalIndexSwitch();
-	private GetOriginSwitch getOriginSwitch = new GetOriginSwitch();
-	private SetOriginSwitch setOriginSwitch = new SetOriginSwitch();
-	private GetImagesSwitch getImagesSwitch = new GetImagesSwitch();
-	private SetImagesSwitch setImagesSwitch = new SetImagesSwitch();
-	private GetSingleSwitch getSingleSwitch = new GetSingleSwitch();
-	private SetSingleSwitch setSingleSwitch = new SetSingleSwitch();
-	private GetDataSwitch getDataSwitch = new GetDataSwitch();
-	private SetDataSwitch setDataSwitch = new SetDataSwitch();
-	private GetEchoCharSwitch getEchoCharSwitch = new GetEchoCharSwitch();
-	private SetEchoCharSwitch setEchoCharSwitch = new SetEchoCharSwitch();
-	private GetHeadClientSwitch getHeadClientSwitch = new GetHeadClientSwitch();
-	private SetHeadClientSwitch setHeadClientSwitch = new SetHeadClientSwitch();
-	private GetToolTipTextSwitch getToolTipTextSwitch = new GetToolTipTextSwitch();
-	private SetToolTipTextSwitch setToolTipTextSwitch = new SetToolTipTextSwitch();
-	private GetMenuBarSwitch getMenuBarSwitch = new GetMenuBarSwitch();
-	private SetMenuBarSwitch setMenuBarSwitch = new SetMenuBarSwitch();
-	private GetUnselectedImageVisibleSwitch getUnselectedImageVisibleSwitch = new GetUnselectedImageVisibleSwitch();
-	private SetUnselectedImageVisibleSwitch setUnselectedImageVisibleSwitch = new SetUnselectedImageVisibleSwitch();
-	private GetUrlSwitch getUrlSwitch = new GetUrlSwitch();
-	private SetUrlSwitch setUrlSwitch = new SetUrlSwitch();
-	private GetModifiedSwitch getModifiedSwitch = new GetModifiedSwitch();
-	private SetModifiedSwitch setModifiedSwitch = new SetModifiedSwitch();
-	private GetParagraphsSeparatedSwitch getParagraphsSeparatedSwitch = new GetParagraphsSeparatedSwitch();
-	private SetParagraphsSeparatedSwitch setParagraphsSeparatedSwitch = new SetParagraphsSeparatedSwitch();
-	private GetIncrementSwitch getIncrementSwitch = new GetIncrementSwitch();
-	private SetIncrementSwitch setIncrementSwitch = new SetIncrementSwitch();
-	private GetSortDirectionSwitch getSortDirectionSwitch = new GetSortDirectionSwitch();
-	private SetSortDirectionSwitch setSortDirectionSwitch = new SetSortDirectionSwitch();
-	private GetSecondsSwitch getSecondsSwitch = new GetSecondsSwitch();
-	private SetSecondsSwitch setSecondsSwitch = new SetSecondsSwitch();
-	private GetFullScreenSwitch getFullScreenSwitch = new GetFullScreenSwitch();
-	private SetFullScreenSwitch setFullScreenSwitch = new SetFullScreenSwitch();
-	private GetLabelProviderSwitch getLabelProviderSwitch = new GetLabelProviderSwitch();
-	private SetLabelProviderSwitch setLabelProviderSwitch = new SetLabelProviderSwitch();
-	private GetVisibleItemCountSwitch getVisibleItemCountSwitch = new GetVisibleItemCountSwitch();
-	private SetVisibleItemCountSwitch setVisibleItemCountSwitch = new SetVisibleItemCountSwitch();
-	private GetParentSwitch getParentSwitch = new GetParentSwitch();
-	private SetParentSwitch setParentSwitch = new SetParentSwitch();
-	private GetThumbSwitch getThumbSwitch = new GetThumbSwitch();
-	private SetThumbSwitch setThumbSwitch = new SetThumbSwitch();
-	private GetWordWrapSwitch getWordWrapSwitch = new GetWordWrapSwitch();
-	private SetWordWrapSwitch setWordWrapSwitch = new SetWordWrapSwitch();
-	private GetMinimizedSwitch getMinimizedSwitch = new GetMinimizedSwitch();
-	private SetMinimizedSwitch setMinimizedSwitch = new SetMinimizedSwitch();
-	private GetCaretOffsetSwitch getCaretOffsetSwitch = new GetCaretOffsetSwitch();
-	private SetCaretOffsetSwitch setCaretOffsetSwitch = new SetCaretOffsetSwitch();
-	private GetDecorationColorSwitch getDecorationColorSwitch = new GetDecorationColorSwitch();
-	private SetDecorationColorSwitch setDecorationColorSwitch = new SetDecorationColorSwitch();
-	private GetBoundsSwitch getBoundsSwitch = new GetBoundsSwitch();
-	private SetBoundsSwitch setBoundsSwitch = new SetBoundsSwitch();
-	private GetDigitsSwitch getDigitsSwitch = new GetDigitsSwitch();
-	private SetDigitsSwitch setDigitsSwitch = new SetDigitsSwitch();
-	private GetIgnoreCaseSwitch getIgnoreCaseSwitch = new GetIgnoreCaseSwitch();
-	private SetIgnoreCaseSwitch setIgnoreCaseSwitch = new SetIgnoreCaseSwitch();
-	private GetLeftSwitch getLeftSwitch = new GetLeftSwitch();
-	private SetLeftSwitch setLeftSwitch = new SetLeftSwitch();
-	private GetBottomSwitch getBottomSwitch = new GetBottomSwitch();
-	private SetBottomSwitch setBottomSwitch = new SetBottomSwitch();
-	private GetFilterSwitch getFilterSwitch = new GetFilterSwitch();
-	private SetFilterSwitch setFilterSwitch = new SetFilterSwitch();
-	private GetAllowDuplicatesSwitch getAllowDuplicatesSwitch = new GetAllowDuplicatesSwitch();
-	private SetAllowDuplicatesSwitch setAllowDuplicatesSwitch = new SetAllowDuplicatesSwitch();
-	private GetLayoutSwitch getLayoutSwitch = new GetLayoutSwitch();
-	private SetLayoutSwitch setLayoutSwitch = new SetLayoutSwitch();
-	private GetBackgroundImageSwitch getBackgroundImageSwitch = new GetBackgroundImageSwitch();
-	private SetBackgroundImageSwitch setBackgroundImageSwitch = new SetBackgroundImageSwitch();
-	private GetTabPositionSwitch getTabPositionSwitch = new GetTabPositionSwitch();
-	private SetTabPositionSwitch setTabPositionSwitch = new SetTabPositionSwitch();
-	private GetTitleBarBackgroundSwitch getTitleBarBackgroundSwitch = new GetTitleBarBackgroundSwitch();
-	private SetTitleBarBackgroundSwitch setTitleBarBackgroundSwitch = new SetTitleBarBackgroundSwitch();
-	private GetTextCharsSwitch getTextCharsSwitch = new GetTextCharsSwitch();
-	private SetTextCharsSwitch setTextCharsSwitch = new SetTextCharsSwitch();
-	private GetIMESwitch getIMESwitch = new GetIMESwitch();
-	private SetIMESwitch setIMESwitch = new SetIMESwitch();
-	private GetTabHeightSwitch getTabHeightSwitch = new GetTabHeightSwitch();
-	private SetTabHeightSwitch setTabHeightSwitch = new SetTabHeightSwitch();
-	private GetMaximizeVisibleSwitch getMaximizeVisibleSwitch = new GetMaximizeVisibleSwitch();
-	private SetMaximizeVisibleSwitch setMaximizeVisibleSwitch = new SetMaximizeVisibleSwitch();
-	private GetDragDetectSwitch getDragDetectSwitch = new GetDragDetectSwitch();
-	private SetDragDetectSwitch setDragDetectSwitch = new SetDragDetectSwitch();
-	private GetAlphaSwitch getAlphaSwitch = new GetAlphaSwitch();
-	private SetAlphaSwitch setAlphaSwitch = new SetAlphaSwitch();
-	private GetJavascriptEnabledSwitch getJavascriptEnabledSwitch = new GetJavascriptEnabledSwitch();
-	private SetJavascriptEnabledSwitch setJavascriptEnabledSwitch = new SetJavascriptEnabledSwitch();
-	private GetPreferredSizeSwitch getPreferredSizeSwitch = new GetPreferredSizeSwitch();
-	private SetPreferredSizeSwitch setPreferredSizeSwitch = new SetPreferredSizeSwitch();
-	private GetBackgroundSwitch getBackgroundSwitch = new GetBackgroundSwitch();
-	private SetBackgroundSwitch setBackgroundSwitch = new SetBackgroundSwitch();
-	private GetTopMarginSwitch getTopMarginSwitch = new GetTopMarginSwitch();
-	private SetTopMarginSwitch setTopMarginSwitch = new SetTopMarginSwitch();
-	private GetWeightsSwitch getWeightsSwitch = new GetWeightsSwitch();
-	private SetWeightsSwitch setWeightsSwitch = new SetWeightsSwitch();
-	private GetDoubleClickEnabledSwitch getDoubleClickEnabledSwitch = new GetDoubleClickEnabledSwitch();
-	private SetDoubleClickEnabledSwitch setDoubleClickEnabledSwitch = new SetDoubleClickEnabledSwitch();
-	private GetLayoutDataSwitch getLayoutDataSwitch = new GetLayoutDataSwitch();
-	private SetLayoutDataSwitch setLayoutDataSwitch = new SetLayoutDataSwitch();
-	private GetStyleRangesSwitch getStyleRangesSwitch = new GetStyleRangesSwitch();
-	private SetStyleRangesSwitch setStyleRangesSwitch = new SetStyleRangesSwitch();
-	private GetControlSwitch getControlSwitch = new GetControlSwitch();
-	private SetControlSwitch setControlSwitch = new SetControlSwitch();
-	private GetSashWidthSwitch getSashWidthSwitch = new GetSashWidthSwitch();
-	private SetSashWidthSwitch setSashWidthSwitch = new SetSashWidthSwitch();
-	private GetRendererSwitch getRendererSwitch = new GetRendererSwitch();
-	private SetRendererSwitch setRendererSwitch = new SetRendererSwitch();
-	private GetFontSwitch getFontSwitch = new GetFontSwitch();
-	private SetFontSwitch setFontSwitch = new SetFontSwitch();
-	private GetImageSwitch getImageSwitch = new GetImageSwitch();
-	private SetImageSwitch setImageSwitch = new SetImageSwitch();
-	private GetRightMinimumSizeSwitch getRightMinimumSizeSwitch = new GetRightMinimumSizeSwitch();
-	private SetRightMinimumSizeSwitch setRightMinimumSizeSwitch = new SetRightMinimumSizeSwitch();
-	private GetExpandedSwitch getExpandedSwitch = new GetExpandedSwitch();
-	private SetExpandedSwitch setExpandedSwitch = new SetExpandedSwitch();
-	private GetClientSwitch getClientSwitch = new GetClientSwitch();
-	private SetClientSwitch setClientSwitch = new SetClientSwitch();
-	private GetTitleBarForegroundSwitch getTitleBarForegroundSwitch = new GetTitleBarForegroundSwitch();
-	private SetTitleBarForegroundSwitch setTitleBarForegroundSwitch = new SetTitleBarForegroundSwitch();
-	private GetRectanglesSwitch getRectanglesSwitch = new GetRectanglesSwitch();
-	private SetRectanglesSwitch setRectanglesSwitch = new SetRectanglesSwitch();
-	private GetRightSwitch getRightSwitch = new GetRightSwitch();
-	private SetRightSwitch setRightSwitch = new SetRightSwitch();
-	private GetItemsSwitch getItemsSwitch = new GetItemsSwitch();
-	private SetItemsSwitch setItemsSwitch = new SetItemsSwitch();
-	private GetDefaultItemSwitch getDefaultItemSwitch = new GetDefaultItemSwitch();
-	private SetDefaultItemSwitch setDefaultItemSwitch = new SetDefaultItemSwitch();
-	private GetOrientationSwitch getOrientationSwitch = new GetOrientationSwitch();
-	private SetOrientationSwitch setOrientationSwitch = new SetOrientationSwitch();
-	private GetMessageSwitch getMessageSwitch = new GetMessageSwitch();
-	private SetMessageSwitch setMessageSwitch = new SetMessageSwitch();
-	private GetUnselectedCloseVisibleSwitch getUnselectedCloseVisibleSwitch = new GetUnselectedCloseVisibleSwitch();
-	private SetUnselectedCloseVisibleSwitch setUnselectedCloseVisibleSwitch = new SetUnselectedCloseVisibleSwitch();
-	private GetLeftMarginSwitch getLeftMarginSwitch = new GetLeftMarginSwitch();
-	private SetLeftMarginSwitch setLeftMarginSwitch = new SetLeftMarginSwitch();
-	private GetHoursSwitch getHoursSwitch = new GetHoursSwitch();
-	private SetHoursSwitch setHoursSwitch = new SetHoursSwitch();
-	private GetHoverImageSwitch getHoverImageSwitch = new GetHoverImageSwitch();
-	private SetHoverImageSwitch setHoverImageSwitch = new SetHoverImageSwitch();
-	private GetLinesVisibleSwitch getLinesVisibleSwitch = new GetLinesVisibleSwitch();
-	private SetLinesVisibleSwitch setLinesVisibleSwitch = new SetLinesVisibleSwitch();
-	private GetDefaultButtonSwitch getDefaultButtonSwitch = new GetDefaultButtonSwitch();
-	private SetDefaultButtonSwitch setDefaultButtonSwitch = new SetDefaultButtonSwitch();
-	private GetBottomMarginSwitch getBottomMarginSwitch = new GetBottomMarginSwitch();
-	private SetBottomMarginSwitch setBottomMarginSwitch = new SetBottomMarginSwitch();
-	private GetMinimumSwitch getMinimumSwitch = new GetMinimumSwitch();
-	private SetMinimumSwitch setMinimumSwitch = new SetMinimumSwitch();
-	private GetAlignmentSwitch getAlignmentSwitch = new GetAlignmentSwitch();
-	private SetAlignmentSwitch setAlignmentSwitch = new SetAlignmentSwitch();
-	private GetAlwaysShowScrollBarsSwitch getAlwaysShowScrollBarsSwitch = new GetAlwaysShowScrollBarsSwitch();
-	private SetAlwaysShowScrollBarsSwitch setAlwaysShowScrollBarsSwitch = new SetAlwaysShowScrollBarsSwitch();
-	private GetTopLeftSwitch getTopLeftSwitch = new GetTopLeftSwitch();
-	private SetTopLeftSwitch setTopLeftSwitch = new SetTopLeftSwitch();
-	private GetIndentSwitch getIndentSwitch = new GetIndentSwitch();
-	private SetIndentSwitch setIndentSwitch = new SetIndentSwitch();
-	private GetImeInputModeSwitch getImeInputModeSwitch = new GetImeInputModeSwitch();
-	private SetImeInputModeSwitch setImeInputModeSwitch = new SetImeInputModeSwitch();
-	private GetTopIndexSwitch getTopIndexSwitch = new GetTopIndexSwitch();
-	private SetTopIndexSwitch setTopIndexSwitch = new SetTopIndexSwitch();
-	private GetRightWidthSwitch getRightWidthSwitch = new GetRightWidthSwitch();
-	private SetRightWidthSwitch setRightWidthSwitch = new SetRightWidthSwitch();
-	private GetLayoutDeferredSwitch getLayoutDeferredSwitch = new GetLayoutDeferredSwitch();
-	private SetLayoutDeferredSwitch setLayoutDeferredSwitch = new SetLayoutDeferredSwitch();
-	private GetSeparatorControlSwitch getSeparatorControlSwitch = new GetSeparatorControlSwitch();
-	private SetSeparatorControlSwitch setSeparatorControlSwitch = new SetSeparatorControlSwitch();
-	private GetForegroundSwitch getForegroundSwitch = new GetForegroundSwitch();
-	private SetForegroundSwitch setForegroundSwitch = new SetForegroundSwitch();
-	private GetMaximizedControlSwitch getMaximizedControlSwitch = new GetMaximizedControlSwitch();
-	private SetMaximizedControlSwitch setMaximizedControlSwitch = new SetMaximizedControlSwitch();
-	private GetListVisibleSwitch getListVisibleSwitch = new GetListVisibleSwitch();
-	private SetListVisibleSwitch setListVisibleSwitch = new SetListVisibleSwitch();
-	private GetHeaderVisibleSwitch getHeaderVisibleSwitch = new GetHeaderVisibleSwitch();
-	private SetHeaderVisibleSwitch setHeaderVisibleSwitch = new SetHeaderVisibleSwitch();
-	private GetTextClientSwitch getTextClientSwitch = new GetTextClientSwitch();
-	private SetTextClientSwitch setTextClientSwitch = new SetTextClientSwitch();
-	private GetMonthSwitch getMonthSwitch = new GetMonthSwitch();
-	private SetMonthSwitch setMonthSwitch = new SetMonthSwitch();
-	private GetBlockSelectionSwitch getBlockSelectionSwitch = new GetBlockSelectionSwitch();
-	private SetBlockSelectionSwitch setBlockSelectionSwitch = new SetBlockSelectionSwitch();
-	private GetMenuSwitch getMenuSwitch = new GetMenuSwitch();
-	private SetMenuSwitch setMenuSwitch = new SetMenuSwitch();
-	private GetMinimizeVisibleSwitch getMinimizeVisibleSwitch = new GetMinimizeVisibleSwitch();
-	private SetMinimizeVisibleSwitch setMinimizeVisibleSwitch = new SetMinimizeVisibleSwitch();
-	private GetLineSpacingSwitch getLineSpacingSwitch = new GetLineSpacingSwitch();
-	private SetLineSpacingSwitch setLineSpacingSwitch = new SetLineSpacingSwitch();
-	private GetIDSwitch getIDSwitch = new GetIDSwitch();
-	private SetIDSwitch setIDSwitch = new SetIDSwitch();
-	private GetHrefSwitch getHrefSwitch = new GetHrefSwitch();
-	private SetHrefSwitch setHrefSwitch = new SetHrefSwitch();
-	private GetResizableSwitch getResizableSwitch = new GetResizableSwitch();
-	private SetResizableSwitch setResizableSwitch = new SetResizableSwitch();
-	private GetWidthSwitch getWidthSwitch = new GetWidthSwitch();
-	private SetWidthSwitch setWidthSwitch = new SetWidthSwitch();
-	private GetJustifySwitch getJustifySwitch = new GetJustifySwitch();
-	private SetJustifySwitch setJustifySwitch = new SetJustifySwitch();
-	private GetToolTipSwitch getToolTipSwitch = new GetToolTipSwitch();
-	private SetToolTipSwitch setToolTipSwitch = new SetToolTipSwitch();
-	private GetHoverDecorationColorSwitch getHoverDecorationColorSwitch = new GetHoverDecorationColorSwitch();
-	private SetHoverDecorationColorSwitch setHoverDecorationColorSwitch = new SetHoverDecorationColorSwitch();
-	private GetSizeSwitch getSizeSwitch = new GetSizeSwitch();
-	private SetSizeSwitch setSizeSwitch = new SetSizeSwitch();
-	private GetStippledSwitch getStippledSwitch = new GetStippledSwitch();
-	private SetStippledSwitch setStippledSwitch = new SetStippledSwitch();
-	private GetSelectionBackgroundSwitch getSelectionBackgroundSwitch = new GetSelectionBackgroundSwitch();
-	private SetSelectionBackgroundSwitch setSelectionBackgroundSwitch = new SetSelectionBackgroundSwitch();
-	private GetTextLimitSwitch getTextLimitSwitch = new GetTextLimitSwitch();
-	private SetTextLimitSwitch setTextLimitSwitch = new SetTextLimitSwitch();
-	private GetMaximumSwitch getMaximumSwitch = new GetMaximumSwitch();
-	private SetMaximumSwitch setMaximumSwitch = new SetMaximumSwitch();
-	private GetItemCountSwitch getItemCountSwitch = new GetItemCountSwitch();
-	private SetItemCountSwitch setItemCountSwitch = new SetItemCountSwitch();
-	private GetHeightSwitch getHeightSwitch = new GetHeightSwitch();
-	private SetHeightSwitch setHeightSwitch = new SetHeightSwitch();
-	private GetTopRightSwitch getTopRightSwitch = new GetTopRightSwitch();
-	private SetTopRightSwitch setTopRightSwitch = new SetTopRightSwitch();
-	private GetHyperlinkSettingsSwitch getHyperlinkSettingsSwitch = new GetHyperlinkSettingsSwitch();
-	private SetHyperlinkSettingsSwitch setHyperlinkSettingsSwitch = new SetHyperlinkSettingsSwitch();
-	private GetMinWidthSwitch getMinWidthSwitch = new GetMinWidthSwitch();
-	private SetMinWidthSwitch setMinWidthSwitch = new SetMinWidthSwitch();
-	private GetTransferSwitch getTransferSwitch = new GetTransferSwitch();
-	private SetTransferSwitch setTransferSwitch = new SetTransferSwitch();
-	private GetActiveImageSwitch getActiveImageSwitch = new GetActiveImageSwitch();
-	private SetActiveImageSwitch setActiveImageSwitch = new SetActiveImageSwitch();
-	private GetEditableSwitch getEditableSwitch = new GetEditableSwitch();
-	private SetEditableSwitch setEditableSwitch = new SetEditableSwitch();
-	private GetFormTextSwitch getFormTextSwitch = new GetFormTextSwitch();
-	private SetFormTextSwitch setFormTextSwitch = new SetFormTextSwitch();
-	private GetTouchEnabledSwitch getTouchEnabledSwitch = new GetTouchEnabledSwitch();
-	private SetTouchEnabledSwitch setTouchEnabledSwitch = new SetTouchEnabledSwitch();
-	private GetDropTargetEffectSwitch getDropTargetEffectSwitch = new GetDropTargetEffectSwitch();
-	private SetDropTargetEffectSwitch setDropTargetEffectSwitch = new SetDropTargetEffectSwitch();
-	private GetSimpleSwitch getSimpleSwitch = new GetSimpleSwitch();
-	private SetSimpleSwitch setSimpleSwitch = new SetSimpleSwitch();
-	private GetMarginColorSwitch getMarginColorSwitch = new GetMarginColorSwitch();
-	private SetMarginColorSwitch setMarginColorSwitch = new SetMarginColorSwitch();
-	private GetTopPixelSwitch getTopPixelSwitch = new GetTopPixelSwitch();
-	private SetTopPixelSwitch setTopPixelSwitch = new SetTopPixelSwitch();
-	private GetCheckedSwitch getCheckedSwitch = new GetCheckedSwitch();
-	private SetCheckedSwitch setCheckedSwitch = new SetCheckedSwitch();
-	private GetTitleBarBorderColorSwitch getTitleBarBorderColorSwitch = new GetTitleBarBorderColorSwitch();
-	private SetTitleBarBorderColorSwitch setTitleBarBorderColorSwitch = new SetTitleBarBorderColorSwitch();
-	private GetLockedSwitch getLockedSwitch = new GetLockedSwitch();
-	private SetLockedSwitch setLockedSwitch = new SetLockedSwitch();
-	private GetCaretSwitch getCaretSwitch = new GetCaretSwitch();
-	private SetCaretSwitch setCaretSwitch = new SetCaretSwitch();
-	private GetWrapIndentSwitch getWrapIndentSwitch = new GetWrapIndentSwitch();
-	private SetWrapIndentSwitch setWrapIndentSwitch = new SetWrapIndentSwitch();
-	private GetAutoHideSwitch getAutoHideSwitch = new GetAutoHideSwitch();
-	private SetAutoHideSwitch setAutoHideSwitch = new SetAutoHideSwitch();
-	private GetEnabledSwitch getEnabledSwitch = new GetEnabledSwitch();
-	private SetEnabledSwitch setEnabledSwitch = new SetEnabledSwitch();
-	private GetDragSourceEffectSwitch getDragSourceEffectSwitch = new GetDragSourceEffectSwitch();
-	private SetDragSourceEffectSwitch setDragSourceEffectSwitch = new SetDragSourceEffectSwitch();
-	private GetShowFocusedControlSwitch getShowFocusedControlSwitch = new GetShowFocusedControlSwitch();
-	private SetShowFocusedControlSwitch setShowFocusedControlSwitch = new SetShowFocusedControlSwitch();
-	private GetColumnOrderSwitch getColumnOrderSwitch = new GetColumnOrderSwitch();
-	private SetColumnOrderSwitch setColumnOrderSwitch = new SetColumnOrderSwitch();
-	private GetMRUVisibleSwitch getMRUVisibleSwitch = new GetMRUVisibleSwitch();
-	private SetMRUVisibleSwitch setMRUVisibleSwitch = new SetMRUVisibleSwitch();
-	private GetGrayedSwitch getGrayedSwitch = new GetGrayedSwitch();
-	private SetGrayedSwitch setGrayedSwitch = new SetGrayedSwitch();
-	private GetDaySwitch getDaySwitch = new GetDaySwitch();
-	private SetDaySwitch setDaySwitch = new SetDaySwitch();
-	private GetCursorSwitch getCursorSwitch = new GetCursorSwitch();
-	private SetCursorSwitch setCursorSwitch = new SetCursorSwitch();
-	private GetYearSwitch getYearSwitch = new GetYearSwitch();
-	private SetYearSwitch setYearSwitch = new SetYearSwitch();
-	private GetToolBarVerticalAlignmentSwitch getToolBarVerticalAlignmentSwitch = new GetToolBarVerticalAlignmentSwitch();
-	private SetToolBarVerticalAlignmentSwitch setToolBarVerticalAlignmentSwitch = new SetToolBarVerticalAlignmentSwitch();
-	private GetRegionSwitch getRegionSwitch = new GetRegionSwitch();
-	private SetRegionSwitch setRegionSwitch = new SetRegionSwitch();
-	private GetAcceleratorSwitch getAcceleratorSwitch = new GetAcceleratorSwitch();
-	private SetAcceleratorSwitch setAcceleratorSwitch = new SetAcceleratorSwitch();
-	private GetWrapIndicesSwitch getWrapIndicesSwitch = new GetWrapIndicesSwitch();
-	private SetWrapIndicesSwitch setWrapIndicesSwitch = new SetWrapIndicesSwitch();
-	private GetPageIncrementSwitch getPageIncrementSwitch = new GetPageIncrementSwitch();
-	private SetPageIncrementSwitch setPageIncrementSwitch = new SetPageIncrementSwitch();
-	private GetMatchEmptyStringSwitch getMatchEmptyStringSwitch = new GetMatchEmptyStringSwitch();
-	private SetMatchEmptyStringSwitch setMatchEmptyStringSwitch = new SetMatchEmptyStringSwitch();
-	private GetCompositionOffsetSwitch getCompositionOffsetSwitch = new GetCompositionOffsetSwitch();
-	private SetCompositionOffsetSwitch setCompositionOffsetSwitch = new SetCompositionOffsetSwitch();
-	private GetDescriptionSwitch getDescriptionSwitch = new GetDescriptionSwitch();
-	private SetDescriptionSwitch setDescriptionSwitch = new SetDescriptionSwitch();
-	private GetShowCloseSwitch getShowCloseSwitch = new GetShowCloseSwitch();
-	private SetShowCloseSwitch setShowCloseSwitch = new SetShowCloseSwitch();
-	private GetSelectionForegroundSwitch getSelectionForegroundSwitch = new GetSelectionForegroundSwitch();
-	private SetSelectionForegroundSwitch setSelectionForegroundSwitch = new SetSelectionForegroundSwitch();
-	private GetBackgroundModeSwitch getBackgroundModeSwitch = new GetBackgroundModeSwitch();
-	private SetBackgroundModeSwitch setBackgroundModeSwitch = new SetBackgroundModeSwitch();
-	private GetTitleBarGradientBackgroundSwitch getTitleBarGradientBackgroundSwitch = new GetTitleBarGradientBackgroundSwitch();
-	private SetTitleBarGradientBackgroundSwitch setTitleBarGradientBackgroundSwitch = new SetTitleBarGradientBackgroundSwitch();
-	private GetBlockSelectionBoundsSwitch getBlockSelectionBoundsSwitch = new GetBlockSelectionBoundsSwitch();
-	private SetBlockSelectionBoundsSwitch setBlockSelectionBoundsSwitch = new SetBlockSelectionBoundsSwitch();
-	private GetMinHeightSwitch getMinHeightSwitch = new GetMinHeightSwitch();
-	private SetMinHeightSwitch setMinHeightSwitch = new SetMinHeightSwitch();
-	private GetRightMarginSwitch getRightMarginSwitch = new GetRightMarginSwitch();
-	private SetRightMarginSwitch setRightMarginSwitch = new SetRightMarginSwitch();
-	private GetLocationSwitch getLocationSwitch = new GetLocationSwitch();
-	private SetLocationSwitch setLocationSwitch = new SetLocationSwitch();
-	private GetSpacingSwitch getSpacingSwitch = new GetSpacingSwitch();
-	private SetSpacingSwitch setSpacingSwitch = new SetSpacingSwitch();
-	private GetMinimumSizeSwitch getMinimumSizeSwitch = new GetMinimumSizeSwitch();
-	private SetMinimumSizeSwitch setMinimumSizeSwitch = new SetMinimumSizeSwitch();
-	private GetDescriptionControlSwitch getDescriptionControlSwitch = new GetDescriptionControlSwitch();
-	private SetDescriptionControlSwitch setDescriptionControlSwitch = new SetDescriptionControlSwitch();
-	private GetTextSwitch getTextSwitch = new GetTextSwitch();
-	private SetTextSwitch setTextSwitch = new SetTextSwitch();
-	private GetTabsSwitch getTabsSwitch = new GetTabsSwitch();
-	private SetTabsSwitch setTabsSwitch = new SetTabsSwitch();
-	private GetBorderVisibleSwitch getBorderVisibleSwitch = new GetBorderVisibleSwitch();
-	private SetBorderVisibleSwitch setBorderVisibleSwitch = new SetBorderVisibleSwitch();
-	private GetStateSwitch getStateSwitch = new GetStateSwitch();
-	private SetStateSwitch setStateSwitch = new SetStateSwitch();
-	private GetTopItemSwitch getTopItemSwitch = new GetTopItemSwitch();
-	private SetTopItemSwitch setTopItemSwitch = new SetTopItemSwitch();
-	private GetTabListSwitch getTabListSwitch = new GetTabListSwitch();
-	private SetTabListSwitch setTabListSwitch = new SetTabListSwitch();
-	private GetTopCenterSwitch getTopCenterSwitch = new GetTopCenterSwitch();
-	private SetTopCenterSwitch setTopCenterSwitch = new SetTopCenterSwitch();
-	private GetExpandHorizontalSwitch getExpandHorizontalSwitch = new GetExpandHorizontalSwitch();
-	private SetExpandHorizontalSwitch setExpandHorizontalSwitch = new SetExpandHorizontalSwitch();
-	private GetTabStopsSwitch getTabStopsSwitch = new GetTabStopsSwitch();
-	private SetTabStopsSwitch setTabStopsSwitch = new SetTabStopsSwitch();
-	private GetMinutesSwitch getMinutesSwitch = new GetMinutesSwitch();
-	private SetMinutesSwitch setMinutesSwitch = new SetMinutesSwitch();
-	private GetExpandVerticalSwitch getExpandVerticalSwitch = new GetExpandVerticalSwitch();
-	private SetExpandVerticalSwitch setExpandVerticalSwitch = new SetExpandVerticalSwitch();
-	private GetHotImageSwitch getHotImageSwitch = new GetHotImageSwitch();
-	private SetHotImageSwitch setHotImageSwitch = new SetHotImageSwitch();
-	private GetMinimumCharactersSwitch getMinimumCharactersSwitch = new GetMinimumCharactersSwitch();
-	private SetMinimumCharactersSwitch setMinimumCharactersSwitch = new SetMinimumCharactersSwitch();
+	private static final Map<String, PropertyEntry> map = new HashMap();
+	
+	private static class PropertyEntry{
+		public String name;
+		public Class<?> type;
+		
+		public PropertyEntry(String name, Class<?> type){
+			this.name = name.trim().toLowerCase();
+			this.type = type;
+		}
+	}
+	
+	static{
+		map.put("maximized", new PropertyEntry("Maximized", Boolean.class));
+		map.put("visible", new PropertyEntry("Visible", Boolean.class));
+		map.put("horizontalpixel", new PropertyEntry("HorizontalPixel", Integer.class));
+		map.put("moveable", new PropertyEntry("Moveable", Boolean.class));
+		map.put("horizontalindex", new PropertyEntry("HorizontalIndex", Integer.class));
+		map.put("origin", new PropertyEntry("Origin", Point.class));
+		map.put("images", new PropertyEntry("Images", Image[].class));
+		map.put("single", new PropertyEntry("Single", Boolean.class));
+		map.put("data", new PropertyEntry("Data", Object.class));
+		map.put("echochar", new PropertyEntry("EchoChar", Character.class));
+		map.put("headclient", new PropertyEntry("HeadClient", Control.class));
+		map.put("tooltiptext", new PropertyEntry("ToolTipText", String.class));
+		map.put("menubar", new PropertyEntry("MenuBar", Menu.class));
+		map.put("unselectedimagevisible", new PropertyEntry("UnselectedImageVisible", Boolean.class));
+		map.put("url", new PropertyEntry("Url", String.class));
+		map.put("modified", new PropertyEntry("Modified", Boolean.class));
+		map.put("paragraphsseparated", new PropertyEntry("ParagraphsSeparated", Boolean.class));
+		map.put("increment", new PropertyEntry("Increment", Integer.class));
+		map.put("sortdirection", new PropertyEntry("SortDirection", Integer.class));
+		map.put("seconds", new PropertyEntry("Seconds", Integer.class));
+		map.put("fullscreen", new PropertyEntry("FullScreen", Boolean.class));
+		map.put("labelprovider", new PropertyEntry("LabelProvider", ILabelProvider.class));
+		map.put("visibleitemcount", new PropertyEntry("VisibleItemCount", Integer.class));
+		map.put("parent", new PropertyEntry("Parent", Composite.class));
+		map.put("thumb", new PropertyEntry("Thumb", Integer.class));
+		map.put("wordwrap", new PropertyEntry("WordWrap", Boolean.class));
+		map.put("minimized", new PropertyEntry("Minimized", Boolean.class));
+		map.put("caretoffset", new PropertyEntry("CaretOffset", Integer.class));
+		map.put("decorationcolor", new PropertyEntry("DecorationColor", Color.class));
+		map.put("bounds", new PropertyEntry("Bounds", Rectangle.class));
+		map.put("digits", new PropertyEntry("Digits", Integer.class));
+		map.put("ignorecase", new PropertyEntry("IgnoreCase", Boolean.class));
+		map.put("left", new PropertyEntry("Left", Control.class));
+		map.put("bottom", new PropertyEntry("Bottom", Control.class));
+		map.put("filter", new PropertyEntry("Filter", String.class));
+		map.put("allowduplicates", new PropertyEntry("AllowDuplicates", Boolean.class));
+		map.put("layout", new PropertyEntry("Layout", Layout.class));
+		map.put("backgroundimage", new PropertyEntry("BackgroundImage", Image.class));
+		map.put("tabposition", new PropertyEntry("TabPosition", Integer.class));
+		map.put("titlebarbackground", new PropertyEntry("TitleBarBackground", Color.class));
+		map.put("textchars", new PropertyEntry("TextChars", char[].class));
+		map.put("ime", new PropertyEntry("IME", IME.class));
+		map.put("tabheight", new PropertyEntry("TabHeight", Integer.class));
+		map.put("maximizevisible", new PropertyEntry("MaximizeVisible", Boolean.class));
+		map.put("dragdetect", new PropertyEntry("DragDetect", Boolean.class));
+		map.put("alpha", new PropertyEntry("Alpha", Integer.class));
+		map.put("javascriptenabled", new PropertyEntry("JavascriptEnabled", Boolean.class));
+		map.put("preferredsize", new PropertyEntry("PreferredSize", Point.class));
+		map.put("background", new PropertyEntry("Background", Color.class));
+		map.put("topmargin", new PropertyEntry("TopMargin", Integer.class));
+		map.put("weights", new PropertyEntry("Weights", int[].class));
+		map.put("doubleclickenabled", new PropertyEntry("DoubleClickEnabled", Boolean.class));
+		map.put("layoutdata", new PropertyEntry("LayoutData", Object.class));
+		map.put("styleranges", new PropertyEntry("StyleRanges", StyleRange[].class));
+		map.put("control", new PropertyEntry("Control", Control.class));
+		map.put("sashwidth", new PropertyEntry("SashWidth", Integer.class));
+		map.put("renderer", new PropertyEntry("Renderer", CTabFolderRenderer.class));
+		map.put("font", new PropertyEntry("Font", Font.class));
+		map.put("image", new PropertyEntry("Image", Image.class));
+		map.put("rightminimumsize", new PropertyEntry("RightMinimumSize", Point.class));
+		map.put("expanded", new PropertyEntry("Expanded", Boolean.class));
+		map.put("client", new PropertyEntry("Client", Control.class));
+		map.put("titlebarforeground", new PropertyEntry("TitleBarForeground", Color.class));
+		map.put("rectangles", new PropertyEntry("Rectangles", Rectangle[].class));
+		map.put("right", new PropertyEntry("Right", Control.class));
+		map.put("items", new PropertyEntry("Items", String[].class));
+		map.put("defaultitem", new PropertyEntry("DefaultItem", MenuItem.class));
+		map.put("orientation", new PropertyEntry("Orientation", Integer.class));
+		map.put("message", new PropertyEntry("Message", String.class));
+		map.put("unselectedclosevisible", new PropertyEntry("UnselectedCloseVisible", Boolean.class));
+		map.put("leftmargin", new PropertyEntry("LeftMargin", Integer.class));
+		map.put("hours", new PropertyEntry("Hours", Integer.class));
+		map.put("hoverimage", new PropertyEntry("HoverImage", Image.class));
+		map.put("linesvisible", new PropertyEntry("LinesVisible", Boolean.class));
+		map.put("defaultbutton", new PropertyEntry("DefaultButton", Button.class));
+		map.put("bottommargin", new PropertyEntry("BottomMargin", Integer.class));
+		map.put("minimum", new PropertyEntry("Minimum", Integer.class));
+		map.put("alignment", new PropertyEntry("Alignment", Integer.class));
+		map.put("alwaysshowscrollbars", new PropertyEntry("AlwaysShowScrollBars", Boolean.class));
+		map.put("topleft", new PropertyEntry("TopLeft", Control.class));
+		map.put("indent", new PropertyEntry("Indent", Integer.class));
+		map.put("imeinputmode", new PropertyEntry("ImeInputMode", Integer.class));
+		map.put("topindex", new PropertyEntry("TopIndex", Integer.class));
+		map.put("rightwidth", new PropertyEntry("RightWidth", Integer.class));
+		map.put("layoutdeferred", new PropertyEntry("LayoutDeferred", Boolean.class));
+		map.put("separatorcontrol", new PropertyEntry("SeparatorControl", Control.class));
+		map.put("foreground", new PropertyEntry("Foreground", Color.class));
+		map.put("maximizedcontrol", new PropertyEntry("MaximizedControl", Control.class));
+		map.put("listvisible", new PropertyEntry("ListVisible", Boolean.class));
+		map.put("headervisible", new PropertyEntry("HeaderVisible", Boolean.class));
+		map.put("textclient", new PropertyEntry("TextClient", Control.class));
+		map.put("month", new PropertyEntry("Month", Integer.class));
+		map.put("blockselection", new PropertyEntry("BlockSelection", Boolean.class));
+		map.put("menu", new PropertyEntry("Menu", Menu.class));
+		map.put("minimizevisible", new PropertyEntry("MinimizeVisible", Boolean.class));
+		map.put("linespacing", new PropertyEntry("LineSpacing", Integer.class));
+		map.put("id", new PropertyEntry("ID", Integer.class));
+		map.put("href", new PropertyEntry("Href", Object.class));
+		map.put("resizable", new PropertyEntry("Resizable", Boolean.class));
+		map.put("width", new PropertyEntry("Width", Integer.class));
+		map.put("justify", new PropertyEntry("Justify", Boolean.class));
+		map.put("tooltip", new PropertyEntry("ToolTip", ToolTip.class));
+		map.put("hoverdecorationcolor", new PropertyEntry("HoverDecorationColor", Color.class));
+		map.put("size", new PropertyEntry("Size", Point.class));
+		map.put("stippled", new PropertyEntry("Stippled", Boolean.class));
+		map.put("selectionbackground", new PropertyEntry("SelectionBackground", Color.class));
+		map.put("textlimit", new PropertyEntry("TextLimit", Integer.class));
+		map.put("maximum", new PropertyEntry("Maximum", Integer.class));
+		map.put("itemcount", new PropertyEntry("ItemCount", Integer.class));
+		map.put("height", new PropertyEntry("Height", Integer.class));
+		map.put("topright", new PropertyEntry("TopRight", Control.class));
+		map.put("hyperlinksettings", new PropertyEntry("HyperlinkSettings", HyperlinkSettings.class));
+		map.put("minwidth", new PropertyEntry("MinWidth", Integer.class));
+		map.put("transfer", new PropertyEntry("Transfer", Transfer[].class));
+		map.put("activeimage", new PropertyEntry("ActiveImage", Image.class));
+		map.put("editable", new PropertyEntry("Editable", Boolean.class));
+		map.put("formtext", new PropertyEntry("FormText", FormText.class));
+		map.put("touchenabled", new PropertyEntry("TouchEnabled", Boolean.class));
+		map.put("droptargeteffect", new PropertyEntry("DropTargetEffect", DropTargetEffect.class));
+		map.put("simple", new PropertyEntry("Simple", Boolean.class));
+		map.put("margincolor", new PropertyEntry("MarginColor", Color.class));
+		map.put("toppixel", new PropertyEntry("TopPixel", Integer.class));
+		map.put("checked", new PropertyEntry("Checked", Boolean.class));
+		map.put("titlebarbordercolor", new PropertyEntry("TitleBarBorderColor", Color.class));
+		map.put("locked", new PropertyEntry("Locked", Boolean.class));
+		map.put("caret", new PropertyEntry("Caret", Caret.class));
+		map.put("wrapindent", new PropertyEntry("WrapIndent", Integer.class));
+		map.put("autohide", new PropertyEntry("AutoHide", Boolean.class));
+		map.put("enabled", new PropertyEntry("Enabled", Boolean.class));
+		map.put("dragsourceeffect", new PropertyEntry("DragSourceEffect", DragSourceEffect.class));
+		map.put("showfocusedcontrol", new PropertyEntry("ShowFocusedControl", Boolean.class));
+		map.put("columnorder", new PropertyEntry("ColumnOrder", int[].class));
+		map.put("mruvisible", new PropertyEntry("MRUVisible", Boolean.class));
+		map.put("grayed", new PropertyEntry("Grayed", Boolean.class));
+		map.put("day", new PropertyEntry("Day", Integer.class));
+		map.put("cursor", new PropertyEntry("Cursor", Cursor.class));
+		map.put("year", new PropertyEntry("Year", Integer.class));
+		map.put("toolbarverticalalignment", new PropertyEntry("ToolBarVerticalAlignment", Integer.class));
+		map.put("region", new PropertyEntry("Region", Region.class));
+		map.put("accelerator", new PropertyEntry("Accelerator", Integer.class));
+		map.put("wrapindices", new PropertyEntry("WrapIndices", int[].class));
+		map.put("pageincrement", new PropertyEntry("PageIncrement", Integer.class));
+		map.put("matchemptystring", new PropertyEntry("MatchEmptyString", Boolean.class));
+		map.put("compositionoffset", new PropertyEntry("CompositionOffset", Integer.class));
+		map.put("description", new PropertyEntry("Description", String.class));
+		map.put("showclose", new PropertyEntry("ShowClose", Boolean.class));
+		map.put("selectionforeground", new PropertyEntry("SelectionForeground", Color.class));
+		map.put("backgroundmode", new PropertyEntry("BackgroundMode", Integer.class));
+		map.put("titlebargradientbackground", new PropertyEntry("TitleBarGradientBackground", Color.class));
+		map.put("blockselectionbounds", new PropertyEntry("BlockSelectionBounds", Rectangle.class));
+		map.put("minheight", new PropertyEntry("MinHeight", Integer.class));
+		map.put("rightmargin", new PropertyEntry("RightMargin", Integer.class));
+		map.put("location", new PropertyEntry("Location", Point.class));
+		map.put("spacing", new PropertyEntry("Spacing", Integer.class));
+		map.put("minimumsize", new PropertyEntry("MinimumSize", Point.class));
+		map.put("descriptioncontrol", new PropertyEntry("DescriptionControl", Control.class));
+		map.put("text", new PropertyEntry("Text", String.class));
+		map.put("tabs", new PropertyEntry("Tabs", Integer.class));
+		map.put("bordervisible", new PropertyEntry("BorderVisible", Boolean.class));
+		map.put("state", new PropertyEntry("State", Integer.class));
+		map.put("topitem", new PropertyEntry("TopItem", TreeItem.class));
+		map.put("tablist", new PropertyEntry("TabList", Control[].class));
+		map.put("topcenter", new PropertyEntry("TopCenter", Control.class));
+		map.put("expandhorizontal", new PropertyEntry("ExpandHorizontal", Boolean.class));
+		map.put("tabstops", new PropertyEntry("TabStops", int[].class));
+		map.put("minutes", new PropertyEntry("Minutes", Integer.class));
+		map.put("expandvertical", new PropertyEntry("ExpandVertical", Boolean.class));
+		map.put("hotimage", new PropertyEntry("HotImage", Image.class));
+		map.put("minimumcharacters", new PropertyEntry("MinimumCharacters", Integer.class));	
+	}
+
+	private static final GetMaximizedSwitch getMaximizedSwitch = new GetMaximizedSwitch();
+	private static final SetMaximizedSwitch setMaximizedSwitch = new SetMaximizedSwitch();
+	private static final GetVisibleSwitch getVisibleSwitch = new GetVisibleSwitch();
+	private static final SetVisibleSwitch setVisibleSwitch = new SetVisibleSwitch();
+	private static final GetHorizontalPixelSwitch getHorizontalPixelSwitch = new GetHorizontalPixelSwitch();
+	private static final SetHorizontalPixelSwitch setHorizontalPixelSwitch = new SetHorizontalPixelSwitch();
+	private static final GetMoveableSwitch getMoveableSwitch = new GetMoveableSwitch();
+	private static final SetMoveableSwitch setMoveableSwitch = new SetMoveableSwitch();
+	private static final GetHorizontalIndexSwitch getHorizontalIndexSwitch = new GetHorizontalIndexSwitch();
+	private static final SetHorizontalIndexSwitch setHorizontalIndexSwitch = new SetHorizontalIndexSwitch();
+	private static final GetOriginSwitch getOriginSwitch = new GetOriginSwitch();
+	private static final SetOriginSwitch setOriginSwitch = new SetOriginSwitch();
+	private static final GetImagesSwitch getImagesSwitch = new GetImagesSwitch();
+	private static final SetImagesSwitch setImagesSwitch = new SetImagesSwitch();
+	private static final GetSingleSwitch getSingleSwitch = new GetSingleSwitch();
+	private static final SetSingleSwitch setSingleSwitch = new SetSingleSwitch();
+	private static final GetDataSwitch getDataSwitch = new GetDataSwitch();
+	private static final SetDataSwitch setDataSwitch = new SetDataSwitch();
+	private static final GetEchoCharSwitch getEchoCharSwitch = new GetEchoCharSwitch();
+	private static final SetEchoCharSwitch setEchoCharSwitch = new SetEchoCharSwitch();
+	private static final GetHeadClientSwitch getHeadClientSwitch = new GetHeadClientSwitch();
+	private static final SetHeadClientSwitch setHeadClientSwitch = new SetHeadClientSwitch();
+	private static final GetToolTipTextSwitch getToolTipTextSwitch = new GetToolTipTextSwitch();
+	private static final SetToolTipTextSwitch setToolTipTextSwitch = new SetToolTipTextSwitch();
+	private static final GetMenuBarSwitch getMenuBarSwitch = new GetMenuBarSwitch();
+	private static final SetMenuBarSwitch setMenuBarSwitch = new SetMenuBarSwitch();
+	private static final GetUnselectedImageVisibleSwitch getUnselectedImageVisibleSwitch = new GetUnselectedImageVisibleSwitch();
+	private static final SetUnselectedImageVisibleSwitch setUnselectedImageVisibleSwitch = new SetUnselectedImageVisibleSwitch();
+	private static final GetUrlSwitch getUrlSwitch = new GetUrlSwitch();
+	private static final SetUrlSwitch setUrlSwitch = new SetUrlSwitch();
+	private static final GetModifiedSwitch getModifiedSwitch = new GetModifiedSwitch();
+	private static final SetModifiedSwitch setModifiedSwitch = new SetModifiedSwitch();
+	private static final GetParagraphsSeparatedSwitch getParagraphsSeparatedSwitch = new GetParagraphsSeparatedSwitch();
+	private static final SetParagraphsSeparatedSwitch setParagraphsSeparatedSwitch = new SetParagraphsSeparatedSwitch();
+	private static final GetIncrementSwitch getIncrementSwitch = new GetIncrementSwitch();
+	private static final SetIncrementSwitch setIncrementSwitch = new SetIncrementSwitch();
+	private static final GetSortDirectionSwitch getSortDirectionSwitch = new GetSortDirectionSwitch();
+	private static final SetSortDirectionSwitch setSortDirectionSwitch = new SetSortDirectionSwitch();
+	private static final GetSecondsSwitch getSecondsSwitch = new GetSecondsSwitch();
+	private static final SetSecondsSwitch setSecondsSwitch = new SetSecondsSwitch();
+	private static final GetFullScreenSwitch getFullScreenSwitch = new GetFullScreenSwitch();
+	private static final SetFullScreenSwitch setFullScreenSwitch = new SetFullScreenSwitch();
+	private static final GetLabelProviderSwitch getLabelProviderSwitch = new GetLabelProviderSwitch();
+	private static final SetLabelProviderSwitch setLabelProviderSwitch = new SetLabelProviderSwitch();
+	private static final GetVisibleItemCountSwitch getVisibleItemCountSwitch = new GetVisibleItemCountSwitch();
+	private static final SetVisibleItemCountSwitch setVisibleItemCountSwitch = new SetVisibleItemCountSwitch();
+	private static final GetParentSwitch getParentSwitch = new GetParentSwitch();
+	private static final SetParentSwitch setParentSwitch = new SetParentSwitch();
+	private static final GetThumbSwitch getThumbSwitch = new GetThumbSwitch();
+	private static final SetThumbSwitch setThumbSwitch = new SetThumbSwitch();
+	private static final GetWordWrapSwitch getWordWrapSwitch = new GetWordWrapSwitch();
+	private static final SetWordWrapSwitch setWordWrapSwitch = new SetWordWrapSwitch();
+	private static final GetMinimizedSwitch getMinimizedSwitch = new GetMinimizedSwitch();
+	private static final SetMinimizedSwitch setMinimizedSwitch = new SetMinimizedSwitch();
+	private static final GetCaretOffsetSwitch getCaretOffsetSwitch = new GetCaretOffsetSwitch();
+	private static final SetCaretOffsetSwitch setCaretOffsetSwitch = new SetCaretOffsetSwitch();
+	private static final GetDecorationColorSwitch getDecorationColorSwitch = new GetDecorationColorSwitch();
+	private static final SetDecorationColorSwitch setDecorationColorSwitch = new SetDecorationColorSwitch();
+	private static final GetBoundsSwitch getBoundsSwitch = new GetBoundsSwitch();
+	private static final SetBoundsSwitch setBoundsSwitch = new SetBoundsSwitch();
+	private static final GetDigitsSwitch getDigitsSwitch = new GetDigitsSwitch();
+	private static final SetDigitsSwitch setDigitsSwitch = new SetDigitsSwitch();
+	private static final GetIgnoreCaseSwitch getIgnoreCaseSwitch = new GetIgnoreCaseSwitch();
+	private static final SetIgnoreCaseSwitch setIgnoreCaseSwitch = new SetIgnoreCaseSwitch();
+	private static final GetLeftSwitch getLeftSwitch = new GetLeftSwitch();
+	private static final SetLeftSwitch setLeftSwitch = new SetLeftSwitch();
+	private static final GetBottomSwitch getBottomSwitch = new GetBottomSwitch();
+	private static final SetBottomSwitch setBottomSwitch = new SetBottomSwitch();
+	private static final GetFilterSwitch getFilterSwitch = new GetFilterSwitch();
+	private static final SetFilterSwitch setFilterSwitch = new SetFilterSwitch();
+	private static final GetAllowDuplicatesSwitch getAllowDuplicatesSwitch = new GetAllowDuplicatesSwitch();
+	private static final SetAllowDuplicatesSwitch setAllowDuplicatesSwitch = new SetAllowDuplicatesSwitch();
+	private static final GetLayoutSwitch getLayoutSwitch = new GetLayoutSwitch();
+	private static final SetLayoutSwitch setLayoutSwitch = new SetLayoutSwitch();
+	private static final GetBackgroundImageSwitch getBackgroundImageSwitch = new GetBackgroundImageSwitch();
+	private static final SetBackgroundImageSwitch setBackgroundImageSwitch = new SetBackgroundImageSwitch();
+	private static final GetTabPositionSwitch getTabPositionSwitch = new GetTabPositionSwitch();
+	private static final SetTabPositionSwitch setTabPositionSwitch = new SetTabPositionSwitch();
+	private static final GetTitleBarBackgroundSwitch getTitleBarBackgroundSwitch = new GetTitleBarBackgroundSwitch();
+	private static final SetTitleBarBackgroundSwitch setTitleBarBackgroundSwitch = new SetTitleBarBackgroundSwitch();
+	private static final GetTextCharsSwitch getTextCharsSwitch = new GetTextCharsSwitch();
+	private static final SetTextCharsSwitch setTextCharsSwitch = new SetTextCharsSwitch();
+	private static final GetIMESwitch getIMESwitch = new GetIMESwitch();
+	private static final SetIMESwitch setIMESwitch = new SetIMESwitch();
+	private static final GetTabHeightSwitch getTabHeightSwitch = new GetTabHeightSwitch();
+	private static final SetTabHeightSwitch setTabHeightSwitch = new SetTabHeightSwitch();
+	private static final GetMaximizeVisibleSwitch getMaximizeVisibleSwitch = new GetMaximizeVisibleSwitch();
+	private static final SetMaximizeVisibleSwitch setMaximizeVisibleSwitch = new SetMaximizeVisibleSwitch();
+	private static final GetDragDetectSwitch getDragDetectSwitch = new GetDragDetectSwitch();
+	private static final SetDragDetectSwitch setDragDetectSwitch = new SetDragDetectSwitch();
+	private static final GetAlphaSwitch getAlphaSwitch = new GetAlphaSwitch();
+	private static final SetAlphaSwitch setAlphaSwitch = new SetAlphaSwitch();
+	private static final GetJavascriptEnabledSwitch getJavascriptEnabledSwitch = new GetJavascriptEnabledSwitch();
+	private static final SetJavascriptEnabledSwitch setJavascriptEnabledSwitch = new SetJavascriptEnabledSwitch();
+	private static final GetPreferredSizeSwitch getPreferredSizeSwitch = new GetPreferredSizeSwitch();
+	private static final SetPreferredSizeSwitch setPreferredSizeSwitch = new SetPreferredSizeSwitch();
+	private static final GetBackgroundSwitch getBackgroundSwitch = new GetBackgroundSwitch();
+	private static final SetBackgroundSwitch setBackgroundSwitch = new SetBackgroundSwitch();
+	private static final GetTopMarginSwitch getTopMarginSwitch = new GetTopMarginSwitch();
+	private static final SetTopMarginSwitch setTopMarginSwitch = new SetTopMarginSwitch();
+	private static final GetWeightsSwitch getWeightsSwitch = new GetWeightsSwitch();
+	private static final SetWeightsSwitch setWeightsSwitch = new SetWeightsSwitch();
+	private static final GetDoubleClickEnabledSwitch getDoubleClickEnabledSwitch = new GetDoubleClickEnabledSwitch();
+	private static final SetDoubleClickEnabledSwitch setDoubleClickEnabledSwitch = new SetDoubleClickEnabledSwitch();
+	private static final GetLayoutDataSwitch getLayoutDataSwitch = new GetLayoutDataSwitch();
+	private static final SetLayoutDataSwitch setLayoutDataSwitch = new SetLayoutDataSwitch();
+	private static final GetStyleRangesSwitch getStyleRangesSwitch = new GetStyleRangesSwitch();
+	private static final SetStyleRangesSwitch setStyleRangesSwitch = new SetStyleRangesSwitch();
+	private static final GetControlSwitch getControlSwitch = new GetControlSwitch();
+	private static final SetControlSwitch setControlSwitch = new SetControlSwitch();
+	private static final GetSashWidthSwitch getSashWidthSwitch = new GetSashWidthSwitch();
+	private static final SetSashWidthSwitch setSashWidthSwitch = new SetSashWidthSwitch();
+	private static final GetRendererSwitch getRendererSwitch = new GetRendererSwitch();
+	private static final SetRendererSwitch setRendererSwitch = new SetRendererSwitch();
+	private static final GetFontSwitch getFontSwitch = new GetFontSwitch();
+	private static final SetFontSwitch setFontSwitch = new SetFontSwitch();
+	private static final GetImageSwitch getImageSwitch = new GetImageSwitch();
+	private static final SetImageSwitch setImageSwitch = new SetImageSwitch();
+	private static final GetRightMinimumSizeSwitch getRightMinimumSizeSwitch = new GetRightMinimumSizeSwitch();
+	private static final SetRightMinimumSizeSwitch setRightMinimumSizeSwitch = new SetRightMinimumSizeSwitch();
+	private static final GetExpandedSwitch getExpandedSwitch = new GetExpandedSwitch();
+	private static final SetExpandedSwitch setExpandedSwitch = new SetExpandedSwitch();
+	private static final GetClientSwitch getClientSwitch = new GetClientSwitch();
+	private static final SetClientSwitch setClientSwitch = new SetClientSwitch();
+	private static final GetTitleBarForegroundSwitch getTitleBarForegroundSwitch = new GetTitleBarForegroundSwitch();
+	private static final SetTitleBarForegroundSwitch setTitleBarForegroundSwitch = new SetTitleBarForegroundSwitch();
+	private static final GetRectanglesSwitch getRectanglesSwitch = new GetRectanglesSwitch();
+	private static final SetRectanglesSwitch setRectanglesSwitch = new SetRectanglesSwitch();
+	private static final GetRightSwitch getRightSwitch = new GetRightSwitch();
+	private static final SetRightSwitch setRightSwitch = new SetRightSwitch();
+	private static final GetItemsSwitch getItemsSwitch = new GetItemsSwitch();
+	private static final SetItemsSwitch setItemsSwitch = new SetItemsSwitch();
+	private static final GetDefaultItemSwitch getDefaultItemSwitch = new GetDefaultItemSwitch();
+	private static final SetDefaultItemSwitch setDefaultItemSwitch = new SetDefaultItemSwitch();
+	private static final GetOrientationSwitch getOrientationSwitch = new GetOrientationSwitch();
+	private static final SetOrientationSwitch setOrientationSwitch = new SetOrientationSwitch();
+	private static final GetMessageSwitch getMessageSwitch = new GetMessageSwitch();
+	private static final SetMessageSwitch setMessageSwitch = new SetMessageSwitch();
+	private static final GetUnselectedCloseVisibleSwitch getUnselectedCloseVisibleSwitch = new GetUnselectedCloseVisibleSwitch();
+	private static final SetUnselectedCloseVisibleSwitch setUnselectedCloseVisibleSwitch = new SetUnselectedCloseVisibleSwitch();
+	private static final GetLeftMarginSwitch getLeftMarginSwitch = new GetLeftMarginSwitch();
+	private static final SetLeftMarginSwitch setLeftMarginSwitch = new SetLeftMarginSwitch();
+	private static final GetHoursSwitch getHoursSwitch = new GetHoursSwitch();
+	private static final SetHoursSwitch setHoursSwitch = new SetHoursSwitch();
+	private static final GetHoverImageSwitch getHoverImageSwitch = new GetHoverImageSwitch();
+	private static final SetHoverImageSwitch setHoverImageSwitch = new SetHoverImageSwitch();
+	private static final GetLinesVisibleSwitch getLinesVisibleSwitch = new GetLinesVisibleSwitch();
+	private static final SetLinesVisibleSwitch setLinesVisibleSwitch = new SetLinesVisibleSwitch();
+	private static final GetDefaultButtonSwitch getDefaultButtonSwitch = new GetDefaultButtonSwitch();
+	private static final SetDefaultButtonSwitch setDefaultButtonSwitch = new SetDefaultButtonSwitch();
+	private static final GetBottomMarginSwitch getBottomMarginSwitch = new GetBottomMarginSwitch();
+	private static final SetBottomMarginSwitch setBottomMarginSwitch = new SetBottomMarginSwitch();
+	private static final GetMinimumSwitch getMinimumSwitch = new GetMinimumSwitch();
+	private static final SetMinimumSwitch setMinimumSwitch = new SetMinimumSwitch();
+	private static final GetAlignmentSwitch getAlignmentSwitch = new GetAlignmentSwitch();
+	private static final SetAlignmentSwitch setAlignmentSwitch = new SetAlignmentSwitch();
+	private static final GetAlwaysShowScrollBarsSwitch getAlwaysShowScrollBarsSwitch = new GetAlwaysShowScrollBarsSwitch();
+	private static final SetAlwaysShowScrollBarsSwitch setAlwaysShowScrollBarsSwitch = new SetAlwaysShowScrollBarsSwitch();
+	private static final GetTopLeftSwitch getTopLeftSwitch = new GetTopLeftSwitch();
+	private static final SetTopLeftSwitch setTopLeftSwitch = new SetTopLeftSwitch();
+	private static final GetIndentSwitch getIndentSwitch = new GetIndentSwitch();
+	private static final SetIndentSwitch setIndentSwitch = new SetIndentSwitch();
+	private static final GetImeInputModeSwitch getImeInputModeSwitch = new GetImeInputModeSwitch();
+	private static final SetImeInputModeSwitch setImeInputModeSwitch = new SetImeInputModeSwitch();
+	private static final GetTopIndexSwitch getTopIndexSwitch = new GetTopIndexSwitch();
+	private static final SetTopIndexSwitch setTopIndexSwitch = new SetTopIndexSwitch();
+	private static final GetRightWidthSwitch getRightWidthSwitch = new GetRightWidthSwitch();
+	private static final SetRightWidthSwitch setRightWidthSwitch = new SetRightWidthSwitch();
+	private static final GetLayoutDeferredSwitch getLayoutDeferredSwitch = new GetLayoutDeferredSwitch();
+	private static final SetLayoutDeferredSwitch setLayoutDeferredSwitch = new SetLayoutDeferredSwitch();
+	private static final GetSeparatorControlSwitch getSeparatorControlSwitch = new GetSeparatorControlSwitch();
+	private static final SetSeparatorControlSwitch setSeparatorControlSwitch = new SetSeparatorControlSwitch();
+	private static final GetForegroundSwitch getForegroundSwitch = new GetForegroundSwitch();
+	private static final SetForegroundSwitch setForegroundSwitch = new SetForegroundSwitch();
+	private static final GetMaximizedControlSwitch getMaximizedControlSwitch = new GetMaximizedControlSwitch();
+	private static final SetMaximizedControlSwitch setMaximizedControlSwitch = new SetMaximizedControlSwitch();
+	private static final GetListVisibleSwitch getListVisibleSwitch = new GetListVisibleSwitch();
+	private static final SetListVisibleSwitch setListVisibleSwitch = new SetListVisibleSwitch();
+	private static final GetHeaderVisibleSwitch getHeaderVisibleSwitch = new GetHeaderVisibleSwitch();
+	private static final SetHeaderVisibleSwitch setHeaderVisibleSwitch = new SetHeaderVisibleSwitch();
+	private static final GetTextClientSwitch getTextClientSwitch = new GetTextClientSwitch();
+	private static final SetTextClientSwitch setTextClientSwitch = new SetTextClientSwitch();
+	private static final GetMonthSwitch getMonthSwitch = new GetMonthSwitch();
+	private static final SetMonthSwitch setMonthSwitch = new SetMonthSwitch();
+	private static final GetBlockSelectionSwitch getBlockSelectionSwitch = new GetBlockSelectionSwitch();
+	private static final SetBlockSelectionSwitch setBlockSelectionSwitch = new SetBlockSelectionSwitch();
+	private static final GetMenuSwitch getMenuSwitch = new GetMenuSwitch();
+	private static final SetMenuSwitch setMenuSwitch = new SetMenuSwitch();
+	private static final GetMinimizeVisibleSwitch getMinimizeVisibleSwitch = new GetMinimizeVisibleSwitch();
+	private static final SetMinimizeVisibleSwitch setMinimizeVisibleSwitch = new SetMinimizeVisibleSwitch();
+	private static final GetLineSpacingSwitch getLineSpacingSwitch = new GetLineSpacingSwitch();
+	private static final SetLineSpacingSwitch setLineSpacingSwitch = new SetLineSpacingSwitch();
+	private static final GetIDSwitch getIDSwitch = new GetIDSwitch();
+	private static final SetIDSwitch setIDSwitch = new SetIDSwitch();
+	private static final GetHrefSwitch getHrefSwitch = new GetHrefSwitch();
+	private static final SetHrefSwitch setHrefSwitch = new SetHrefSwitch();
+	private static final GetResizableSwitch getResizableSwitch = new GetResizableSwitch();
+	private static final SetResizableSwitch setResizableSwitch = new SetResizableSwitch();
+	private static final GetWidthSwitch getWidthSwitch = new GetWidthSwitch();
+	private static final SetWidthSwitch setWidthSwitch = new SetWidthSwitch();
+	private static final GetJustifySwitch getJustifySwitch = new GetJustifySwitch();
+	private static final SetJustifySwitch setJustifySwitch = new SetJustifySwitch();
+	private static final GetToolTipSwitch getToolTipSwitch = new GetToolTipSwitch();
+	private static final SetToolTipSwitch setToolTipSwitch = new SetToolTipSwitch();
+	private static final GetHoverDecorationColorSwitch getHoverDecorationColorSwitch = new GetHoverDecorationColorSwitch();
+	private static final SetHoverDecorationColorSwitch setHoverDecorationColorSwitch = new SetHoverDecorationColorSwitch();
+	private static final GetSizeSwitch getSizeSwitch = new GetSizeSwitch();
+	private static final SetSizeSwitch setSizeSwitch = new SetSizeSwitch();
+	private static final GetStippledSwitch getStippledSwitch = new GetStippledSwitch();
+	private static final SetStippledSwitch setStippledSwitch = new SetStippledSwitch();
+	private static final GetSelectionBackgroundSwitch getSelectionBackgroundSwitch = new GetSelectionBackgroundSwitch();
+	private static final SetSelectionBackgroundSwitch setSelectionBackgroundSwitch = new SetSelectionBackgroundSwitch();
+	private static final GetTextLimitSwitch getTextLimitSwitch = new GetTextLimitSwitch();
+	private static final SetTextLimitSwitch setTextLimitSwitch = new SetTextLimitSwitch();
+	private static final GetMaximumSwitch getMaximumSwitch = new GetMaximumSwitch();
+	private static final SetMaximumSwitch setMaximumSwitch = new SetMaximumSwitch();
+	private static final GetItemCountSwitch getItemCountSwitch = new GetItemCountSwitch();
+	private static final SetItemCountSwitch setItemCountSwitch = new SetItemCountSwitch();
+	private static final GetHeightSwitch getHeightSwitch = new GetHeightSwitch();
+	private static final SetHeightSwitch setHeightSwitch = new SetHeightSwitch();
+	private static final GetTopRightSwitch getTopRightSwitch = new GetTopRightSwitch();
+	private static final SetTopRightSwitch setTopRightSwitch = new SetTopRightSwitch();
+	private static final GetHyperlinkSettingsSwitch getHyperlinkSettingsSwitch = new GetHyperlinkSettingsSwitch();
+	private static final SetHyperlinkSettingsSwitch setHyperlinkSettingsSwitch = new SetHyperlinkSettingsSwitch();
+	private static final GetMinWidthSwitch getMinWidthSwitch = new GetMinWidthSwitch();
+	private static final SetMinWidthSwitch setMinWidthSwitch = new SetMinWidthSwitch();
+	private static final GetTransferSwitch getTransferSwitch = new GetTransferSwitch();
+	private static final SetTransferSwitch setTransferSwitch = new SetTransferSwitch();
+	private static final GetActiveImageSwitch getActiveImageSwitch = new GetActiveImageSwitch();
+	private static final SetActiveImageSwitch setActiveImageSwitch = new SetActiveImageSwitch();
+	private static final GetEditableSwitch getEditableSwitch = new GetEditableSwitch();
+	private static final SetEditableSwitch setEditableSwitch = new SetEditableSwitch();
+	private static final GetFormTextSwitch getFormTextSwitch = new GetFormTextSwitch();
+	private static final SetFormTextSwitch setFormTextSwitch = new SetFormTextSwitch();
+	private static final GetTouchEnabledSwitch getTouchEnabledSwitch = new GetTouchEnabledSwitch();
+	private static final SetTouchEnabledSwitch setTouchEnabledSwitch = new SetTouchEnabledSwitch();
+	private static final GetDropTargetEffectSwitch getDropTargetEffectSwitch = new GetDropTargetEffectSwitch();
+	private static final SetDropTargetEffectSwitch setDropTargetEffectSwitch = new SetDropTargetEffectSwitch();
+	private static final GetSimpleSwitch getSimpleSwitch = new GetSimpleSwitch();
+	private static final SetSimpleSwitch setSimpleSwitch = new SetSimpleSwitch();
+	private static final GetMarginColorSwitch getMarginColorSwitch = new GetMarginColorSwitch();
+	private static final SetMarginColorSwitch setMarginColorSwitch = new SetMarginColorSwitch();
+	private static final GetTopPixelSwitch getTopPixelSwitch = new GetTopPixelSwitch();
+	private static final SetTopPixelSwitch setTopPixelSwitch = new SetTopPixelSwitch();
+	private static final GetCheckedSwitch getCheckedSwitch = new GetCheckedSwitch();
+	private static final SetCheckedSwitch setCheckedSwitch = new SetCheckedSwitch();
+	private static final GetTitleBarBorderColorSwitch getTitleBarBorderColorSwitch = new GetTitleBarBorderColorSwitch();
+	private static final SetTitleBarBorderColorSwitch setTitleBarBorderColorSwitch = new SetTitleBarBorderColorSwitch();
+	private static final GetLockedSwitch getLockedSwitch = new GetLockedSwitch();
+	private static final SetLockedSwitch setLockedSwitch = new SetLockedSwitch();
+	private static final GetCaretSwitch getCaretSwitch = new GetCaretSwitch();
+	private static final SetCaretSwitch setCaretSwitch = new SetCaretSwitch();
+	private static final GetWrapIndentSwitch getWrapIndentSwitch = new GetWrapIndentSwitch();
+	private static final SetWrapIndentSwitch setWrapIndentSwitch = new SetWrapIndentSwitch();
+	private static final GetAutoHideSwitch getAutoHideSwitch = new GetAutoHideSwitch();
+	private static final SetAutoHideSwitch setAutoHideSwitch = new SetAutoHideSwitch();
+	private static final GetEnabledSwitch getEnabledSwitch = new GetEnabledSwitch();
+	private static final SetEnabledSwitch setEnabledSwitch = new SetEnabledSwitch();
+	private static final GetDragSourceEffectSwitch getDragSourceEffectSwitch = new GetDragSourceEffectSwitch();
+	private static final SetDragSourceEffectSwitch setDragSourceEffectSwitch = new SetDragSourceEffectSwitch();
+	private static final GetShowFocusedControlSwitch getShowFocusedControlSwitch = new GetShowFocusedControlSwitch();
+	private static final SetShowFocusedControlSwitch setShowFocusedControlSwitch = new SetShowFocusedControlSwitch();
+	private static final GetColumnOrderSwitch getColumnOrderSwitch = new GetColumnOrderSwitch();
+	private static final SetColumnOrderSwitch setColumnOrderSwitch = new SetColumnOrderSwitch();
+	private static final GetMRUVisibleSwitch getMRUVisibleSwitch = new GetMRUVisibleSwitch();
+	private static final SetMRUVisibleSwitch setMRUVisibleSwitch = new SetMRUVisibleSwitch();
+	private static final GetGrayedSwitch getGrayedSwitch = new GetGrayedSwitch();
+	private static final SetGrayedSwitch setGrayedSwitch = new SetGrayedSwitch();
+	private static final GetDaySwitch getDaySwitch = new GetDaySwitch();
+	private static final SetDaySwitch setDaySwitch = new SetDaySwitch();
+	private static final GetCursorSwitch getCursorSwitch = new GetCursorSwitch();
+	private static final SetCursorSwitch setCursorSwitch = new SetCursorSwitch();
+	private static final GetYearSwitch getYearSwitch = new GetYearSwitch();
+	private static final SetYearSwitch setYearSwitch = new SetYearSwitch();
+	private static final GetToolBarVerticalAlignmentSwitch getToolBarVerticalAlignmentSwitch = new GetToolBarVerticalAlignmentSwitch();
+	private static final SetToolBarVerticalAlignmentSwitch setToolBarVerticalAlignmentSwitch = new SetToolBarVerticalAlignmentSwitch();
+	private static final GetRegionSwitch getRegionSwitch = new GetRegionSwitch();
+	private static final SetRegionSwitch setRegionSwitch = new SetRegionSwitch();
+	private static final GetAcceleratorSwitch getAcceleratorSwitch = new GetAcceleratorSwitch();
+	private static final SetAcceleratorSwitch setAcceleratorSwitch = new SetAcceleratorSwitch();
+	private static final GetWrapIndicesSwitch getWrapIndicesSwitch = new GetWrapIndicesSwitch();
+	private static final SetWrapIndicesSwitch setWrapIndicesSwitch = new SetWrapIndicesSwitch();
+	private static final GetPageIncrementSwitch getPageIncrementSwitch = new GetPageIncrementSwitch();
+	private static final SetPageIncrementSwitch setPageIncrementSwitch = new SetPageIncrementSwitch();
+	private static final GetMatchEmptyStringSwitch getMatchEmptyStringSwitch = new GetMatchEmptyStringSwitch();
+	private static final SetMatchEmptyStringSwitch setMatchEmptyStringSwitch = new SetMatchEmptyStringSwitch();
+	private static final GetCompositionOffsetSwitch getCompositionOffsetSwitch = new GetCompositionOffsetSwitch();
+	private static final SetCompositionOffsetSwitch setCompositionOffsetSwitch = new SetCompositionOffsetSwitch();
+	private static final GetDescriptionSwitch getDescriptionSwitch = new GetDescriptionSwitch();
+	private static final SetDescriptionSwitch setDescriptionSwitch = new SetDescriptionSwitch();
+	private static final GetShowCloseSwitch getShowCloseSwitch = new GetShowCloseSwitch();
+	private static final SetShowCloseSwitch setShowCloseSwitch = new SetShowCloseSwitch();
+	private static final GetSelectionForegroundSwitch getSelectionForegroundSwitch = new GetSelectionForegroundSwitch();
+	private static final SetSelectionForegroundSwitch setSelectionForegroundSwitch = new SetSelectionForegroundSwitch();
+	private static final GetBackgroundModeSwitch getBackgroundModeSwitch = new GetBackgroundModeSwitch();
+	private static final SetBackgroundModeSwitch setBackgroundModeSwitch = new SetBackgroundModeSwitch();
+	private static final GetTitleBarGradientBackgroundSwitch getTitleBarGradientBackgroundSwitch = new GetTitleBarGradientBackgroundSwitch();
+	private static final SetTitleBarGradientBackgroundSwitch setTitleBarGradientBackgroundSwitch = new SetTitleBarGradientBackgroundSwitch();
+	private static final GetBlockSelectionBoundsSwitch getBlockSelectionBoundsSwitch = new GetBlockSelectionBoundsSwitch();
+	private static final SetBlockSelectionBoundsSwitch setBlockSelectionBoundsSwitch = new SetBlockSelectionBoundsSwitch();
+	private static final GetMinHeightSwitch getMinHeightSwitch = new GetMinHeightSwitch();
+	private static final SetMinHeightSwitch setMinHeightSwitch = new SetMinHeightSwitch();
+	private static final GetRightMarginSwitch getRightMarginSwitch = new GetRightMarginSwitch();
+	private static final SetRightMarginSwitch setRightMarginSwitch = new SetRightMarginSwitch();
+	private static final GetLocationSwitch getLocationSwitch = new GetLocationSwitch();
+	private static final SetLocationSwitch setLocationSwitch = new SetLocationSwitch();
+	private static final GetSpacingSwitch getSpacingSwitch = new GetSpacingSwitch();
+	private static final SetSpacingSwitch setSpacingSwitch = new SetSpacingSwitch();
+	private static final GetMinimumSizeSwitch getMinimumSizeSwitch = new GetMinimumSizeSwitch();
+	private static final SetMinimumSizeSwitch setMinimumSizeSwitch = new SetMinimumSizeSwitch();
+	private static final GetDescriptionControlSwitch getDescriptionControlSwitch = new GetDescriptionControlSwitch();
+	private static final SetDescriptionControlSwitch setDescriptionControlSwitch = new SetDescriptionControlSwitch();
+	private static final GetTextSwitch getTextSwitch = new GetTextSwitch();
+	private static final SetTextSwitch setTextSwitch = new SetTextSwitch();
+	private static final GetTabsSwitch getTabsSwitch = new GetTabsSwitch();
+	private static final SetTabsSwitch setTabsSwitch = new SetTabsSwitch();
+	private static final GetBorderVisibleSwitch getBorderVisibleSwitch = new GetBorderVisibleSwitch();
+	private static final SetBorderVisibleSwitch setBorderVisibleSwitch = new SetBorderVisibleSwitch();
+	private static final GetStateSwitch getStateSwitch = new GetStateSwitch();
+	private static final SetStateSwitch setStateSwitch = new SetStateSwitch();
+	private static final GetTopItemSwitch getTopItemSwitch = new GetTopItemSwitch();
+	private static final SetTopItemSwitch setTopItemSwitch = new SetTopItemSwitch();
+	private static final GetTabListSwitch getTabListSwitch = new GetTabListSwitch();
+	private static final SetTabListSwitch setTabListSwitch = new SetTabListSwitch();
+	private static final GetTopCenterSwitch getTopCenterSwitch = new GetTopCenterSwitch();
+	private static final SetTopCenterSwitch setTopCenterSwitch = new SetTopCenterSwitch();
+	private static final GetExpandHorizontalSwitch getExpandHorizontalSwitch = new GetExpandHorizontalSwitch();
+	private static final SetExpandHorizontalSwitch setExpandHorizontalSwitch = new SetExpandHorizontalSwitch();
+	private static final GetTabStopsSwitch getTabStopsSwitch = new GetTabStopsSwitch();
+	private static final SetTabStopsSwitch setTabStopsSwitch = new SetTabStopsSwitch();
+	private static final GetMinutesSwitch getMinutesSwitch = new GetMinutesSwitch();
+	private static final SetMinutesSwitch setMinutesSwitch = new SetMinutesSwitch();
+	private static final GetExpandVerticalSwitch getExpandVerticalSwitch = new GetExpandVerticalSwitch();
+	private static final SetExpandVerticalSwitch setExpandVerticalSwitch = new SetExpandVerticalSwitch();
+	private static final GetHotImageSwitch getHotImageSwitch = new GetHotImageSwitch();
+	private static final SetHotImageSwitch setHotImageSwitch = new SetHotImageSwitch();
+	private static final GetMinimumCharactersSwitch getMinimumCharactersSwitch = new GetMinimumCharactersSwitch();
+	private static final SetMinimumCharactersSwitch setMinimumCharactersSwitch = new SetMinimumCharactersSwitch();
 	@SuppressWarnings("unchecked")
-	public <T> T getProperty(Widget widget, String propertyName){
+	public static <T> T getProperty(Widget widget, String propertyName){
 		if (propertyName.equalsIgnoreCase("Maximized")){
 			return (T) getMaximizedSwitch.getProperty(widget);
 		}
@@ -1071,7 +1256,7 @@ public class WidgetPropertySwitch{
 		return null;
 	}
 	
-	public void setProperty(Widget widget, String propertyName, Object value){
+	public static void setProperty(Widget widget, String propertyName, Object value){
 		if (propertyName.equalsIgnoreCase("Maximized")){
 			setMaximizedSwitch.setProperty(widget, (Boolean)value);
 		}
@@ -1749,1018 +1934,1030 @@ public class WidgetPropertySwitch{
 		}
 			
 	}
-	public Boolean getMaximized(Widget widget){
+	public static Boolean getMaximized(Widget widget){
 		return getMaximizedSwitch.getProperty(widget);
 	}
-	public void setMaximized(Widget widget, Boolean value){
+	public static void setMaximized(Widget widget, Boolean value){
 		setMaximizedSwitch.setProperty(widget, value);
 	}
-	public Boolean getVisible(Widget widget){
+	public static Boolean getVisible(Widget widget){
 		return getVisibleSwitch.getProperty(widget);
 	}
-	public void setVisible(Widget widget, Boolean value){
+	public static void setVisible(Widget widget, Boolean value){
 		setVisibleSwitch.setProperty(widget, value);
 	}
-	public Integer getHorizontalPixel(Widget widget){
+	public static Integer getHorizontalPixel(Widget widget){
 		return getHorizontalPixelSwitch.getProperty(widget);
 	}
-	public void setHorizontalPixel(Widget widget, Integer value){
+	public static void setHorizontalPixel(Widget widget, Integer value){
 		setHorizontalPixelSwitch.setProperty(widget, value);
 	}
-	public Boolean getMoveable(Widget widget){
+	public static Boolean getMoveable(Widget widget){
 		return getMoveableSwitch.getProperty(widget);
 	}
-	public void setMoveable(Widget widget, Boolean value){
+	public static void setMoveable(Widget widget, Boolean value){
 		setMoveableSwitch.setProperty(widget, value);
 	}
-	public Integer getHorizontalIndex(Widget widget){
+	public static Integer getHorizontalIndex(Widget widget){
 		return getHorizontalIndexSwitch.getProperty(widget);
 	}
-	public void setHorizontalIndex(Widget widget, Integer value){
+	public static void setHorizontalIndex(Widget widget, Integer value){
 		setHorizontalIndexSwitch.setProperty(widget, value);
 	}
-	public Point getOrigin(Widget widget){
+	public static Point getOrigin(Widget widget){
 		return getOriginSwitch.getProperty(widget);
 	}
-	public void setOrigin(Widget widget, Point value){
+	public static void setOrigin(Widget widget, Point value){
 		setOriginSwitch.setProperty(widget, value);
 	}
-	public Image[] getImages(Widget widget){
+	public static Image[] getImages(Widget widget){
 		return getImagesSwitch.getProperty(widget);
 	}
-	public void setImages(Widget widget, Image[] value){
+	public static void setImages(Widget widget, Image[] value){
 		setImagesSwitch.setProperty(widget, value);
 	}
-	public Boolean getSingle(Widget widget){
+	public static Boolean getSingle(Widget widget){
 		return getSingleSwitch.getProperty(widget);
 	}
-	public void setSingle(Widget widget, Boolean value){
+	public static void setSingle(Widget widget, Boolean value){
 		setSingleSwitch.setProperty(widget, value);
 	}
-	public Object getData(Widget widget){
+	public static Object getData(Widget widget){
 		return getDataSwitch.getProperty(widget);
 	}
-	public void setData(Widget widget, Object value){
+	public static void setData(Widget widget, Object value){
 		setDataSwitch.setProperty(widget, value);
 	}
-	public Character getEchoChar(Widget widget){
+	public static Character getEchoChar(Widget widget){
 		return getEchoCharSwitch.getProperty(widget);
 	}
-	public void setEchoChar(Widget widget, Character value){
+	public static void setEchoChar(Widget widget, Character value){
 		setEchoCharSwitch.setProperty(widget, value);
 	}
-	public Control getHeadClient(Widget widget){
+	public static Control getHeadClient(Widget widget){
 		return getHeadClientSwitch.getProperty(widget);
 	}
-	public void setHeadClient(Widget widget, Control value){
+	public static void setHeadClient(Widget widget, Control value){
 		setHeadClientSwitch.setProperty(widget, value);
 	}
-	public String getToolTipText(Widget widget){
+	public static String getToolTipText(Widget widget){
 		return getToolTipTextSwitch.getProperty(widget);
 	}
-	public void setToolTipText(Widget widget, String value){
+	public static void setToolTipText(Widget widget, String value){
 		setToolTipTextSwitch.setProperty(widget, value);
 	}
-	public Menu getMenuBar(Widget widget){
+	public static Menu getMenuBar(Widget widget){
 		return getMenuBarSwitch.getProperty(widget);
 	}
-	public void setMenuBar(Widget widget, Menu value){
+	public static void setMenuBar(Widget widget, Menu value){
 		setMenuBarSwitch.setProperty(widget, value);
 	}
-	public Boolean getUnselectedImageVisible(Widget widget){
+	public static Boolean getUnselectedImageVisible(Widget widget){
 		return getUnselectedImageVisibleSwitch.getProperty(widget);
 	}
-	public void setUnselectedImageVisible(Widget widget, Boolean value){
+	public static void setUnselectedImageVisible(Widget widget, Boolean value){
 		setUnselectedImageVisibleSwitch.setProperty(widget, value);
 	}
-	public String getUrl(Widget widget){
+	public static String getUrl(Widget widget){
 		return getUrlSwitch.getProperty(widget);
 	}
-	public void setUrl(Widget widget, String value){
+	public static void setUrl(Widget widget, String value){
 		setUrlSwitch.setProperty(widget, value);
 	}
-	public Boolean getModified(Widget widget){
+	public static Boolean getModified(Widget widget){
 		return getModifiedSwitch.getProperty(widget);
 	}
-	public void setModified(Widget widget, Boolean value){
+	public static void setModified(Widget widget, Boolean value){
 		setModifiedSwitch.setProperty(widget, value);
 	}
-	public Boolean getParagraphsSeparated(Widget widget){
+	public static Boolean getParagraphsSeparated(Widget widget){
 		return getParagraphsSeparatedSwitch.getProperty(widget);
 	}
-	public void setParagraphsSeparated(Widget widget, Boolean value){
+	public static void setParagraphsSeparated(Widget widget, Boolean value){
 		setParagraphsSeparatedSwitch.setProperty(widget, value);
 	}
-	public Integer getIncrement(Widget widget){
+	public static Integer getIncrement(Widget widget){
 		return getIncrementSwitch.getProperty(widget);
 	}
-	public void setIncrement(Widget widget, Integer value){
+	public static void setIncrement(Widget widget, Integer value){
 		setIncrementSwitch.setProperty(widget, value);
 	}
-	public Integer getSortDirection(Widget widget){
+	public static Integer getSortDirection(Widget widget){
 		return getSortDirectionSwitch.getProperty(widget);
 	}
-	public void setSortDirection(Widget widget, Integer value){
+	public static void setSortDirection(Widget widget, Integer value){
 		setSortDirectionSwitch.setProperty(widget, value);
 	}
-	public Integer getSeconds(Widget widget){
+	public static Integer getSeconds(Widget widget){
 		return getSecondsSwitch.getProperty(widget);
 	}
-	public void setSeconds(Widget widget, Integer value){
+	public static void setSeconds(Widget widget, Integer value){
 		setSecondsSwitch.setProperty(widget, value);
 	}
-	public Boolean getFullScreen(Widget widget){
+	public static Boolean getFullScreen(Widget widget){
 		return getFullScreenSwitch.getProperty(widget);
 	}
-	public void setFullScreen(Widget widget, Boolean value){
+	public static void setFullScreen(Widget widget, Boolean value){
 		setFullScreenSwitch.setProperty(widget, value);
 	}
-	public ILabelProvider getLabelProvider(Widget widget){
+	public static ILabelProvider getLabelProvider(Widget widget){
 		return getLabelProviderSwitch.getProperty(widget);
 	}
-	public void setLabelProvider(Widget widget, ILabelProvider value){
+	public static void setLabelProvider(Widget widget, ILabelProvider value){
 		setLabelProviderSwitch.setProperty(widget, value);
 	}
-	public Integer getVisibleItemCount(Widget widget){
+	public static Integer getVisibleItemCount(Widget widget){
 		return getVisibleItemCountSwitch.getProperty(widget);
 	}
-	public void setVisibleItemCount(Widget widget, Integer value){
+	public static void setVisibleItemCount(Widget widget, Integer value){
 		setVisibleItemCountSwitch.setProperty(widget, value);
 	}
-	public Composite getParent(Widget widget){
+	public static Composite getParent(Widget widget){
 		return getParentSwitch.getProperty(widget);
 	}
-	public void setParent(Widget widget, Composite value){
+	public static void setParent(Widget widget, Composite value){
 		setParentSwitch.setProperty(widget, value);
 	}
-	public Integer getThumb(Widget widget){
+	public static Integer getThumb(Widget widget){
 		return getThumbSwitch.getProperty(widget);
 	}
-	public void setThumb(Widget widget, Integer value){
+	public static void setThumb(Widget widget, Integer value){
 		setThumbSwitch.setProperty(widget, value);
 	}
-	public Boolean getWordWrap(Widget widget){
+	public static Boolean getWordWrap(Widget widget){
 		return getWordWrapSwitch.getProperty(widget);
 	}
-	public void setWordWrap(Widget widget, Boolean value){
+	public static void setWordWrap(Widget widget, Boolean value){
 		setWordWrapSwitch.setProperty(widget, value);
 	}
-	public Boolean getMinimized(Widget widget){
+	public static Boolean getMinimized(Widget widget){
 		return getMinimizedSwitch.getProperty(widget);
 	}
-	public void setMinimized(Widget widget, Boolean value){
+	public static void setMinimized(Widget widget, Boolean value){
 		setMinimizedSwitch.setProperty(widget, value);
 	}
-	public Integer getCaretOffset(Widget widget){
+	public static Integer getCaretOffset(Widget widget){
 		return getCaretOffsetSwitch.getProperty(widget);
 	}
-	public void setCaretOffset(Widget widget, Integer value){
+	public static void setCaretOffset(Widget widget, Integer value){
 		setCaretOffsetSwitch.setProperty(widget, value);
 	}
-	public Color getDecorationColor(Widget widget){
+	public static Color getDecorationColor(Widget widget){
 		return getDecorationColorSwitch.getProperty(widget);
 	}
-	public void setDecorationColor(Widget widget, Color value){
+	public static void setDecorationColor(Widget widget, Color value){
 		setDecorationColorSwitch.setProperty(widget, value);
 	}
-	public Rectangle getBounds(Widget widget){
+	public static Rectangle getBounds(Widget widget){
 		return getBoundsSwitch.getProperty(widget);
 	}
-	public void setBounds(Widget widget, Rectangle value){
+	public static void setBounds(Widget widget, Rectangle value){
 		setBoundsSwitch.setProperty(widget, value);
 	}
-	public Integer getDigits(Widget widget){
+	public static Integer getDigits(Widget widget){
 		return getDigitsSwitch.getProperty(widget);
 	}
-	public void setDigits(Widget widget, Integer value){
+	public static void setDigits(Widget widget, Integer value){
 		setDigitsSwitch.setProperty(widget, value);
 	}
-	public Boolean getIgnoreCase(Widget widget){
+	public static Boolean getIgnoreCase(Widget widget){
 		return getIgnoreCaseSwitch.getProperty(widget);
 	}
-	public void setIgnoreCase(Widget widget, Boolean value){
+	public static void setIgnoreCase(Widget widget, Boolean value){
 		setIgnoreCaseSwitch.setProperty(widget, value);
 	}
-	public Control getLeft(Widget widget){
+	public static Control getLeft(Widget widget){
 		return getLeftSwitch.getProperty(widget);
 	}
-	public void setLeft(Widget widget, Control value){
+	public static void setLeft(Widget widget, Control value){
 		setLeftSwitch.setProperty(widget, value);
 	}
-	public Control getBottom(Widget widget){
+	public static Control getBottom(Widget widget){
 		return getBottomSwitch.getProperty(widget);
 	}
-	public void setBottom(Widget widget, Control value){
+	public static void setBottom(Widget widget, Control value){
 		setBottomSwitch.setProperty(widget, value);
 	}
-	public String getFilter(Widget widget){
+	public static String getFilter(Widget widget){
 		return getFilterSwitch.getProperty(widget);
 	}
-	public void setFilter(Widget widget, String value){
+	public static void setFilter(Widget widget, String value){
 		setFilterSwitch.setProperty(widget, value);
 	}
-	public Boolean getAllowDuplicates(Widget widget){
+	public static Boolean getAllowDuplicates(Widget widget){
 		return getAllowDuplicatesSwitch.getProperty(widget);
 	}
-	public void setAllowDuplicates(Widget widget, Boolean value){
+	public static void setAllowDuplicates(Widget widget, Boolean value){
 		setAllowDuplicatesSwitch.setProperty(widget, value);
 	}
-	public Layout getLayout(Widget widget){
+	public static Layout getLayout(Widget widget){
 		return getLayoutSwitch.getProperty(widget);
 	}
-	public void setLayout(Widget widget, Layout value){
+	public static void setLayout(Widget widget, Layout value){
 		setLayoutSwitch.setProperty(widget, value);
 	}
-	public Image getBackgroundImage(Widget widget){
+	public static Image getBackgroundImage(Widget widget){
 		return getBackgroundImageSwitch.getProperty(widget);
 	}
-	public void setBackgroundImage(Widget widget, Image value){
+	public static void setBackgroundImage(Widget widget, Image value){
 		setBackgroundImageSwitch.setProperty(widget, value);
 	}
-	public Integer getTabPosition(Widget widget){
+	public static Integer getTabPosition(Widget widget){
 		return getTabPositionSwitch.getProperty(widget);
 	}
-	public void setTabPosition(Widget widget, Integer value){
+	public static void setTabPosition(Widget widget, Integer value){
 		setTabPositionSwitch.setProperty(widget, value);
 	}
-	public Color getTitleBarBackground(Widget widget){
+	public static Color getTitleBarBackground(Widget widget){
 		return getTitleBarBackgroundSwitch.getProperty(widget);
 	}
-	public void setTitleBarBackground(Widget widget, Color value){
+	public static void setTitleBarBackground(Widget widget, Color value){
 		setTitleBarBackgroundSwitch.setProperty(widget, value);
 	}
-	public char[] getTextChars(Widget widget){
+	public static char[] getTextChars(Widget widget){
 		return getTextCharsSwitch.getProperty(widget);
 	}
-	public void setTextChars(Widget widget, char[] value){
+	public static void setTextChars(Widget widget, char[] value){
 		setTextCharsSwitch.setProperty(widget, value);
 	}
-	public IME getIME(Widget widget){
+	public static IME getIME(Widget widget){
 		return getIMESwitch.getProperty(widget);
 	}
-	public void setIME(Widget widget, IME value){
+	public static void setIME(Widget widget, IME value){
 		setIMESwitch.setProperty(widget, value);
 	}
-	public Integer getTabHeight(Widget widget){
+	public static Integer getTabHeight(Widget widget){
 		return getTabHeightSwitch.getProperty(widget);
 	}
-	public void setTabHeight(Widget widget, Integer value){
+	public static void setTabHeight(Widget widget, Integer value){
 		setTabHeightSwitch.setProperty(widget, value);
 	}
-	public Boolean getMaximizeVisible(Widget widget){
+	public static Boolean getMaximizeVisible(Widget widget){
 		return getMaximizeVisibleSwitch.getProperty(widget);
 	}
-	public void setMaximizeVisible(Widget widget, Boolean value){
+	public static void setMaximizeVisible(Widget widget, Boolean value){
 		setMaximizeVisibleSwitch.setProperty(widget, value);
 	}
-	public Boolean getDragDetect(Widget widget){
+	public static Boolean getDragDetect(Widget widget){
 		return getDragDetectSwitch.getProperty(widget);
 	}
-	public void setDragDetect(Widget widget, Boolean value){
+	public static void setDragDetect(Widget widget, Boolean value){
 		setDragDetectSwitch.setProperty(widget, value);
 	}
-	public Integer getAlpha(Widget widget){
+	public static Integer getAlpha(Widget widget){
 		return getAlphaSwitch.getProperty(widget);
 	}
-	public void setAlpha(Widget widget, Integer value){
+	public static void setAlpha(Widget widget, Integer value){
 		setAlphaSwitch.setProperty(widget, value);
 	}
-	public Boolean getJavascriptEnabled(Widget widget){
+	public static Boolean getJavascriptEnabled(Widget widget){
 		return getJavascriptEnabledSwitch.getProperty(widget);
 	}
-	public void setJavascriptEnabled(Widget widget, Boolean value){
+	public static void setJavascriptEnabled(Widget widget, Boolean value){
 		setJavascriptEnabledSwitch.setProperty(widget, value);
 	}
-	public Point getPreferredSize(Widget widget){
+	public static Point getPreferredSize(Widget widget){
 		return getPreferredSizeSwitch.getProperty(widget);
 	}
-	public void setPreferredSize(Widget widget, Point value){
+	public static void setPreferredSize(Widget widget, Point value){
 		setPreferredSizeSwitch.setProperty(widget, value);
 	}
-	public Color getBackground(Widget widget){
+	public static Color getBackground(Widget widget){
 		return getBackgroundSwitch.getProperty(widget);
 	}
-	public void setBackground(Widget widget, Color value){
+	public static void setBackground(Widget widget, Color value){
 		setBackgroundSwitch.setProperty(widget, value);
 	}
-	public Integer getTopMargin(Widget widget){
+	public static Integer getTopMargin(Widget widget){
 		return getTopMarginSwitch.getProperty(widget);
 	}
-	public void setTopMargin(Widget widget, Integer value){
+	public static void setTopMargin(Widget widget, Integer value){
 		setTopMarginSwitch.setProperty(widget, value);
 	}
-	public int[] getWeights(Widget widget){
+	public static int[] getWeights(Widget widget){
 		return getWeightsSwitch.getProperty(widget);
 	}
-	public void setWeights(Widget widget, int[] value){
+	public static void setWeights(Widget widget, int[] value){
 		setWeightsSwitch.setProperty(widget, value);
 	}
-	public Boolean getDoubleClickEnabled(Widget widget){
+	public static Boolean getDoubleClickEnabled(Widget widget){
 		return getDoubleClickEnabledSwitch.getProperty(widget);
 	}
-	public void setDoubleClickEnabled(Widget widget, Boolean value){
+	public static void setDoubleClickEnabled(Widget widget, Boolean value){
 		setDoubleClickEnabledSwitch.setProperty(widget, value);
 	}
-	public Object getLayoutData(Widget widget){
+	public static Object getLayoutData(Widget widget){
 		return getLayoutDataSwitch.getProperty(widget);
 	}
-	public void setLayoutData(Widget widget, Object value){
+	public static void setLayoutData(Widget widget, Object value){
 		setLayoutDataSwitch.setProperty(widget, value);
 	}
-	public StyleRange[] getStyleRanges(Widget widget){
+	public static StyleRange[] getStyleRanges(Widget widget){
 		return getStyleRangesSwitch.getProperty(widget);
 	}
-	public void setStyleRanges(Widget widget, StyleRange[] value){
+	public static void setStyleRanges(Widget widget, StyleRange[] value){
 		setStyleRangesSwitch.setProperty(widget, value);
 	}
-	public Control getControl(Widget widget){
+	public static Control getControl(Widget widget){
 		return getControlSwitch.getProperty(widget);
 	}
-	public void setControl(Widget widget, Control value){
+	public static void setControl(Widget widget, Control value){
 		setControlSwitch.setProperty(widget, value);
 	}
-	public Integer getSashWidth(Widget widget){
+	public static Integer getSashWidth(Widget widget){
 		return getSashWidthSwitch.getProperty(widget);
 	}
-	public void setSashWidth(Widget widget, Integer value){
+	public static void setSashWidth(Widget widget, Integer value){
 		setSashWidthSwitch.setProperty(widget, value);
 	}
-	public CTabFolderRenderer getRenderer(Widget widget){
+	public static CTabFolderRenderer getRenderer(Widget widget){
 		return getRendererSwitch.getProperty(widget);
 	}
-	public void setRenderer(Widget widget, CTabFolderRenderer value){
+	public static void setRenderer(Widget widget, CTabFolderRenderer value){
 		setRendererSwitch.setProperty(widget, value);
 	}
-	public Font getFont(Widget widget){
+	public static Font getFont(Widget widget){
 		return getFontSwitch.getProperty(widget);
 	}
-	public void setFont(Widget widget, Font value){
+	public static void setFont(Widget widget, Font value){
 		setFontSwitch.setProperty(widget, value);
 	}
-	public Image getImage(Widget widget){
+	public static Image getImage(Widget widget){
 		return getImageSwitch.getProperty(widget);
 	}
-	public void setImage(Widget widget, Image value){
+	public static void setImage(Widget widget, Image value){
 		setImageSwitch.setProperty(widget, value);
 	}
-	public Point getRightMinimumSize(Widget widget){
+	public static Point getRightMinimumSize(Widget widget){
 		return getRightMinimumSizeSwitch.getProperty(widget);
 	}
-	public void setRightMinimumSize(Widget widget, Point value){
+	public static void setRightMinimumSize(Widget widget, Point value){
 		setRightMinimumSizeSwitch.setProperty(widget, value);
 	}
-	public Boolean getExpanded(Widget widget){
+	public static Boolean getExpanded(Widget widget){
 		return getExpandedSwitch.getProperty(widget);
 	}
-	public void setExpanded(Widget widget, Boolean value){
+	public static void setExpanded(Widget widget, Boolean value){
 		setExpandedSwitch.setProperty(widget, value);
 	}
-	public Control getClient(Widget widget){
+	public static Control getClient(Widget widget){
 		return getClientSwitch.getProperty(widget);
 	}
-	public void setClient(Widget widget, Control value){
+	public static void setClient(Widget widget, Control value){
 		setClientSwitch.setProperty(widget, value);
 	}
-	public Color getTitleBarForeground(Widget widget){
+	public static Color getTitleBarForeground(Widget widget){
 		return getTitleBarForegroundSwitch.getProperty(widget);
 	}
-	public void setTitleBarForeground(Widget widget, Color value){
+	public static void setTitleBarForeground(Widget widget, Color value){
 		setTitleBarForegroundSwitch.setProperty(widget, value);
 	}
-	public Rectangle[] getRectangles(Widget widget){
+	public static Rectangle[] getRectangles(Widget widget){
 		return getRectanglesSwitch.getProperty(widget);
 	}
-	public void setRectangles(Widget widget, Rectangle[] value){
+	public static void setRectangles(Widget widget, Rectangle[] value){
 		setRectanglesSwitch.setProperty(widget, value);
 	}
-	public Control getRight(Widget widget){
+	public static Control getRight(Widget widget){
 		return getRightSwitch.getProperty(widget);
 	}
-	public void setRight(Widget widget, Control value){
+	public static void setRight(Widget widget, Control value){
 		setRightSwitch.setProperty(widget, value);
 	}
-	public String[] getItems(Widget widget){
+	public static String[] getItems(Widget widget){
 		return getItemsSwitch.getProperty(widget);
 	}
-	public void setItems(Widget widget, String[] value){
+	public static void setItems(Widget widget, String[] value){
 		setItemsSwitch.setProperty(widget, value);
 	}
-	public MenuItem getDefaultItem(Widget widget){
+	public static MenuItem getDefaultItem(Widget widget){
 		return getDefaultItemSwitch.getProperty(widget);
 	}
-	public void setDefaultItem(Widget widget, MenuItem value){
+	public static void setDefaultItem(Widget widget, MenuItem value){
 		setDefaultItemSwitch.setProperty(widget, value);
 	}
-	public Integer getOrientation(Widget widget){
+	public static Integer getOrientation(Widget widget){
 		return getOrientationSwitch.getProperty(widget);
 	}
-	public void setOrientation(Widget widget, Integer value){
+	public static void setOrientation(Widget widget, Integer value){
 		setOrientationSwitch.setProperty(widget, value);
 	}
-	public String getMessage(Widget widget){
+	public static String getMessage(Widget widget){
 		return getMessageSwitch.getProperty(widget);
 	}
-	public void setMessage(Widget widget, String value){
+	public static void setMessage(Widget widget, String value){
 		setMessageSwitch.setProperty(widget, value);
 	}
-	public Boolean getUnselectedCloseVisible(Widget widget){
+	public static Boolean getUnselectedCloseVisible(Widget widget){
 		return getUnselectedCloseVisibleSwitch.getProperty(widget);
 	}
-	public void setUnselectedCloseVisible(Widget widget, Boolean value){
+	public static void setUnselectedCloseVisible(Widget widget, Boolean value){
 		setUnselectedCloseVisibleSwitch.setProperty(widget, value);
 	}
-	public Integer getLeftMargin(Widget widget){
+	public static Integer getLeftMargin(Widget widget){
 		return getLeftMarginSwitch.getProperty(widget);
 	}
-	public void setLeftMargin(Widget widget, Integer value){
+	public static void setLeftMargin(Widget widget, Integer value){
 		setLeftMarginSwitch.setProperty(widget, value);
 	}
-	public Integer getHours(Widget widget){
+	public static Integer getHours(Widget widget){
 		return getHoursSwitch.getProperty(widget);
 	}
-	public void setHours(Widget widget, Integer value){
+	public static void setHours(Widget widget, Integer value){
 		setHoursSwitch.setProperty(widget, value);
 	}
-	public Image getHoverImage(Widget widget){
+	public static Image getHoverImage(Widget widget){
 		return getHoverImageSwitch.getProperty(widget);
 	}
-	public void setHoverImage(Widget widget, Image value){
+	public static void setHoverImage(Widget widget, Image value){
 		setHoverImageSwitch.setProperty(widget, value);
 	}
-	public Boolean getLinesVisible(Widget widget){
+	public static Boolean getLinesVisible(Widget widget){
 		return getLinesVisibleSwitch.getProperty(widget);
 	}
-	public void setLinesVisible(Widget widget, Boolean value){
+	public static void setLinesVisible(Widget widget, Boolean value){
 		setLinesVisibleSwitch.setProperty(widget, value);
 	}
-	public Button getDefaultButton(Widget widget){
+	public static Button getDefaultButton(Widget widget){
 		return getDefaultButtonSwitch.getProperty(widget);
 	}
-	public void setDefaultButton(Widget widget, Button value){
+	public static void setDefaultButton(Widget widget, Button value){
 		setDefaultButtonSwitch.setProperty(widget, value);
 	}
-	public Integer getBottomMargin(Widget widget){
+	public static Integer getBottomMargin(Widget widget){
 		return getBottomMarginSwitch.getProperty(widget);
 	}
-	public void setBottomMargin(Widget widget, Integer value){
+	public static void setBottomMargin(Widget widget, Integer value){
 		setBottomMarginSwitch.setProperty(widget, value);
 	}
-	public Integer getMinimum(Widget widget){
+	public static Integer getMinimum(Widget widget){
 		return getMinimumSwitch.getProperty(widget);
 	}
-	public void setMinimum(Widget widget, Integer value){
+	public static void setMinimum(Widget widget, Integer value){
 		setMinimumSwitch.setProperty(widget, value);
 	}
-	public Integer getAlignment(Widget widget){
+	public static Integer getAlignment(Widget widget){
 		return getAlignmentSwitch.getProperty(widget);
 	}
-	public void setAlignment(Widget widget, Integer value){
+	public static void setAlignment(Widget widget, Integer value){
 		setAlignmentSwitch.setProperty(widget, value);
 	}
-	public Boolean getAlwaysShowScrollBars(Widget widget){
+	public static Boolean getAlwaysShowScrollBars(Widget widget){
 		return getAlwaysShowScrollBarsSwitch.getProperty(widget);
 	}
-	public void setAlwaysShowScrollBars(Widget widget, Boolean value){
+	public static void setAlwaysShowScrollBars(Widget widget, Boolean value){
 		setAlwaysShowScrollBarsSwitch.setProperty(widget, value);
 	}
-	public Control getTopLeft(Widget widget){
+	public static Control getTopLeft(Widget widget){
 		return getTopLeftSwitch.getProperty(widget);
 	}
-	public void setTopLeft(Widget widget, Control value){
+	public static void setTopLeft(Widget widget, Control value){
 		setTopLeftSwitch.setProperty(widget, value);
 	}
-	public Integer getIndent(Widget widget){
+	public static Integer getIndent(Widget widget){
 		return getIndentSwitch.getProperty(widget);
 	}
-	public void setIndent(Widget widget, Integer value){
+	public static void setIndent(Widget widget, Integer value){
 		setIndentSwitch.setProperty(widget, value);
 	}
-	public Integer getImeInputMode(Widget widget){
+	public static Integer getImeInputMode(Widget widget){
 		return getImeInputModeSwitch.getProperty(widget);
 	}
-	public void setImeInputMode(Widget widget, Integer value){
+	public static void setImeInputMode(Widget widget, Integer value){
 		setImeInputModeSwitch.setProperty(widget, value);
 	}
-	public Integer getTopIndex(Widget widget){
+	public static Integer getTopIndex(Widget widget){
 		return getTopIndexSwitch.getProperty(widget);
 	}
-	public void setTopIndex(Widget widget, Integer value){
+	public static void setTopIndex(Widget widget, Integer value){
 		setTopIndexSwitch.setProperty(widget, value);
 	}
-	public Integer getRightWidth(Widget widget){
+	public static Integer getRightWidth(Widget widget){
 		return getRightWidthSwitch.getProperty(widget);
 	}
-	public void setRightWidth(Widget widget, Integer value){
+	public static void setRightWidth(Widget widget, Integer value){
 		setRightWidthSwitch.setProperty(widget, value);
 	}
-	public Boolean getLayoutDeferred(Widget widget){
+	public static Boolean getLayoutDeferred(Widget widget){
 		return getLayoutDeferredSwitch.getProperty(widget);
 	}
-	public void setLayoutDeferred(Widget widget, Boolean value){
+	public static void setLayoutDeferred(Widget widget, Boolean value){
 		setLayoutDeferredSwitch.setProperty(widget, value);
 	}
-	public Control getSeparatorControl(Widget widget){
+	public static Control getSeparatorControl(Widget widget){
 		return getSeparatorControlSwitch.getProperty(widget);
 	}
-	public void setSeparatorControl(Widget widget, Control value){
+	public static void setSeparatorControl(Widget widget, Control value){
 		setSeparatorControlSwitch.setProperty(widget, value);
 	}
-	public Color getForeground(Widget widget){
+	public static Color getForeground(Widget widget){
 		return getForegroundSwitch.getProperty(widget);
 	}
-	public void setForeground(Widget widget, Color value){
+	public static void setForeground(Widget widget, Color value){
 		setForegroundSwitch.setProperty(widget, value);
 	}
-	public Control getMaximizedControl(Widget widget){
+	public static Control getMaximizedControl(Widget widget){
 		return getMaximizedControlSwitch.getProperty(widget);
 	}
-	public void setMaximizedControl(Widget widget, Control value){
+	public static void setMaximizedControl(Widget widget, Control value){
 		setMaximizedControlSwitch.setProperty(widget, value);
 	}
-	public Boolean getListVisible(Widget widget){
+	public static Boolean getListVisible(Widget widget){
 		return getListVisibleSwitch.getProperty(widget);
 	}
-	public void setListVisible(Widget widget, Boolean value){
+	public static void setListVisible(Widget widget, Boolean value){
 		setListVisibleSwitch.setProperty(widget, value);
 	}
-	public Boolean getHeaderVisible(Widget widget){
+	public static Boolean getHeaderVisible(Widget widget){
 		return getHeaderVisibleSwitch.getProperty(widget);
 	}
-	public void setHeaderVisible(Widget widget, Boolean value){
+	public static void setHeaderVisible(Widget widget, Boolean value){
 		setHeaderVisibleSwitch.setProperty(widget, value);
 	}
-	public Control getTextClient(Widget widget){
+	public static Control getTextClient(Widget widget){
 		return getTextClientSwitch.getProperty(widget);
 	}
-	public void setTextClient(Widget widget, Control value){
+	public static void setTextClient(Widget widget, Control value){
 		setTextClientSwitch.setProperty(widget, value);
 	}
-	public Integer getMonth(Widget widget){
+	public static Integer getMonth(Widget widget){
 		return getMonthSwitch.getProperty(widget);
 	}
-	public void setMonth(Widget widget, Integer value){
+	public static void setMonth(Widget widget, Integer value){
 		setMonthSwitch.setProperty(widget, value);
 	}
-	public Boolean getBlockSelection(Widget widget){
+	public static Boolean getBlockSelection(Widget widget){
 		return getBlockSelectionSwitch.getProperty(widget);
 	}
-	public void setBlockSelection(Widget widget, Boolean value){
+	public static void setBlockSelection(Widget widget, Boolean value){
 		setBlockSelectionSwitch.setProperty(widget, value);
 	}
-	public Menu getMenu(Widget widget){
+	public static Menu getMenu(Widget widget){
 		return getMenuSwitch.getProperty(widget);
 	}
-	public void setMenu(Widget widget, Menu value){
+	public static void setMenu(Widget widget, Menu value){
 		setMenuSwitch.setProperty(widget, value);
 	}
-	public Boolean getMinimizeVisible(Widget widget){
+	public static Boolean getMinimizeVisible(Widget widget){
 		return getMinimizeVisibleSwitch.getProperty(widget);
 	}
-	public void setMinimizeVisible(Widget widget, Boolean value){
+	public static void setMinimizeVisible(Widget widget, Boolean value){
 		setMinimizeVisibleSwitch.setProperty(widget, value);
 	}
-	public Integer getLineSpacing(Widget widget){
+	public static Integer getLineSpacing(Widget widget){
 		return getLineSpacingSwitch.getProperty(widget);
 	}
-	public void setLineSpacing(Widget widget, Integer value){
+	public static void setLineSpacing(Widget widget, Integer value){
 		setLineSpacingSwitch.setProperty(widget, value);
 	}
-	public Integer getID(Widget widget){
+	public static Integer getID(Widget widget){
 		return getIDSwitch.getProperty(widget);
 	}
-	public void setID(Widget widget, Integer value){
+	public static void setID(Widget widget, Integer value){
 		setIDSwitch.setProperty(widget, value);
 	}
-	public Object getHref(Widget widget){
+	public static Object getHref(Widget widget){
 		return getHrefSwitch.getProperty(widget);
 	}
-	public void setHref(Widget widget, Object value){
+	public static void setHref(Widget widget, Object value){
 		setHrefSwitch.setProperty(widget, value);
 	}
-	public Boolean getResizable(Widget widget){
+	public static Boolean getResizable(Widget widget){
 		return getResizableSwitch.getProperty(widget);
 	}
-	public void setResizable(Widget widget, Boolean value){
+	public static void setResizable(Widget widget, Boolean value){
 		setResizableSwitch.setProperty(widget, value);
 	}
-	public Integer getWidth(Widget widget){
+	public static Integer getWidth(Widget widget){
 		return getWidthSwitch.getProperty(widget);
 	}
-	public void setWidth(Widget widget, Integer value){
+	public static void setWidth(Widget widget, Integer value){
 		setWidthSwitch.setProperty(widget, value);
 	}
-	public Boolean getJustify(Widget widget){
+	public static Boolean getJustify(Widget widget){
 		return getJustifySwitch.getProperty(widget);
 	}
-	public void setJustify(Widget widget, Boolean value){
+	public static void setJustify(Widget widget, Boolean value){
 		setJustifySwitch.setProperty(widget, value);
 	}
-	public ToolTip getToolTip(Widget widget){
+	public static ToolTip getToolTip(Widget widget){
 		return getToolTipSwitch.getProperty(widget);
 	}
-	public void setToolTip(Widget widget, ToolTip value){
+	public static void setToolTip(Widget widget, ToolTip value){
 		setToolTipSwitch.setProperty(widget, value);
 	}
-	public Color getHoverDecorationColor(Widget widget){
+	public static Color getHoverDecorationColor(Widget widget){
 		return getHoverDecorationColorSwitch.getProperty(widget);
 	}
-	public void setHoverDecorationColor(Widget widget, Color value){
+	public static void setHoverDecorationColor(Widget widget, Color value){
 		setHoverDecorationColorSwitch.setProperty(widget, value);
 	}
-	public Point getSize(Widget widget){
+	public static Point getSize(Widget widget){
 		return getSizeSwitch.getProperty(widget);
 	}
-	public void setSize(Widget widget, Point value){
+	public static void setSize(Widget widget, Point value){
 		setSizeSwitch.setProperty(widget, value);
 	}
-	public Boolean getStippled(Widget widget){
+	public static Boolean getStippled(Widget widget){
 		return getStippledSwitch.getProperty(widget);
 	}
-	public void setStippled(Widget widget, Boolean value){
+	public static void setStippled(Widget widget, Boolean value){
 		setStippledSwitch.setProperty(widget, value);
 	}
-	public Color getSelectionBackground(Widget widget){
+	public static Color getSelectionBackground(Widget widget){
 		return getSelectionBackgroundSwitch.getProperty(widget);
 	}
-	public void setSelectionBackground(Widget widget, Color value){
+	public static void setSelectionBackground(Widget widget, Color value){
 		setSelectionBackgroundSwitch.setProperty(widget, value);
 	}
-	public Integer getTextLimit(Widget widget){
+	public static Integer getTextLimit(Widget widget){
 		return getTextLimitSwitch.getProperty(widget);
 	}
-	public void setTextLimit(Widget widget, Integer value){
+	public static void setTextLimit(Widget widget, Integer value){
 		setTextLimitSwitch.setProperty(widget, value);
 	}
-	public Integer getMaximum(Widget widget){
+	public static Integer getMaximum(Widget widget){
 		return getMaximumSwitch.getProperty(widget);
 	}
-	public void setMaximum(Widget widget, Integer value){
+	public static void setMaximum(Widget widget, Integer value){
 		setMaximumSwitch.setProperty(widget, value);
 	}
-	public Integer getItemCount(Widget widget){
+	public static Integer getItemCount(Widget widget){
 		return getItemCountSwitch.getProperty(widget);
 	}
-	public void setItemCount(Widget widget, Integer value){
+	public static void setItemCount(Widget widget, Integer value){
 		setItemCountSwitch.setProperty(widget, value);
 	}
-	public Integer getHeight(Widget widget){
+	public static Integer getHeight(Widget widget){
 		return getHeightSwitch.getProperty(widget);
 	}
-	public void setHeight(Widget widget, Integer value){
+	public static void setHeight(Widget widget, Integer value){
 		setHeightSwitch.setProperty(widget, value);
 	}
-	public Control getTopRight(Widget widget){
+	public static Control getTopRight(Widget widget){
 		return getTopRightSwitch.getProperty(widget);
 	}
-	public void setTopRight(Widget widget, Control value){
+	public static void setTopRight(Widget widget, Control value){
 		setTopRightSwitch.setProperty(widget, value);
 	}
-	public HyperlinkSettings getHyperlinkSettings(Widget widget){
+	public static HyperlinkSettings getHyperlinkSettings(Widget widget){
 		return getHyperlinkSettingsSwitch.getProperty(widget);
 	}
-	public void setHyperlinkSettings(Widget widget, HyperlinkSettings value){
+	public static void setHyperlinkSettings(Widget widget, HyperlinkSettings value){
 		setHyperlinkSettingsSwitch.setProperty(widget, value);
 	}
-	public Integer getMinWidth(Widget widget){
+	public static Integer getMinWidth(Widget widget){
 		return getMinWidthSwitch.getProperty(widget);
 	}
-	public void setMinWidth(Widget widget, Integer value){
+	public static void setMinWidth(Widget widget, Integer value){
 		setMinWidthSwitch.setProperty(widget, value);
 	}
-	public Transfer[] getTransfer(Widget widget){
+	public static Transfer[] getTransfer(Widget widget){
 		return getTransferSwitch.getProperty(widget);
 	}
-	public void setTransfer(Widget widget, Transfer[] value){
+	public static void setTransfer(Widget widget, Transfer[] value){
 		setTransferSwitch.setProperty(widget, value);
 	}
-	public Image getActiveImage(Widget widget){
+	public static Image getActiveImage(Widget widget){
 		return getActiveImageSwitch.getProperty(widget);
 	}
-	public void setActiveImage(Widget widget, Image value){
+	public static void setActiveImage(Widget widget, Image value){
 		setActiveImageSwitch.setProperty(widget, value);
 	}
-	public Boolean getEditable(Widget widget){
+	public static Boolean getEditable(Widget widget){
 		return getEditableSwitch.getProperty(widget);
 	}
-	public void setEditable(Widget widget, Boolean value){
+	public static void setEditable(Widget widget, Boolean value){
 		setEditableSwitch.setProperty(widget, value);
 	}
-	public FormText getFormText(Widget widget){
+	public static FormText getFormText(Widget widget){
 		return getFormTextSwitch.getProperty(widget);
 	}
-	public void setFormText(Widget widget, FormText value){
+	public static void setFormText(Widget widget, FormText value){
 		setFormTextSwitch.setProperty(widget, value);
 	}
-	public Boolean getTouchEnabled(Widget widget){
+	public static Boolean getTouchEnabled(Widget widget){
 		return getTouchEnabledSwitch.getProperty(widget);
 	}
-	public void setTouchEnabled(Widget widget, Boolean value){
+	public static void setTouchEnabled(Widget widget, Boolean value){
 		setTouchEnabledSwitch.setProperty(widget, value);
 	}
-	public DropTargetEffect getDropTargetEffect(Widget widget){
+	public static DropTargetEffect getDropTargetEffect(Widget widget){
 		return getDropTargetEffectSwitch.getProperty(widget);
 	}
-	public void setDropTargetEffect(Widget widget, DropTargetEffect value){
+	public static void setDropTargetEffect(Widget widget, DropTargetEffect value){
 		setDropTargetEffectSwitch.setProperty(widget, value);
 	}
-	public Boolean getSimple(Widget widget){
+	public static Boolean getSimple(Widget widget){
 		return getSimpleSwitch.getProperty(widget);
 	}
-	public void setSimple(Widget widget, Boolean value){
+	public static void setSimple(Widget widget, Boolean value){
 		setSimpleSwitch.setProperty(widget, value);
 	}
-	public Color getMarginColor(Widget widget){
+	public static Color getMarginColor(Widget widget){
 		return getMarginColorSwitch.getProperty(widget);
 	}
-	public void setMarginColor(Widget widget, Color value){
+	public static void setMarginColor(Widget widget, Color value){
 		setMarginColorSwitch.setProperty(widget, value);
 	}
-	public Integer getTopPixel(Widget widget){
+	public static Integer getTopPixel(Widget widget){
 		return getTopPixelSwitch.getProperty(widget);
 	}
-	public void setTopPixel(Widget widget, Integer value){
+	public static void setTopPixel(Widget widget, Integer value){
 		setTopPixelSwitch.setProperty(widget, value);
 	}
-	public Boolean getChecked(Widget widget){
+	public static Boolean getChecked(Widget widget){
 		return getCheckedSwitch.getProperty(widget);
 	}
-	public void setChecked(Widget widget, Boolean value){
+	public static void setChecked(Widget widget, Boolean value){
 		setCheckedSwitch.setProperty(widget, value);
 	}
-	public Color getTitleBarBorderColor(Widget widget){
+	public static Color getTitleBarBorderColor(Widget widget){
 		return getTitleBarBorderColorSwitch.getProperty(widget);
 	}
-	public void setTitleBarBorderColor(Widget widget, Color value){
+	public static void setTitleBarBorderColor(Widget widget, Color value){
 		setTitleBarBorderColorSwitch.setProperty(widget, value);
 	}
-	public Boolean getLocked(Widget widget){
+	public static Boolean getLocked(Widget widget){
 		return getLockedSwitch.getProperty(widget);
 	}
-	public void setLocked(Widget widget, Boolean value){
+	public static void setLocked(Widget widget, Boolean value){
 		setLockedSwitch.setProperty(widget, value);
 	}
-	public Caret getCaret(Widget widget){
+	public static Caret getCaret(Widget widget){
 		return getCaretSwitch.getProperty(widget);
 	}
-	public void setCaret(Widget widget, Caret value){
+	public static void setCaret(Widget widget, Caret value){
 		setCaretSwitch.setProperty(widget, value);
 	}
-	public Integer getWrapIndent(Widget widget){
+	public static Integer getWrapIndent(Widget widget){
 		return getWrapIndentSwitch.getProperty(widget);
 	}
-	public void setWrapIndent(Widget widget, Integer value){
+	public static void setWrapIndent(Widget widget, Integer value){
 		setWrapIndentSwitch.setProperty(widget, value);
 	}
-	public Boolean getAutoHide(Widget widget){
+	public static Boolean getAutoHide(Widget widget){
 		return getAutoHideSwitch.getProperty(widget);
 	}
-	public void setAutoHide(Widget widget, Boolean value){
+	public static void setAutoHide(Widget widget, Boolean value){
 		setAutoHideSwitch.setProperty(widget, value);
 	}
-	public Boolean getEnabled(Widget widget){
+	public static Boolean getEnabled(Widget widget){
 		return getEnabledSwitch.getProperty(widget);
 	}
-	public void setEnabled(Widget widget, Boolean value){
+	public static void setEnabled(Widget widget, Boolean value){
 		setEnabledSwitch.setProperty(widget, value);
 	}
-	public DragSourceEffect getDragSourceEffect(Widget widget){
+	public static DragSourceEffect getDragSourceEffect(Widget widget){
 		return getDragSourceEffectSwitch.getProperty(widget);
 	}
-	public void setDragSourceEffect(Widget widget, DragSourceEffect value){
+	public static void setDragSourceEffect(Widget widget, DragSourceEffect value){
 		setDragSourceEffectSwitch.setProperty(widget, value);
 	}
-	public Boolean getShowFocusedControl(Widget widget){
+	public static Boolean getShowFocusedControl(Widget widget){
 		return getShowFocusedControlSwitch.getProperty(widget);
 	}
-	public void setShowFocusedControl(Widget widget, Boolean value){
+	public static void setShowFocusedControl(Widget widget, Boolean value){
 		setShowFocusedControlSwitch.setProperty(widget, value);
 	}
-	public int[] getColumnOrder(Widget widget){
+	public static int[] getColumnOrder(Widget widget){
 		return getColumnOrderSwitch.getProperty(widget);
 	}
-	public void setColumnOrder(Widget widget, int[] value){
+	public static void setColumnOrder(Widget widget, int[] value){
 		setColumnOrderSwitch.setProperty(widget, value);
 	}
-	public Boolean getMRUVisible(Widget widget){
+	public static Boolean getMRUVisible(Widget widget){
 		return getMRUVisibleSwitch.getProperty(widget);
 	}
-	public void setMRUVisible(Widget widget, Boolean value){
+	public static void setMRUVisible(Widget widget, Boolean value){
 		setMRUVisibleSwitch.setProperty(widget, value);
 	}
-	public Boolean getGrayed(Widget widget){
+	public static Boolean getGrayed(Widget widget){
 		return getGrayedSwitch.getProperty(widget);
 	}
-	public void setGrayed(Widget widget, Boolean value){
+	public static void setGrayed(Widget widget, Boolean value){
 		setGrayedSwitch.setProperty(widget, value);
 	}
-	public Integer getDay(Widget widget){
+	public static Integer getDay(Widget widget){
 		return getDaySwitch.getProperty(widget);
 	}
-	public void setDay(Widget widget, Integer value){
+	public static void setDay(Widget widget, Integer value){
 		setDaySwitch.setProperty(widget, value);
 	}
-	public Cursor getCursor(Widget widget){
+	public static Cursor getCursor(Widget widget){
 		return getCursorSwitch.getProperty(widget);
 	}
-	public void setCursor(Widget widget, Cursor value){
+	public static void setCursor(Widget widget, Cursor value){
 		setCursorSwitch.setProperty(widget, value);
 	}
-	public Integer getYear(Widget widget){
+	public static Integer getYear(Widget widget){
 		return getYearSwitch.getProperty(widget);
 	}
-	public void setYear(Widget widget, Integer value){
+	public static void setYear(Widget widget, Integer value){
 		setYearSwitch.setProperty(widget, value);
 	}
-	public Integer getToolBarVerticalAlignment(Widget widget){
+	public static Integer getToolBarVerticalAlignment(Widget widget){
 		return getToolBarVerticalAlignmentSwitch.getProperty(widget);
 	}
-	public void setToolBarVerticalAlignment(Widget widget, Integer value){
+	public static void setToolBarVerticalAlignment(Widget widget, Integer value){
 		setToolBarVerticalAlignmentSwitch.setProperty(widget, value);
 	}
-	public Region getRegion(Widget widget){
+	public static Region getRegion(Widget widget){
 		return getRegionSwitch.getProperty(widget);
 	}
-	public void setRegion(Widget widget, Region value){
+	public static void setRegion(Widget widget, Region value){
 		setRegionSwitch.setProperty(widget, value);
 	}
-	public Integer getAccelerator(Widget widget){
+	public static Integer getAccelerator(Widget widget){
 		return getAcceleratorSwitch.getProperty(widget);
 	}
-	public void setAccelerator(Widget widget, Integer value){
+	public static void setAccelerator(Widget widget, Integer value){
 		setAcceleratorSwitch.setProperty(widget, value);
 	}
-	public int[] getWrapIndices(Widget widget){
+	public static int[] getWrapIndices(Widget widget){
 		return getWrapIndicesSwitch.getProperty(widget);
 	}
-	public void setWrapIndices(Widget widget, int[] value){
+	public static void setWrapIndices(Widget widget, int[] value){
 		setWrapIndicesSwitch.setProperty(widget, value);
 	}
-	public Integer getPageIncrement(Widget widget){
+	public static Integer getPageIncrement(Widget widget){
 		return getPageIncrementSwitch.getProperty(widget);
 	}
-	public void setPageIncrement(Widget widget, Integer value){
+	public static void setPageIncrement(Widget widget, Integer value){
 		setPageIncrementSwitch.setProperty(widget, value);
 	}
-	public Boolean getMatchEmptyString(Widget widget){
+	public static Boolean getMatchEmptyString(Widget widget){
 		return getMatchEmptyStringSwitch.getProperty(widget);
 	}
-	public void setMatchEmptyString(Widget widget, Boolean value){
+	public static void setMatchEmptyString(Widget widget, Boolean value){
 		setMatchEmptyStringSwitch.setProperty(widget, value);
 	}
-	public Integer getCompositionOffset(Widget widget){
+	public static Integer getCompositionOffset(Widget widget){
 		return getCompositionOffsetSwitch.getProperty(widget);
 	}
-	public void setCompositionOffset(Widget widget, Integer value){
+	public static void setCompositionOffset(Widget widget, Integer value){
 		setCompositionOffsetSwitch.setProperty(widget, value);
 	}
-	public String getDescription(Widget widget){
+	public static String getDescription(Widget widget){
 		return getDescriptionSwitch.getProperty(widget);
 	}
-	public void setDescription(Widget widget, String value){
+	public static void setDescription(Widget widget, String value){
 		setDescriptionSwitch.setProperty(widget, value);
 	}
-	public Boolean getShowClose(Widget widget){
+	public static Boolean getShowClose(Widget widget){
 		return getShowCloseSwitch.getProperty(widget);
 	}
-	public void setShowClose(Widget widget, Boolean value){
+	public static void setShowClose(Widget widget, Boolean value){
 		setShowCloseSwitch.setProperty(widget, value);
 	}
-	public Color getSelectionForeground(Widget widget){
+	public static Color getSelectionForeground(Widget widget){
 		return getSelectionForegroundSwitch.getProperty(widget);
 	}
-	public void setSelectionForeground(Widget widget, Color value){
+	public static void setSelectionForeground(Widget widget, Color value){
 		setSelectionForegroundSwitch.setProperty(widget, value);
 	}
-	public Integer getBackgroundMode(Widget widget){
+	public static Integer getBackgroundMode(Widget widget){
 		return getBackgroundModeSwitch.getProperty(widget);
 	}
-	public void setBackgroundMode(Widget widget, Integer value){
+	public static void setBackgroundMode(Widget widget, Integer value){
 		setBackgroundModeSwitch.setProperty(widget, value);
 	}
-	public Color getTitleBarGradientBackground(Widget widget){
+	public static Color getTitleBarGradientBackground(Widget widget){
 		return getTitleBarGradientBackgroundSwitch.getProperty(widget);
 	}
-	public void setTitleBarGradientBackground(Widget widget, Color value){
+	public static void setTitleBarGradientBackground(Widget widget, Color value){
 		setTitleBarGradientBackgroundSwitch.setProperty(widget, value);
 	}
-	public Rectangle getBlockSelectionBounds(Widget widget){
+	public static Rectangle getBlockSelectionBounds(Widget widget){
 		return getBlockSelectionBoundsSwitch.getProperty(widget);
 	}
-	public void setBlockSelectionBounds(Widget widget, Rectangle value){
+	public static void setBlockSelectionBounds(Widget widget, Rectangle value){
 		setBlockSelectionBoundsSwitch.setProperty(widget, value);
 	}
-	public Integer getMinHeight(Widget widget){
+	public static Integer getMinHeight(Widget widget){
 		return getMinHeightSwitch.getProperty(widget);
 	}
-	public void setMinHeight(Widget widget, Integer value){
+	public static void setMinHeight(Widget widget, Integer value){
 		setMinHeightSwitch.setProperty(widget, value);
 	}
-	public Integer getRightMargin(Widget widget){
+	public static Integer getRightMargin(Widget widget){
 		return getRightMarginSwitch.getProperty(widget);
 	}
-	public void setRightMargin(Widget widget, Integer value){
+	public static void setRightMargin(Widget widget, Integer value){
 		setRightMarginSwitch.setProperty(widget, value);
 	}
-	public Point getLocation(Widget widget){
+	public static Point getLocation(Widget widget){
 		return getLocationSwitch.getProperty(widget);
 	}
-	public void setLocation(Widget widget, Point value){
+	public static void setLocation(Widget widget, Point value){
 		setLocationSwitch.setProperty(widget, value);
 	}
-	public Integer getSpacing(Widget widget){
+	public static Integer getSpacing(Widget widget){
 		return getSpacingSwitch.getProperty(widget);
 	}
-	public void setSpacing(Widget widget, Integer value){
+	public static void setSpacing(Widget widget, Integer value){
 		setSpacingSwitch.setProperty(widget, value);
 	}
-	public Point getMinimumSize(Widget widget){
+	public static Point getMinimumSize(Widget widget){
 		return getMinimumSizeSwitch.getProperty(widget);
 	}
-	public void setMinimumSize(Widget widget, Point value){
+	public static void setMinimumSize(Widget widget, Point value){
 		setMinimumSizeSwitch.setProperty(widget, value);
 	}
-	public Control getDescriptionControl(Widget widget){
+	public static Control getDescriptionControl(Widget widget){
 		return getDescriptionControlSwitch.getProperty(widget);
 	}
-	public void setDescriptionControl(Widget widget, Control value){
+	public static void setDescriptionControl(Widget widget, Control value){
 		setDescriptionControlSwitch.setProperty(widget, value);
 	}
-	public String getText(Widget widget){
+	public static String getText(Widget widget){
 		return getTextSwitch.getProperty(widget);
 	}
-	public void setText(Widget widget, String value){
+	public static void setText(Widget widget, String value){
 		setTextSwitch.setProperty(widget, value);
 	}
-	public Integer getTabs(Widget widget){
+	public static Integer getTabs(Widget widget){
 		return getTabsSwitch.getProperty(widget);
 	}
-	public void setTabs(Widget widget, Integer value){
+	public static void setTabs(Widget widget, Integer value){
 		setTabsSwitch.setProperty(widget, value);
 	}
-	public Boolean getBorderVisible(Widget widget){
+	public static Boolean getBorderVisible(Widget widget){
 		return getBorderVisibleSwitch.getProperty(widget);
 	}
-	public void setBorderVisible(Widget widget, Boolean value){
+	public static void setBorderVisible(Widget widget, Boolean value){
 		setBorderVisibleSwitch.setProperty(widget, value);
 	}
-	public Integer getState(Widget widget){
+	public static Integer getState(Widget widget){
 		return getStateSwitch.getProperty(widget);
 	}
-	public void setState(Widget widget, Integer value){
+	public static void setState(Widget widget, Integer value){
 		setStateSwitch.setProperty(widget, value);
 	}
-	public TreeItem getTopItem(Widget widget){
+	public static TreeItem getTopItem(Widget widget){
 		return getTopItemSwitch.getProperty(widget);
 	}
-	public void setTopItem(Widget widget, TreeItem value){
+	public static void setTopItem(Widget widget, TreeItem value){
 		setTopItemSwitch.setProperty(widget, value);
 	}
-	public Control[] getTabList(Widget widget){
+	public static Control[] getTabList(Widget widget){
 		return getTabListSwitch.getProperty(widget);
 	}
-	public void setTabList(Widget widget, Control[] value){
+	public static void setTabList(Widget widget, Control[] value){
 		setTabListSwitch.setProperty(widget, value);
 	}
-	public Control getTopCenter(Widget widget){
+	public static Control getTopCenter(Widget widget){
 		return getTopCenterSwitch.getProperty(widget);
 	}
-	public void setTopCenter(Widget widget, Control value){
+	public static void setTopCenter(Widget widget, Control value){
 		setTopCenterSwitch.setProperty(widget, value);
 	}
-	public Boolean getExpandHorizontal(Widget widget){
+	public static Boolean getExpandHorizontal(Widget widget){
 		return getExpandHorizontalSwitch.getProperty(widget);
 	}
-	public void setExpandHorizontal(Widget widget, Boolean value){
+	public static void setExpandHorizontal(Widget widget, Boolean value){
 		setExpandHorizontalSwitch.setProperty(widget, value);
 	}
-	public int[] getTabStops(Widget widget){
+	public static int[] getTabStops(Widget widget){
 		return getTabStopsSwitch.getProperty(widget);
 	}
-	public void setTabStops(Widget widget, int[] value){
+	public static void setTabStops(Widget widget, int[] value){
 		setTabStopsSwitch.setProperty(widget, value);
 	}
-	public Integer getMinutes(Widget widget){
+	public static Integer getMinutes(Widget widget){
 		return getMinutesSwitch.getProperty(widget);
 	}
-	public void setMinutes(Widget widget, Integer value){
+	public static void setMinutes(Widget widget, Integer value){
 		setMinutesSwitch.setProperty(widget, value);
 	}
-	public Boolean getExpandVertical(Widget widget){
+	public static Boolean getExpandVertical(Widget widget){
 		return getExpandVerticalSwitch.getProperty(widget);
 	}
-	public void setExpandVertical(Widget widget, Boolean value){
+	public static void setExpandVertical(Widget widget, Boolean value){
 		setExpandVerticalSwitch.setProperty(widget, value);
 	}
-	public Image getHotImage(Widget widget){
+	public static Image getHotImage(Widget widget){
 		return getHotImageSwitch.getProperty(widget);
 	}
-	public void setHotImage(Widget widget, Image value){
+	public static void setHotImage(Widget widget, Image value){
 		setHotImageSwitch.setProperty(widget, value);
 	}
-	public Integer getMinimumCharacters(Widget widget){
+	public static Integer getMinimumCharacters(Widget widget){
 		return getMinimumCharactersSwitch.getProperty(widget);
 	}
-	public void setMinimumCharacters(Widget widget, Integer value){
+	public static void setMinimumCharacters(Widget widget, Integer value){
 		setMinimumCharactersSwitch.setProperty(widget, value);
 	}	
+
+	public static Class<?>getPropertyType(String propertyName){
+		PropertyEntry entry = map.get(propertyName.trim().toLowerCase());
+		if(entry == null){
+			return null;
+		}
+		else{
+			return entry.type;
+		}	
+	}
+
+		
 }

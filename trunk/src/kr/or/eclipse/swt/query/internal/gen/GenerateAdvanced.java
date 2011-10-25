@@ -25,8 +25,7 @@ public class GenerateAdvanced {
 	private static ArrayList<Class<?>> types;
 	private static Map<String, Property> properties;
 
-	public static void main(String[] args) throws IOException,
-			ClassNotFoundException, SecurityException, NoSuchMethodException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SecurityException, NoSuchMethodException {
 		srcFolder = new File(args[0]);
 
 		System.out.print("타입을 로드하는 중...");
@@ -42,10 +41,19 @@ public class GenerateAdvanced {
 		System.out.println("완료.");
 
 		generateSWTTools();
+
+		generateSWTQuery();
 	}
 
-	private static void generateSWTTools() throws FileNotFoundException,
-			IOException {
+	private static void generateSWTQuery() throws FileNotFoundException, IOException {
+		File folder = new File(srcFolder, "kr/or/eclipse/swt/query");
+		SWTQueryGenerator generator = new SWTQueryGenerator();
+
+		File file = new File(folder, "SWTQuery.java");
+		write(generator.generate(properties.values()), new FileOutputStream(file));
+	}
+
+	private static void generateSWTTools() throws FileNotFoundException, IOException {
 		File utilFolder = new File(srcFolder, "kr/or/eclipse/swt/query/util");
 		if (!utilFolder.exists()) {
 			utilFolder.mkdir();
@@ -56,8 +64,7 @@ public class GenerateAdvanced {
 		write(generator.generate(null), new FileOutputStream(file));
 	}
 
-	private static void generatePropertySwitches()
-			throws FileNotFoundException, IOException, SecurityException,
+	private static void generatePropertySwitches() throws FileNotFoundException, IOException, SecurityException,
 			NoSuchMethodException {
 		File utilFolder = new File(srcFolder, "kr/or/eclipse/swt/query/util");
 		if (!utilFolder.exists()) {
@@ -76,14 +83,10 @@ public class GenerateAdvanced {
 				continue;
 			}
 
-			File getterFile = new File(internalUtilFolder, "Get"
-					+ each.propertyName + "Switch.java");
-			File setterFile = new File(internalUtilFolder, "Set"
-					+ each.propertyName + "Switch.java");
-			write(getterGenerator.generate(each), new FileOutputStream(
-					getterFile));
-			write(setterGenerator.generate(each), new FileOutputStream(
-					setterFile));
+			File getterFile = new File(internalUtilFolder, "Get" + each.propertyName + "Switch.java");
+			File setterFile = new File(internalUtilFolder, "Set" + each.propertyName + "Switch.java");
+			write(getterGenerator.generate(each), new FileOutputStream(getterFile));
+			write(setterGenerator.generate(each), new FileOutputStream(setterFile));
 		}
 
 		PropertySwitchGenerator psGenerator = new PropertySwitchGenerator();
@@ -92,8 +95,7 @@ public class GenerateAdvanced {
 	}
 
 	private static Map<String, Property> loadProperties() throws IOException {
-		InputStream is = GenerateAdvanced.class
-				.getResourceAsStream("filtered-property.txt");
+		InputStream is = GenerateAdvanced.class.getResourceAsStream("filtered-property.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String eachFilter = null;
 		HashSet<String> filters = new HashSet<String>();
@@ -173,8 +175,7 @@ public class GenerateAdvanced {
 			}
 		}
 
-		for (Property each : properties.values().toArray(
-				new Property[properties.size()])) {
+		for (Property each : properties.values().toArray(new Property[properties.size()])) {
 			if (!each.isValid) {
 				properties.remove(each.propertyName);
 			}
@@ -182,8 +183,7 @@ public class GenerateAdvanced {
 		return properties;
 	}
 
-	public static void write(String content, OutputStream stream,
-			String encoding) throws IOException {
+	public static void write(String content, OutputStream stream, String encoding) throws IOException {
 		byte[] data = content.getBytes(encoding);
 		int block = 512;
 		for (int i = 0; i < data.length; i += block) {
@@ -193,15 +193,12 @@ public class GenerateAdvanced {
 		stream.close();
 	}
 
-	public static void write(String content, OutputStream stream)
-			throws IOException {
+	public static void write(String content, OutputStream stream) throws IOException {
 		write(content, stream, System.getProperty("file.encoding"));
 	}
 
-	private static ArrayList<Class<?>> loadTypes() throws IOException,
-			ClassNotFoundException {
-		InputStream is = GenerateAdvanced.class
-				.getResourceAsStream("target.txt");
+	private static ArrayList<Class<?>> loadTypes() throws IOException, ClassNotFoundException {
+		InputStream is = GenerateAdvanced.class.getResourceAsStream("target.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String line = null;
 
@@ -211,8 +208,7 @@ public class GenerateAdvanced {
 			if (line.trim().isEmpty()) {
 				continue;
 			}
-			Class<?> eachType = Class.forName(line, false,
-					GenerateAdvanced.class.getClassLoader());
+			Class<?> eachType = Class.forName(line, false, GenerateAdvanced.class.getClassLoader());
 			types.add(eachType);
 		}
 		reader.close();
@@ -224,8 +220,7 @@ public class GenerateAdvanced {
 					return 0;
 				}
 
-				if (o1.getSuperclass() == Widget.class
-						&& o2.getSuperclass() == Widget.class) {
+				if (o1.getSuperclass() == Widget.class && o2.getSuperclass() == Widget.class) {
 					return o1.getName().compareTo(o2.getName());
 				}
 
@@ -261,8 +256,7 @@ public class GenerateAdvanced {
 		return types;
 	}
 
-	public static String read(InputStream stream, String encoding)
-			throws IOException {
+	public static String read(InputStream stream, String encoding) throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		byte buf[] = new byte[512];
 		int len = -1;
