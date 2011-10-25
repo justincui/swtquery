@@ -9,121 +9,72 @@
  */
 package kr.or.eclipse.swt.query;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
-import kr.or.eclipse.swt.query.internal.ParentSwitch;
-import kr.or.eclipse.swt.query.internal.UniqueList;
-import kr.or.eclipse.swt.query.internal.grammar.Selector;
-import kr.or.eclipse.swt.query.internal.grammar.SelectorInterpreter;
-import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
-
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.wizard.ProgressMonitorPart;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.accessibility.Accessible;
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.custom.CBanner;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabFolderRenderer;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.custom.TableCursor;
-import org.eclipse.swt.custom.ViewForm;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DragSourceEffect;
-import org.eclipse.swt.dnd.DragSourceListener;
-import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.DropTargetEffect;
-import org.eclipse.swt.dnd.DropTargetListener;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.GC;
+
+import org.eclipse.ui.forms.widgets.FormText;
+import org.eclipse.swt.widgets.TableItem;
+import java.lang.Boolean;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.swt.custom.CTabFolderRenderer;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.graphics.Region;
-import org.eclipse.swt.graphics.TextStyle;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.opengl.GLCanvas;
-import org.eclipse.swt.opengl.GLData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Caret;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.CoolBar;
-import org.eclipse.swt.widgets.CoolItem;
-import org.eclipse.swt.widgets.DateTime;
-import org.eclipse.swt.widgets.Decorations;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.ExpandBar;
-import org.eclipse.swt.widgets.ExpandItem;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.IME;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Monitor;
-import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.ScrollBar;
-import org.eclipse.swt.widgets.Scrollable;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
+import java.lang.Object;
+import java.util.List;
+import java.lang.Integer;
+import org.eclipse.swt.dnd.DND;
+import kr.or.eclipse.swt.query.internal.grammar.Selector;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.widgets.Display;
+import kr.or.eclipse.swt.query.util.WidgetPropertySwitch;
+import java.util.Map;
+import kr.or.eclipse.swt.query.filter.IWidgetFilter;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.widgets.ScrollBar;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.graphics.Color;
+import java.lang.Character;
 import org.eclipse.swt.widgets.ToolTip;
-import org.eclipse.swt.widgets.Tracker;
-import org.eclipse.swt.widgets.Tray;
-import org.eclipse.swt.widgets.TrayItem;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.dialogs.FilteredList;
-import org.eclipse.ui.dialogs.FilteredTree;
+import org.eclipse.swt.graphics.TextStyle;
+import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.dnd.DropTargetEffect;
 import org.eclipse.ui.dialogs.PatternFilter;
-import org.eclipse.ui.forms.HyperlinkSettings;
-import org.eclipse.ui.forms.IMessage;
-import org.eclipse.ui.forms.IMessageManager;
-import org.eclipse.ui.forms.widgets.AbstractHyperlink;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.swt.accessibility.Accessible;
 import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.widgets.FormText;
-import org.eclipse.ui.forms.widgets.Hyperlink;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.ScrolledFormText;
-import org.eclipse.ui.forms.widgets.ScrolledPageBook;
-import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
-import org.eclipse.ui.forms.widgets.ToggleHyperlink;
+import java.util.ArrayList;
+import org.eclipse.ui.forms.HyperlinkSettings;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.forms.IMessage;
+import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.dnd.DropTarget;
+import java.lang.String;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.ui.forms.IMessageManager;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.opengl.GLData;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.dnd.DragSourceEffect;
+import org.eclipse.swt.widgets.IME;
+import kr.or.eclipse.swt.query.internal.grammar.SelectorInterpreter;
+import kr.or.eclipse.swt.query.internal.ChildrenSwitch;
+import kr.or.eclipse.swt.query.internal.UniqueList;
+import kr.or.eclipse.swt.query.internal.ParentSwitch;
+import org.eclipse.swt.widgets.MenuItem;
 
 
 public final class SWTQuery {
@@ -239,14 +190,14 @@ public final class SWTQuery {
 	}
 
 	public SWTQuery parent() {
-		ArrayList<Widget> parents = new ArrayList<Widget>();
+		ArrayList<Widget> parents = new UniqueList<Widget>();
 		for (Widget each : this.items) {
 			Widget eachParent = ParentSwitch.INSTANCE.doSwitch(each);
 			if (eachParent != null) {
 				parents.add(eachParent);
 			}
 		}
-		return parent();
+		return new SWTQuery(parents);
 	}
 
 	public SWTQuery prev() {
@@ -330,6 +281,25 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts Visible property.
+	 *
+	 * @see Caret
+	 * @see Shell
+	 * @see Control
+	 * @see Menu
+	 * @see ScrollBar
+	 * @see ToolTip	 
+	 */
+	public SWTQuery toggleVisible(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getVisible(each);
+			WidgetPropertySwitch.setVisible(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a HorizontalPixel property.
 	 * 
@@ -342,7 +312,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHorizontalPixel(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a MenuBar property.
 	 * 
@@ -355,7 +326,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMenuBar(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ToolTipText property.
 	 * 
@@ -376,7 +348,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setToolTipText(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Busy property.
 	 * 
@@ -390,6 +363,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts Busy property.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery toggleBusy(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getBusy(each);
+			WidgetPropertySwitch.setBusy(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a Increment property.
 	 * 
@@ -405,7 +392,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setIncrement(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a LabelProvider property.
 	 * 
@@ -418,7 +406,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setLabelProvider(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a CaretOffset property.
 	 * 
@@ -431,7 +420,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setCaretOffset(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Underlined property.
 	 * 
@@ -445,6 +435,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts Underlined property.
+	 *
+	 * @see Hyperlink	 
+	 */
+	public SWTQuery toggleUnderlined(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getUnderlined(each);
+			WidgetPropertySwitch.setUnderlined(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a Filter property.
 	 * 
@@ -457,7 +461,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setFilter(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Layout property.
 	 * 
@@ -470,7 +475,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setLayout(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a BackgroundImageTiled property.
 	 * 
@@ -484,6 +490,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts BackgroundImageTiled property.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery toggleBackgroundImageTiled(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getBackgroundImageTiled(each);
+			WidgetPropertySwitch.setBackgroundImageTiled(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a IME property.
 	 * 
@@ -496,7 +516,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setIME(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TextChars property.
 	 * 
@@ -509,7 +530,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTextChars(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TopMargin property.
 	 * 
@@ -523,7 +545,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTopMargin(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Weights property.
 	 * 
@@ -536,7 +559,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setWeights(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a LayoutData property.
 	 * 
@@ -549,7 +573,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setLayoutData(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a StyleRanges property.
 	 * 
@@ -562,7 +587,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setStyleRanges(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Control property.
 	 * 
@@ -579,7 +605,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setControl(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Renderer property.
 	 * 
@@ -592,7 +619,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setRenderer(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Image property.
 	 * 
@@ -615,7 +643,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setImage(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a RightMinimumSize property.
 	 * 
@@ -628,7 +657,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setRightMinimumSize(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Expanded property.
 	 * 
@@ -643,6 +673,21 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts Expanded property.
+	 *
+	 * @see ToggleHyperlink
+	 * @see ExpandableComposite	 
+	 */
+	public SWTQuery toggleExpanded(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getExpanded(each);
+			WidgetPropertySwitch.setExpanded(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a TitleBarForeground property.
 	 * 
@@ -655,7 +700,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTitleBarForeground(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Client property.
 	 * 
@@ -668,7 +714,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setClient(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Right property.
 	 * 
@@ -681,7 +728,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setRight(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Orientation property.
 	 * 
@@ -699,7 +747,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setOrientation(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Hours property.
 	 * 
@@ -712,7 +761,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHours(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a HoverImage property.
 	 * 
@@ -725,7 +775,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHoverImage(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a BottomMargin property.
 	 * 
@@ -739,7 +790,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setBottomMargin(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Indent property.
 	 * 
@@ -752,7 +804,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setIndent(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TopIndex property.
 	 * 
@@ -768,7 +821,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTopIndex(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ImeInputMode property.
 	 * 
@@ -781,7 +835,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setImeInputMode(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a RightWidth property.
 	 * 
@@ -794,7 +849,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setRightWidth(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Foreground property.
 	 * 
@@ -811,7 +867,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setForeground(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a MaximizedControl property.
 	 * 
@@ -824,7 +881,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMaximizedControl(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Month property.
 	 * 
@@ -837,7 +895,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMonth(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Menu property.
 	 * 
@@ -852,7 +911,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMenu(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a LineSpacing property.
 	 * 
@@ -865,7 +925,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setLineSpacing(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Href property.
 	 * 
@@ -878,7 +939,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHref(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a HoverDecorationColor property.
 	 * 
@@ -891,7 +953,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHoverDecorationColor(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TextLimit property.
 	 * 
@@ -908,7 +971,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTextLimit(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ItemCount property.
 	 * 
@@ -923,7 +987,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setItemCount(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a MinWidth property.
 	 * 
@@ -936,7 +1001,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMinWidth(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TitleBarBorderColor property.
 	 * 
@@ -949,7 +1015,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTitleBarBorderColor(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a WrapIndent property.
 	 * 
@@ -962,7 +1029,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setWrapIndent(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Enabled property.
 	 * 
@@ -981,6 +1049,25 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts Enabled property.
+	 *
+	 * @see Shell
+	 * @see Control
+	 * @see MenuItem
+	 * @see ToolItem
+	 * @see Menu
+	 * @see ScrollBar	 
+	 */
+	public SWTQuery toggleEnabled(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getEnabled(each);
+			WidgetPropertySwitch.setEnabled(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a Cursor property.
 	 * 
@@ -993,7 +1080,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setCursor(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Year property.
 	 * 
@@ -1006,7 +1094,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setYear(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Region property.
 	 * 
@@ -1020,7 +1109,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setRegion(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ToolBarVerticalAlignment property.
 	 * 
@@ -1033,7 +1123,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setToolBarVerticalAlignment(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Accelerator property.
 	 * 
@@ -1046,7 +1137,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setAccelerator(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a PageIncrement property.
 	 * 
@@ -1062,7 +1154,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setPageIncrement(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Description property.
 	 * 
@@ -1075,7 +1168,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDescription(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a SelectionForeground property.
 	 * 
@@ -1089,7 +1183,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSelectionForeground(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a BlockSelectionBounds property.
 	 * 
@@ -1102,7 +1197,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setBlockSelectionBounds(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a MinHeight property.
 	 * 
@@ -1115,7 +1211,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMinHeight(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a MinimumSize property.
 	 * 
@@ -1129,7 +1226,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMinimumSize(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Tabs property.
 	 * 
@@ -1143,7 +1241,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTabs(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a State property.
 	 * 
@@ -1156,7 +1255,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setState(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TopItem property.
 	 * 
@@ -1169,7 +1269,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTopItem(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TopCenter property.
 	 * 
@@ -1182,7 +1283,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTopCenter(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TabStops property.
 	 * 
@@ -1195,7 +1297,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTabStops(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a MinimumCharacters property.
 	 * 
@@ -1208,7 +1311,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMinimumCharacters(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a HorizontalIndex property.
 	 * 
@@ -1221,7 +1325,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHorizontalIndex(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Images property.
 	 * 
@@ -1234,7 +1339,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setImages(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Origin property.
 	 * 
@@ -1247,7 +1353,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setOrigin(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Data property.
 	 * 
@@ -1260,7 +1367,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setData(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a EchoChar property.
 	 * 
@@ -1273,7 +1381,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setEchoChar(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a HeadClient property.
 	 * 
@@ -1286,7 +1395,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHeadClient(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Url property.
 	 * 
@@ -1299,7 +1409,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setUrl(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Seconds property.
 	 * 
@@ -1312,7 +1423,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSeconds(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a SortDirection property.
 	 * 
@@ -1326,7 +1438,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSortDirection(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a VisibleItemCount property.
 	 * 
@@ -1340,7 +1453,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setVisibleItemCount(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Thumb property.
 	 * 
@@ -1354,7 +1468,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setThumb(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a DecorationColor property.
 	 * 
@@ -1367,7 +1482,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDecorationColor(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Bounds property.
 	 * 
@@ -1383,7 +1499,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setBounds(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Digits property.
 	 * 
@@ -1396,7 +1513,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDigits(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Left property.
 	 * 
@@ -1409,7 +1527,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setLeft(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Bottom property.
 	 * 
@@ -1422,7 +1541,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setBottom(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a BackgroundImage property.
 	 * 
@@ -1437,7 +1557,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setBackgroundImage(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TabPosition property.
 	 * 
@@ -1450,7 +1571,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTabPosition(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TitleBarBackground property.
 	 * 
@@ -1463,7 +1585,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTitleBarBackground(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TabHeight property.
 	 * 
@@ -1476,7 +1599,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTabHeight(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a DelayedReflow property.
 	 * 
@@ -1490,6 +1614,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts DelayedReflow property.
+	 *
+	 * @see SharedScrolledComposite	 
+	 */
+	public SWTQuery toggleDelayedReflow(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getDelayedReflow(each);
+			WidgetPropertySwitch.setDelayedReflow(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a Alpha property.
 	 * 
@@ -1502,7 +1640,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setAlpha(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a PreferredSize property.
 	 * 
@@ -1515,7 +1654,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setPreferredSize(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Background property.
 	 * 
@@ -1532,7 +1672,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setBackground(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a SashWidth property.
 	 * 
@@ -1545,7 +1686,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSashWidth(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a WhitespaceNormalized property.
 	 * 
@@ -1559,6 +1701,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts WhitespaceNormalized property.
+	 *
+	 * @see FormText	 
+	 */
+	public SWTQuery toggleWhitespaceNormalized(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getWhitespaceNormalized(each);
+			WidgetPropertySwitch.setWhitespaceNormalized(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a Font property.
 	 * 
@@ -1575,7 +1731,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setFont(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Rectangles property.
 	 * 
@@ -1588,7 +1745,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setRectangles(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a DefaultItem property.
 	 * 
@@ -1601,7 +1759,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDefaultItem(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Message property.
 	 * 
@@ -1616,7 +1775,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMessage(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a LeftMargin property.
 	 * 
@@ -1630,7 +1790,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setLeftMargin(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a DefaultButton property.
 	 * 
@@ -1643,7 +1804,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDefaultButton(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Minimum property.
 	 * 
@@ -1660,7 +1822,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMinimum(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Alignment property.
 	 * 
@@ -1678,7 +1841,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setAlignment(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TopLeft property.
 	 * 
@@ -1691,7 +1855,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTopLeft(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a SeparatorControl property.
 	 * 
@@ -1704,7 +1869,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSeparatorControl(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a LayoutDeferred property.
 	 * 
@@ -1718,6 +1884,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts LayoutDeferred property.
+	 *
+	 * @see Composite	 
+	 */
+	public SWTQuery toggleLayoutDeferred(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getLayoutDeferred(each);
+			WidgetPropertySwitch.setLayoutDeferred(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a TextClient property.
 	 * 
@@ -1730,7 +1910,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTextClient(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ID property.
 	 * 
@@ -1743,7 +1924,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setID(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Width property.
 	 * 
@@ -1758,7 +1940,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setWidth(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ToolTip property.
 	 * 
@@ -1771,7 +1954,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setToolTip(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a SeparatorVisible property.
 	 * 
@@ -1785,6 +1969,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts SeparatorVisible property.
+	 *
+	 * @see Form	 
+	 */
+	public SWTQuery toggleSeparatorVisible(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getSeparatorVisible(each);
+			WidgetPropertySwitch.setSeparatorVisible(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a Size property.
 	 * 
@@ -1801,7 +1999,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSize(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a SelectionBackground property.
 	 * 
@@ -1815,7 +2014,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSelectionBackground(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Maximum property.
 	 * 
@@ -1832,7 +2032,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMaximum(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Height property.
 	 * 
@@ -1845,7 +2046,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHeight(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TopRight property.
 	 * 
@@ -1859,7 +2061,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTopRight(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a HyperlinkSettings property.
 	 * 
@@ -1872,7 +2075,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHyperlinkSettings(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Transfer property.
 	 * 
@@ -1886,7 +2090,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTransfer(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ActiveImage property.
 	 * 
@@ -1899,7 +2104,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setActiveImage(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a FormText property.
 	 * 
@@ -1912,7 +2118,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setFormText(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a DropTargetEffect property.
 	 * 
@@ -1925,7 +2132,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDropTargetEffect(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TopPixel property.
 	 * 
@@ -1938,7 +2146,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTopPixel(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a MarginColor property.
 	 * 
@@ -1951,7 +2160,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMarginColor(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Caret property.
 	 * 
@@ -1964,7 +2174,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setCaret(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a DragSourceEffect property.
 	 * 
@@ -1977,7 +2188,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDragSourceEffect(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a ColumnOrder property.
 	 * 
@@ -1991,7 +2203,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setColumnOrder(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Day property.
 	 * 
@@ -2004,7 +2217,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDay(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a WrapIndices property.
 	 * 
@@ -2017,7 +2231,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setWrapIndices(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a CompositionOffset property.
 	 * 
@@ -2030,7 +2245,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setCompositionOffset(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a TitleBarGradientBackground property.
 	 * 
@@ -2043,7 +2259,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTitleBarGradientBackground(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a BackgroundMode property.
 	 * 
@@ -2056,7 +2273,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setBackgroundMode(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a RightMargin property.
 	 * 
@@ -2070,7 +2288,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setRightMargin(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Location property.
 	 * 
@@ -2086,7 +2305,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setLocation(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Spacing property.
 	 * 
@@ -2099,7 +2319,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setSpacing(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a DescriptionControl property.
 	 * 
@@ -2112,7 +2333,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setDescriptionControl(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Text property.
 	 * 
@@ -2143,7 +2365,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setText(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Canceled property.
 	 * 
@@ -2157,6 +2380,20 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+
+	/**
+	 *Inverts Canceled property.
+	 *
+	 * @see ProgressMonitorPart	 
+	 */
+	public SWTQuery toggleCanceled(){
+		for(Widget each : items){
+			Boolean old = WidgetPropertySwitch.getCanceled(each);
+			WidgetPropertySwitch.setCanceled(each, !old);
+		}
+		return this;
+	}	
+
 	/**
 	 * Sets a TabList property.
 	 * 
@@ -2169,7 +2406,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setTabList(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a Minutes property.
 	 * 
@@ -2182,7 +2420,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setMinutes(each, value);
 		}
 		return this;
-	}
+	}	
+
 	/**
 	 * Sets a HotImage property.
 	 * 
@@ -2195,7 +2434,8 @@ public final class SWTQuery {
 			WidgetPropertySwitch.setHotImage(each, value);
 		}
 		return this;
-	}
+	}	
+
 
 	/**
 	 * Gets a Visible property value.
@@ -5555,6 +5795,8 @@ public final class SWTQuery {
 				gc.drawText(text, 1, 1, true);
 			}
 		});
+		
+		this.redraw();
 		return this;
 	}
 	
@@ -5573,6 +5815,7 @@ public final class SWTQuery {
 				gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 			}
 		});
+		this.redraw();
 		return this;
 	}
 	
@@ -5603,5 +5846,30 @@ public final class SWTQuery {
 		return items.size();
 	}
 	
-
+	public SWTQuery first(){
+		if(items.size() > 0){
+			return new SWTQuery(items.get(0));
+		}
+		else {
+			return new SWTQuery(new UniqueList<Widget>());
+		}
+	}
+	
+	public SWTQuery last(){
+		if(items.size() > 0){
+			return new SWTQuery(items.get(items.size()-1));
+		}
+		else {
+			return new SWTQuery(new UniqueList<Widget>());
+		}
+	}
+	
+	public SWTQuery get(int index){
+		if(items.size() > index){
+			return new SWTQuery(items.get(index));
+		}
+		else {
+			return new SWTQuery(new UniqueList<Widget>());
+		}
+	}
 }
