@@ -2,6 +2,7 @@ package kr.or.eclipse.swt.query.internal;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Widget;
 import static kr.or.eclipse.swt.query.SWTQuery.$;
@@ -65,10 +66,10 @@ public class AnimationFrame {
 		int dw = after.bounds.width - bounds.width;
 		int dh = after.bounds.height - bounds.height;
 
-		result.bounds.x += dx * timing;
-		result.bounds.y += dy * timing;
-		result.bounds.width += dw * timing;
-		result.bounds.height += dh * timing;
+		result.bounds.x += Math.round(dx * timing);
+		result.bounds.y += Math.round(dy * timing);
+		result.bounds.width += Math.round(dw * timing);
+		result.bounds.height += Math.round(dh * timing);
 
 		if (this.foreground != null && after.foreground != null) {
 			result.foreground = createColor(widget.getDisplay(), foreground, after.foreground, timing);

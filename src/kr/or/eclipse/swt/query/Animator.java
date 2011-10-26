@@ -99,15 +99,7 @@ public class Animator extends Job {
 	}
 
 	private void onStart() {
-		SWTQuery targets = $(startKeyFrames.keySet());
-		targets.each(new IWidgetFunction() {
-			@Override
-			public void doFunction(Widget w) {
-				if (w instanceof Control) {
-					((Control) w).setRedraw(true);
-				}
-			}
-		});
+		unlockRedraw();
 
 		// 종료 프레임의 작성.
 		for (Widget each : startKeyFrames.keySet().toArray(new Widget[startKeyFrames.size()])) {
@@ -126,6 +118,18 @@ public class Animator extends Job {
 			}
 		}
 
+	}
+
+	private void unlockRedraw() {
+		SWTQuery targets = $(startKeyFrames.keySet());
+		targets.each(new IWidgetFunction() {
+			@Override
+			public void doFunction(Widget w) {
+				if (w instanceof Control) {
+					((Control) w).setRedraw(true);
+				}
+			}
+		});
 	}
 
 	private void renderFrame() {

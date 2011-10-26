@@ -583,7 +583,7 @@ public final class SWTQuery {
 	 * @return {@link SWTQuery} same context.
 	 */
 	public SWTQuery markAnimationStart() {
-		return markAnimationStart(0.5, TimingFunction.EASE_IN_OUT);
+		return markAnimationStart(0.4, TimingFunction.EASE_IN_OUT);
 	}
 	
 	public SWTQuery and(SWTQuery query) {
