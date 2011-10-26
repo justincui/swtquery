@@ -14,6 +14,8 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -34,6 +36,15 @@ public class ChildrenSwitch extends WidgetSwitch<List<Widget>> {
 	public List<Widget> caseCTabFolder(CTabFolder widget) {
 		ArrayList<Widget> result = new ArrayList<Widget>();
 		for (CTabItem each : widget.getItems()) {
+			result.add(each);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Widget> caseToolBar(ToolBar toolBar) {
+		ArrayList<Widget> result = new ArrayList<Widget>();
+		for (ToolItem each : toolBar.getItems()) {
 			result.add(each);
 		}
 		return result;

@@ -82,6 +82,10 @@ public class Animator extends Job {
 	}
 
 	private void onAnimationEnd() {
+		for (AnimationFrame each : endKeyFrames.values()) {
+			each.apply();
+		}
+
 		for (AnimationFrame each : previousFrames.values()) {
 			each.widget.setData(ANIMATOR_KEY, null);
 			each.dispose();
@@ -95,21 +99,6 @@ public class Animator extends Job {
 	}
 
 	private void onStart() {
-		// 종료 프레임의 작성.
-		for (Widget each : startKeyFrames.keySet().toArray(new Widget[startKeyFrames.size()])) {
-			AnimationFrame startFrame = startKeyFrames.get(each);
-			AnimationFrame endFrame = new AnimationFrame(each);
-
-			// 시작과 끝이 동일한 위젯들은 제거함.
-			if (startFrame.equals(endFrame)) {
-				startKeyFrames.remove(each);
-			}
-
-			else {
-				endKeyFrames.put(each, endFrame);
-			}
-		}
-
 		SWTQuery targets = $(startKeyFrames.keySet());
 		targets.each(new IWidgetFunction() {
 			@Override
@@ -119,6 +108,24 @@ public class Animator extends Job {
 				}
 			}
 		});
+
+		// 종료 프레임의 작성.
+		for (Widget each : startKeyFrames.keySet().toArray(new Widget[startKeyFrames.size()])) {
+			AnimationFrame startFrame = startKeyFrames.get(each);
+			AnimationFrame endFrame = new AnimationFrame(each);
+
+			// 시작과 끝이 동일한 위젯들은 제거함.
+			if (startFrame.equals(endFrame)) {
+				each.setData(ANIMATOR_KEY, null);
+				startKeyFrames.remove(each);
+				endKeyFrames.remove(each);
+			}
+
+			else {
+				endKeyFrames.put(each, endFrame);
+			}
+		}
+
 	}
 
 	private void renderFrame() {
@@ -141,6 +148,10 @@ public class Animator extends Job {
 					onStart();
 				}
 			});
+
+			if (startKeyFrames.size() == 0) {
+				return Status.OK_STATUS;
+			}
 
 			// 애니메이션 시작 시간
 			long startTime = System.currentTimeMillis();

@@ -585,4 +585,10 @@ public final class SWTQuery {
 	public SWTQuery markAnimationStart() {
 		return markAnimationStart(0.5, TimingFunction.EASE_IN_OUT);
 	}
+	
+	public SWTQuery and(SWTQuery query) {
+		UniqueList<Widget> list = new UniqueList<Widget>(items);
+		list.addAll(query.items);
+		return new SWTQuery(list);
+	}
 }
