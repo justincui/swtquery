@@ -21,8 +21,6 @@ public class SelectorInterpreter {
 
 		System.out.println(root.getType());
 		visit(root, 0);
-
-		List<Selector> build = build(selector);
 	}
 
 	public static List<Selector> build(String selectorExp) {

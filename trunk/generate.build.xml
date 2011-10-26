@@ -134,14 +134,14 @@
 	<target name="generate-basic">
 		<java classname="kr.or.eclipse.swt.query.internal.gen.GenerateBasic" logerror="true">
 			<arg path="src" />
-			<classpath refid="dependencies-for-jeeeyul-home" />
+			<classpath refid="company" />
 			<classpath>
 				<pathelement location="bin" />
 			</classpath>
 		</java>
 		<java fork="true" classname="kr.or.eclipse.swt.query.internal.gen.GenerateAdvanced" logerror="true">
 			<arg path="src" />
-			<classpath refid="dependencies-for-jeeeyul-home" />
+			<classpath refid="company" />
 			<classpath>
 				<pathelement location="bin" />
 			</classpath>

@@ -12,7 +12,10 @@ package kr.or.eclipse.swt.query;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
-import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.dnd.*;
+import java.util.*;
 
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.swt.widgets.TableItem;
@@ -32,7 +35,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import java.lang.Object;
 import java.util.List;
 import java.lang.Integer;
-import org.eclipse.swt.dnd.DND;
 import kr.or.eclipse.swt.query.internal.grammar.Selector;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.graphics.Cursor;
@@ -59,7 +61,6 @@ import org.eclipse.ui.forms.HyperlinkSettings;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.dnd.DropTarget;
 import java.lang.String;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.ui.forms.IMessageManager;
@@ -80,11 +81,30 @@ import org.eclipse.swt.widgets.MenuItem;
 public final class SWTQuery {
 	private static int CURRENT_DEBUG_COLOR = 0;
 	
-	public static SWTQuery $(Widget w) {
-		return new SWTQuery(w);
+	public static SWTQuery $(Widget... w) {
+		List<Widget> list = Arrays.asList(w);
+		return new SWTQuery(list);
+	}
+	
+	public static SWTQuery $(Collection<Widget> itemList) {
+		return $(itemList.toArray(new Widget[itemList.size()]));
 	}
 	
 	public static SWTQuery $(Event event) {
+		return new SWTQuery(event.widget);
+	}
+	
+	public static SWTQuery $(TypedEvent event){
+		return new SWTQuery(event.widget);
+	}
+	
+	/**
+	 * Creates {@link SWTQuery} for sender of {@link DropTargetEvent}.
+	 * 
+	 * @param event
+	 * @return {@link SWTQuery} for {@link DropTarget}.
+	 */
+	public static SWTQuery $(DropTargetEvent event) {
 		return new SWTQuery(event.widget);
 	}
 	
@@ -94,17 +114,17 @@ public final class SWTQuery {
 	
 	private List<Widget> items;
 
-	public SWTQuery(List<Widget> itemList) {
+	private SWTQuery(List<Widget> itemList) {
 		this.items = itemList;
 	}
 
-	public SWTQuery(Widget... items) {
+	private SWTQuery(Widget... items) {
 		this.items = new ArrayList<Widget>();
 		for (Widget each : items) {
 			this.items.add(each);
 		}
 	}
-
+	
 	public SWTQuery setGridLayoutData(int style) {
 		for (Widget each : items) {
 			WidgetPropertySwitch.setLayoutData(each, new GridData(style));
@@ -134,6 +154,13 @@ public final class SWTQuery {
 	public SWTQuery addListener(int eventType, Listener listener) {
 		for (Widget each : this.items) {
 			each.addListener(eventType, listener);
+		}
+		return this;
+	}
+	
+	public SWTQuery removeListener(int eventType, Listener listener) {
+		for (Widget each : this.items) {
+			each.removeListener(eventType, listener);
 		}
 		return this;
 	}
@@ -217,6 +244,15 @@ public final class SWTQuery {
 		return this;
 	}
 
+	public SWTQuery redraw(int x, int y, int w, int h, boolean redrawChildren) {
+		for (Widget each : this.items) {
+			if (each instanceof Control) {
+				((Control) each).redraw(x, y, w, h, redrawChildren);
+			}
+		}
+		return this;
+	}
+
 	public SWTQuery setData(String key, Object data) {
 		for (Widget each : items) {
 			each.setData(key, data);
@@ -254,10 +290,10 @@ public final class SWTQuery {
 		return this;
 	}
 	
-	public SWTQuery addProperties(Map<String, Object> wClass) {
-		for (String each : wClass.keySet()) {
+	public SWTQuery addProperties(Map<String, Object> map) {
+		for (String propName : map.keySet()) {
 			for (Widget item : items) {
-				WidgetPropertySwitch.setProperty(item, each, wClass.get(each));
+				WidgetPropertySwitch.setProperty(item, propName, map.get(propName));
 			}
 		}
 		return this;
@@ -5842,34 +5878,208 @@ public final class SWTQuery {
 		return new SWTQuery(dropTargets);
 	}
 
+	/**
+	 * 
+	 * @return Number of selected widgets.
+	 */
 	public int size() {
 		return items.size();
 	}
-	
-	public SWTQuery first(){
-		if(items.size() > 0){
+
+	/**
+	 * Select a first widget from current selection.
+	 * 
+	 * @return {@link SWTQuery} for first widget of current context.
+	 */
+	public SWTQuery first() {
+		if (items.size() > 0) {
 			return new SWTQuery(items.get(0));
-		}
-		else {
+		} else {
 			return new SWTQuery(new UniqueList<Widget>());
 		}
 	}
-	
-	public SWTQuery last(){
-		if(items.size() > 0){
-			return new SWTQuery(items.get(items.size()-1));
-		}
-		else {
+
+	/**
+	 * Select a last widget from current selection.
+	 * 
+	 * @return {@link SWTQuery} for last widget of current context.
+	 */
+	public SWTQuery last() {
+		if (items.size() > 0) {
+			return new SWTQuery(items.get(items.size() - 1));
+		} else {
 			return new SWTQuery(new UniqueList<Widget>());
 		}
 	}
-	
-	public SWTQuery get(int index){
-		if(items.size() > index){
+
+	/**
+	 * Get {@link SWTQuery} for a widget with specified index.
+	 * 
+	 * @param index
+	 * @return {@link SWTQuery} for a specified widget.
+	 */
+	public SWTQuery get(int index) {
+		if (items.size() > index) {
 			return new SWTQuery(items.get(index));
-		}
-		else {
+		} else {
 			return new SWTQuery(new UniqueList<Widget>());
 		}
+	}
+
+	/**
+	 * Reverese order of selected widgets, Some methods likes
+	 * {@link #setEnabled(Boolean)} needs to be applied reverse order, because
+	 * disabled parent widget prevents messages to child widgets.
+	 * 
+	 * @return Reveresed {@link SWTQuery}.
+	 * 
+	 * @see #toggleEnabled()
+	 * @see #setEnabled(Boolean)
+	 */
+	public SWTQuery reverse() {
+		ArrayList<Widget> copied = new ArrayList<Widget>(items);
+		Collections.reverse(copied);
+		return new SWTQuery(copied);
+	}
+	
+	/**
+	 * Adds Transfer into {@link DragSource} or {@link DropTarget}.
+	 * 
+	 * @param transfer
+	 *        {@link Transfer} to add.
+	 * @return {@link SWTQuery}.
+	 * 
+	 * @see DragSource
+	 * @see DropTarget
+	 * @see #createDropTarget(int)
+	 * @see #getDropTarget(int)
+	 */
+	public SWTQuery addTransfer(Transfer... transfers) {
+		for (Widget each : items) {
+			if (each instanceof DropTarget) {
+				DropTarget dropTarget = (DropTarget) each;
+				List<Transfer> list = new ArrayList<Transfer>(Arrays.asList(dropTarget.getTransfer()));
+
+				for (Transfer transfer : transfers) {
+					if (!list.contains(transfer)) {
+						list.add(transfer);
+						dropTarget.setTransfer(list.toArray(new Transfer[list.size()]));
+					}
+				}
+			}
+
+			if (each instanceof DragSource) {
+				DragSource dragSource = (DragSource) each;
+				List<Transfer> list = new ArrayList<Transfer>(Arrays.asList(dragSource.getTransfer()));
+				for (Transfer transfer : transfers) {
+					if (!list.contains(transfer)) {
+						list.add(transfer);
+						dragSource.setTransfer(list.toArray(new Transfer[list.size()]));
+					}
+				}
+			}
+		}
+		return this;
+	}
+	
+	public SWTQuery addDropListener(DropTargetListener listener){
+		for(Widget each : items){
+			if(each instanceof DropTarget){
+				((DropTarget)each).addDropListener(listener);
+			}
+		}
+		return this;
+	}
+	
+	/**
+	 * Let an Animator takes animation start key frame from currently selected
+	 * {@link Widget}s. Marked widgets will be animated automatically if they
+	 * have changed properties which can be animated.
+	 * 
+	 * @param duration
+	 *        Animation length in seconds. must be in 0.1 ~ 5.
+	 * 
+	 * @param timingFunction
+	 *        timing function. {@link TimingFunction#EASE_IN},
+	 *        {@link TimingFunction#EASE_IN_OUT} and
+	 *        {@link TimingFunction#EASE_OUT} are provded in
+	 *        {@link TimingFunction}. can be null.
+	 * 
+	 * @see #setBounds(Rectangle)
+	 * @see #setLocation(Point)
+	 * @see #setSize(Point)
+	 * @see #setForeground(Color)
+	 * @see #setBackground(Color)
+	 * @see TimingFunction#EASE_IN
+	 * @see TimingFunction#EASE_IN_OUT
+	 * @see TimingFunction#EASE_OUT
+	 * 
+	 * @return {@link SWTQuery} same context.
+	 */
+	public SWTQuery markAnimationStart(double duration, TimingFunction timingFunction) {
+		if (duration < 0.1 || duration > 5) {
+			throw new IllegalArgumentException("duration must be in 0.1 to 5.0");
+		}
+
+		final Animator animator = new Animator();
+		animator.setLength((long) (duration * 1000L));
+		animator.setTimingFunction(timingFunction);
+
+		for (Widget each : items) {
+			animator.mark(each);
+		}
+
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				animator.schedule();
+			}
+		});
+
+		return this;
+	}
+	
+	
+	/**
+	 * Let an Animator takes animation start key frame from currently selected
+	 * {@link Widget}s. Marked widgets will be animated automatically if they
+	 * have changed properties which can be animated.
+	 * 
+	 * @param duration
+	 *        Animation length in seconds. must be in 0.1 ~ 5.
+	 * 
+	 * @see #setBounds(Rectangle)
+	 * @see #setLocation(Point)
+	 * @see #setSize(Point)
+	 * @see #setForeground(Color)
+	 * @see #setBackground(Color)
+	 * @see TimingFunction#EASE_IN
+	 * @see TimingFunction#EASE_IN_OUT
+	 * @see TimingFunction#EASE_OUT
+	 * 
+	 * @return {@link SWTQuery} same context.
+	 */
+	public SWTQuery markAnimationStart(double duration) {
+		return markAnimationStart(duration, TimingFunction.EASE_IN_OUT);
+	}
+
+	/**
+	 * Let an Animator takes animation start key frame from currently selected
+	 * {@link Widget}s. Marked widgets will be animated automatically if they
+	 * have changed properties which can be animated.
+	 * 
+	 * @see #setBounds(Rectangle)
+	 * @see #setLocation(Point)
+	 * @see #setSize(Point)
+	 * @see #setForeground(Color)
+	 * @see #setBackground(Color)
+	 * @see TimingFunction#EASE_IN
+	 * @see TimingFunction#EASE_IN_OUT
+	 * @see TimingFunction#EASE_OUT
+	 * 
+	 * @return {@link SWTQuery} same context.
+	 */
+	public SWTQuery markAnimationStart() {
+		return markAnimationStart(0.5, TimingFunction.EASE_IN_OUT);
 	}
 }
