@@ -1,8 +1,6 @@
 package kr.or.eclipse.swt.query.test;
 
-import java.awt.Component;
-import java.util.HashMap;
-import java.util.Map;
+import static kr.or.eclipse.swt.query.SWTQuery.$;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -19,18 +17,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
-import static kr.or.eclipse.swt.query.SWTQuery.$;
-
 public class Test1 {
 	public static void main(String[] args) {
 		final Display display = Display.getDefault();
 		final Shell shell = new Shell();
 		shell.setLayout(new GridLayout());
 
-		ToolBar toolBar = new ToolBar(shell, SWT.BORDER);
+		ToolBar toolBar = new ToolBar(shell, SWT.FLAT);
 		new ToolItem(toolBar, 0).setText("Grid");
 		new ToolItem(toolBar, 0).setText("Fill");
 		new ToolItem(toolBar, 0).setText("Row");
+
+		new ToolItem(toolBar, SWT.SEPARATOR);
 
 		new ToolItem(toolBar, 0).setText("Default");
 		new ToolItem(toolBar, 0).setText("Red");
