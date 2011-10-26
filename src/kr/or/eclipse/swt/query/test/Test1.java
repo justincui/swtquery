@@ -1,123 +1,59 @@
 package kr.or.eclipse.swt.query.test;
 
-import static kr.or.eclipse.swt.query.SWTQuery.$;
-
-import java.io.File;
-
-import kr.or.eclipse.swt.query.IWidgetFunction;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.program.Program;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
+import static kr.or.eclipse.swt.query.SWTQuery.$;
 
 public class Test1 {
 	public static void main(String[] args) {
 		final Display display = Display.getDefault();
 		final Shell shell = new Shell();
-		shell.setLayout(new GridLayout(2, false));
 
-		Group group = new Group(shell, SWT.NORMAL);
-		group.setText("파일을 선택하세요.");
-		group.setLayout(new GridLayout(3, false));
-		group.setData("role", "file");
+		final Label l1 = new Label(shell, SWT.NORMAL);
+		l1.setLocation(50, 50);
 
-		for (int i = 0; i < 10; i++) {
-			new Link(group, SWT.NORMAL).setText("<a href=\"#\">열기</a>");
-			new Text(group, SWT.BORDER);
-			new Button(group, SWT.PUSH).setText("찾기..");
-		}
+		final Label l2 = new Label(shell, SWT.NORMAL);
+		l2.setLocation(500, 50);
+		$(l1, l2).setSize(new Point(100, 20)).setText("Click").setCursor(display.getSystemCursor(SWT.CURSOR_HAND));
 
-		Group group2 = new Group(shell, SWT.NORMAL);
-		group2.setText("그림 선택.");
-		group2.setLayout(new GridLayout(3, false));
+		final Map<String, Object> left = new HashMap<String, Object>();
+		left.put("location", new Point(50, 250));
+		left.put("background", display.getSystemColor(SWT.COLOR_DARK_GREEN));
+		left.put("foreground", display.getSystemColor(SWT.COLOR_WHITE));
+		left.put("size", new Point(100, 100));
 
-		Tree tree = new Tree(shell, SWT.NORMAL);
-		for (int i = 0; i < 5; i++) {
-			new TreeItem(tree, SWT.NORMAL).setText("xx");
-		}
-		$(tree).setGridLayoutData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		$(tree, "*").debug("a");
+		final Map<String, Object> right = new HashMap<String, Object>();
+		right.put("location", new Point(200, 250));
+		right.put("background", display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		right.put("foreground", display.getSystemColor(SWT.COLOR_WIDGET_FOREGROUND));
+		right.put("size", new Point(100, 20));
 
-		for (int i = 0; i < 10; i++) {
-			new Link(group2, SWT.NORMAL).setText("<a href=\"#\">열기</a>");
-			new Text(group2, SWT.BORDER);
-			new Button(group2, SWT.PUSH).setText("찾기..");
-		}
+		final Listener swap = new Listener() {
+			boolean toggle = false;
 
-		$(shell, "group").setGridLayoutData(GridData.FILL_BOTH);
-		$(shell, "group > text").setGridLayoutData(GridData.FILL_HORIZONTAL);
-		$(shell, "group > button:push[text='찾기..']").addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-				String result = dialog.open();
-				if (result != null) {
-					$(event).prev().setText(result).setData("url", result);
+				$(l1, l2).markAnimationStart();
+				if (toggle) {
+					$(l1).addProperties(left);
+					$(l2).addProperties(right);
+				} else {
+					$(l1).addProperties(right);
+					$(l2).addProperties(left);
 				}
+				toggle = !toggle;
 			}
-		});
-		$(shell, "link").setToolTipText("링크를 눌러 파일을 열 수 있습니다.");
-		$(shell, "text").addListener(SWT.FocusIn, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				$(event).setBackground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-				$(event).schedule(new IWidgetFunction() {
-					@Override
-					public void doFunction(Widget w) {
-						((Text) w).selectAll();
-					}
-				});
-			}
-		});
-
-		$(shell, "text").addListener(SWT.FocusOut, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				$(event).setBackground(null);
-			}
-		});
-
-		$(shell, "link").addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				File file = new File($(event).next().getText().trim());
-				if (file.exists()) {
-					Program.launch(file.getAbsolutePath());
-				}
-			}
-		});
-
-		$(shell, "*").addListener(SWT.SetData, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				System.out.println(event);
-			}
-		});
-
-		new Button(shell, SWT.PUSH).setText("left");
-
-		$(shell, "button[text='left']").addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				$(shell, "group[data-role=file] > *").toggleEnabled();
-			}
-		});
+		};
+		$(l1, l2).addListener(SWT.MouseDown, swap);
 		
-		$(shell, "*[text]").setText("fuck");
-		shell.pack();
 		shell.open();
 
 		while (!shell.isDisposed()) {
