@@ -2,9 +2,17 @@ package kr.or.eclipse.swt.query.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class UniqueList<T> extends ArrayList<T> {
 	private static final long serialVersionUID = 3712615190612455751L;
+
+	public UniqueList(List<T> items) {
+		super(items);
+	}
+
+	public UniqueList() {
+	}
 
 	public void add(int index, T element) {
 		if (this.contains(element)) {

@@ -1,59 +1,100 @@
 package kr.or.eclipse.swt.query.test;
 
+import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+
 import static kr.or.eclipse.swt.query.SWTQuery.$;
 
 public class Test1 {
 	public static void main(String[] args) {
 		final Display display = Display.getDefault();
 		final Shell shell = new Shell();
+		shell.setLayout(new GridLayout());
 
-		final Label l1 = new Label(shell, SWT.NORMAL);
-		l1.setLocation(50, 50);
+		ToolBar toolBar = new ToolBar(shell, SWT.BORDER);
+		new ToolItem(toolBar, 0).setText("Grid");
+		new ToolItem(toolBar, 0).setText("Fill");
+		new ToolItem(toolBar, 0).setText("Row");
 
-		final Label l2 = new Label(shell, SWT.NORMAL);
-		l2.setLocation(500, 50);
-		$(l1, l2).setSize(new Point(100, 20)).setText("Click").setCursor(display.getSystemCursor(SWT.CURSOR_HAND));
+		new ToolItem(toolBar, 0).setText("Default");
+		new ToolItem(toolBar, 0).setText("Red");
+		new ToolItem(toolBar, 0).setText("Yellow");
 
-		final Map<String, Object> left = new HashMap<String, Object>();
-		left.put("location", new Point(50, 250));
-		left.put("background", display.getSystemColor(SWT.COLOR_DARK_GREEN));
-		left.put("foreground", display.getSystemColor(SWT.COLOR_WHITE));
-		left.put("size", new Point(100, 100));
+		final Composite composite = new Composite(shell, 0);
+		$(composite).setGridLayoutData(GridData.FILL_BOTH);
 
-		final Map<String, Object> right = new HashMap<String, Object>();
-		right.put("location", new Point(200, 250));
-		right.put("background", display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		right.put("foreground", display.getSystemColor(SWT.COLOR_WIDGET_FOREGROUND));
-		right.put("size", new Point(100, 20));
+		for (int i = 0; i < 10; i++) {
+			Label l = new Label(composite, SWT.BORDER);
+			l.setBackground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
+			l.setLocation(i * 100, 50);
+			l.setSize(80, 20);
+			l.setText("http://eclipse.or.kr");
+		}
 
-		final Listener swap = new Listener() {
-			boolean toggle = false;
-
+		$(shell, "toolitem[text='Grid']").addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				$(l1, l2).markAnimationStart();
-				if (toggle) {
-					$(l1).addProperties(left);
-					$(l2).addProperties(right);
-				} else {
-					$(l1).addProperties(right);
-					$(l2).addProperties(left);
-				}
-				toggle = !toggle;
+				$(composite, "*").setGridLayoutData(GridData.FILL_HORIZONTAL).markAnimationStart();
+				$(composite).setLayout(new GridLayout()).layout();
 			}
-		};
-		$(l1, l2).addListener(SWT.MouseDown, swap);
-		
+		});
+
+		$(shell, "toolitem[text='Fill']").addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(composite, "*").setLayoutData(null).markAnimationStart();
+				$(composite).setLayout(new FillLayout()).layout();
+			}
+		});
+
+		$(shell, "toolitem[text='Row']").addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(composite, "*").setLayoutData(null).markAnimationStart();
+				$(composite).setLayout(new RowLayout()).layout();
+			}
+		});
+
+		$(shell, "toolitem[text='Red']").addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(shell, "composite>label").markAnimationStart().setBackground(display.getSystemColor(SWT.COLOR_RED));
+			}
+		});
+
+		$(shell, "toolitem[text='Default']").addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(shell, "composite>label").markAnimationStart().setBackground(
+						display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+			}
+		});
+
+		$(shell, "toolitem[text='Yellow']").addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				$(shell, "composite>label").markAnimationStart().setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+			}
+		});
+
+		$(shell).setSize(new Point(800, 300));
+
 		shell.open();
 
 		while (!shell.isDisposed()) {
