@@ -1,4 +1,4 @@
-package kr.or.eclipse.swt.query;
+package kr.or.eclipse.swt.query.internal;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
