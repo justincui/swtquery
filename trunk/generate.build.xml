@@ -134,7 +134,7 @@
 	<target name="generate-basic">
 		<java classname="kr.or.eclipse.swt.query.internal.gen.GenerateBasic" logerror="true">
 			<arg path="gen" />
-			<classpath refid="company" />
+			<classpath refid="dependencies" />
 			<classpath>
 				<pathelement location="bin" />
 			</classpath>
