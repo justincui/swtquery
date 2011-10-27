@@ -1,4 +1,4 @@
-// $ANTLR 3.4 P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g 2011-10-27 22:39:46
+// $ANTLR 3.4 P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g 2011-10-27 22:40:22
 
 package kr.or.eclipse.swt.query.internal.grammar;
 
