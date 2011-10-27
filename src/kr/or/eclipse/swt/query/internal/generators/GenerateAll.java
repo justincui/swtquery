@@ -12,10 +12,12 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -42,7 +44,7 @@ public class GenerateAll {
 	}
 
 	private static void generatePropertySwitches() throws FileNotFoundException, IOException, SecurityException,
-	NoSuchMethodException {
+			NoSuchMethodException {
 		File utilFolder = getFolder("kr/or/eclipse/swt/query/util");
 		File internalUtilFolder = getFolder("kr/or/eclipse/swt/query/util/internal");
 
@@ -276,29 +278,41 @@ public class GenerateAll {
 	}
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SecurityException, NoSuchMethodException {
+		List<String> argList = Arrays.asList(args);
+
+		System.out.println("인자");
+		for (String each : args) {
+			System.out.println(each);
+		}
+
 		srcFolder = new File(args[0]);
 
 		System.out.print("타입을 로드하는 중...");
 		types = loadTypes();
 		System.out.println("완료.");
 
-		System.out.print("스위치 생성 중...");
-		generateSwitch();
-		System.out.println("완료");
-
 		System.out.print("프로퍼티를 로드하는 중...");
 		loadProperties();
 		System.out.println("완료.");
 
-		System.out.print("프로퍼티 생성 중...");
-		generatePropertySwitches();
-		generateCreatorSwitches();
-		System.out.println("완료.");
+		if (argList.contains("basic")) {
+			System.out.print("스위치 생성 중...");
+			generateSwitch();
+			System.out.println("완료");
+		}
 
-		System.out.print("SWTQuery 생성 중...");
-		generateSWTTools();
-		generateSWTQuery();
-		System.out.println("완료.");
+		if (argList.contains("advanced")) {
+
+			System.out.print("프로퍼티 생성 중...");
+			generatePropertySwitches();
+			generateCreatorSwitches();
+			System.out.println("완료.");
+
+			System.out.print("SWTQuery 생성 중...");
+			generateSWTTools();
+			generateSWTQuery();
+			System.out.println("완료.");
+		}
 	}
 
 	private static void generateCreatorSwitches() throws FileNotFoundException, IOException {
