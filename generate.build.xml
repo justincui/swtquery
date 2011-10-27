@@ -50,7 +50,7 @@
 	</target>
 
 	<target name="generate">
-		<java classname="kr.or.eclipse.swt.query.internal.generators.GenerateAll" logerror="true" failonerror="true">
+		<java classname="kr.or.eclipse.swt.query.internal.generators.Generator" logerror="true" failonerror="true">
 			<arg path="gen" />
 			<arg value="${options}" />
 			<classpath refid="class.path" />
