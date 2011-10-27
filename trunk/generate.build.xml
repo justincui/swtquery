@@ -58,9 +58,4 @@
 		</java>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
 	</target>
-
-	<target name="test">
-		<echo>${basedir}</echo>
-	</target>
-
 </project>
