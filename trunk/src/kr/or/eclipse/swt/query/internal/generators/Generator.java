@@ -23,7 +23,7 @@ import java.util.Stack;
 
 import org.eclipse.swt.widgets.Widget;
 
-public class GenerateAll {
+public class Generator {
 	private static Map<String, Property> properties;
 	private static File srcFolder;
 	private static ArrayList<Class<?>> types;
@@ -117,7 +117,7 @@ public class GenerateAll {
 	}
 
 	private static Map<String, Property> loadProperties() throws IOException {
-		InputStream is = GenerateAll.class.getResourceAsStream("filtered-property.txt");
+		InputStream is = Generator.class.getResourceAsStream("filtered-property.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String eachFilter = null;
 		HashSet<String> filters = new HashSet<String>();
@@ -219,7 +219,7 @@ public class GenerateAll {
 	}
 
 	private static ArrayList<Class<?>> loadTypes() throws IOException, ClassNotFoundException {
-		InputStream is = GenerateAll.class.getResourceAsStream("target.txt");
+		InputStream is = Generator.class.getResourceAsStream("target.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String line = null;
 
@@ -229,7 +229,7 @@ public class GenerateAll {
 			if (line.trim().isEmpty()) {
 				continue;
 			}
-			Class<?> eachType = Class.forName(line, false, GenerateAll.class.getClassLoader());
+			Class<?> eachType = Class.forName(line, false, Generator.class.getClassLoader());
 			types.add(eachType);
 		}
 		reader.close();
@@ -280,38 +280,31 @@ public class GenerateAll {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SecurityException, NoSuchMethodException {
 		List<String> argList = Arrays.asList(args);
 
-		System.out.println("인자");
-		for (String each : args) {
-			System.out.println(each);
-		}
-
 		srcFolder = new File(args[0]);
 
-		System.out.print("타입을 로드하는 중...");
+		System.out.println("Loading types...");
 		types = loadTypes();
-		System.out.println("완료.");
 
-		System.out.print("프로퍼티를 로드하는 중...");
+		System.out.println("Loading properties...");
 		loadProperties();
-		System.out.println("완료.");
 
 		if (argList.contains("basic")) {
-			System.out.print("스위치 생성 중...");
+			System.out.println("Generating switches...");
 			generateSwitch();
-			System.out.println("완료");
 		}
 
 		if (argList.contains("advanced")) {
-
-			System.out.print("프로퍼티 생성 중...");
+			System.out.println("Generating property switches...");
 			generatePropertySwitches();
-			generateCreatorSwitches();
-			System.out.println("완료.");
 
-			System.out.print("SWTQuery 생성 중...");
+			System.out.println("Generating widget class switches...");
+			generateCreatorSwitches();
+
+			System.out.println("Generating other tools...");
 			generateSWTTools();
+
+			System.out.println("Generating SWTQuery...");
 			generateSWTQuery();
-			System.out.println("완료.");
 		}
 	}
 

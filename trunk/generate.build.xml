@@ -14,6 +14,7 @@
 	</path>
 
 	<target name="clean">
+		<echo>Cleaing...</echo>
 		<delete includeemptydirs="true">
 			<fileset dir="${basedir}">
 				<include name="gen/**/*" />
@@ -43,11 +44,12 @@
 			<param name="options">advanced</param>
 		</antcall>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
+		
+		<echo>Building step 3...</echo>
 		<eclipse.incrementalBuild project="kr.or.eclipse.swt.query" kind="incremental" />
 	</target>
 
 	<target name="generate">
-		<echo>${options}</echo>
 		<java classname="kr.or.eclipse.swt.query.internal.generators.GenerateAll" logerror="true" failonerror="true">
 			<arg path="gen" />
 			<arg value="${options}" />
