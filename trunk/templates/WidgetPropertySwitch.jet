@@ -25,18 +25,16 @@ public class WidgetPropertySwitch{
 	private static final Map<String, PropertyEntry> map = new HashMap<String, PropertyEntry>();
 	
 	private static class PropertyEntry{
-		public String name;
 		public Class<?> type;
 		
-		public PropertyEntry(String name, Class<?> type){
-			this.name = name.trim().toLowerCase();
+		public PropertyEntry(Class<?> type){
 			this.type = type;
 		}
 	}
 	
 	static{
 <%for(Property each : properties.values()){ %>
-		map.put("<%=each.propertyName.trim().toLowerCase()%>", new PropertyEntry("<%=each.propertyName%>", <%=each.propertyType.getSimpleName()%>.class));
+		map.put("<%=each.propertyName.trim().toLowerCase()%>", new PropertyEntry(<%=each.propertyType.getSimpleName()%>.class));
 <%}%>	
 	}
 
