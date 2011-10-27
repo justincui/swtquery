@@ -1,7 +1,7 @@
 <%@ jet
     package="kr.or.eclipse.swt.query.internal.generators"
     class="SWTQueryGenerator" 
-    imports="java.util.* kr.or.eclipse.swt.query.internal.grammar.* kr.or.eclipse.swt.query.internal.* kr.or.eclipse.swt.query.util.*"
+    imports="java.util.*"
     %>
 <%@ include file="copyright.txt" %>
 <% 
