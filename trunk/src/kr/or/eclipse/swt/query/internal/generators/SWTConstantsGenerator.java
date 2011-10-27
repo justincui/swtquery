@@ -1,4 +1,4 @@
-package kr.or.eclipse.swt.query.internal.gen;
+package kr.or.eclipse.swt.query.internal.generators;
 
 import org.eclipse.swt.SWT;
 import java.lang.reflect.Field;

@@ -1,7 +1,7 @@
-package kr.or.eclipse.swt.query.internal.gen;
+package kr.or.eclipse.swt.query.internal.generators;
 
 import java.util.*;
-import kr.or.eclipse.swt.query.internal.gen.Property;
+import kr.or.eclipse.swt.query.internal.generators.Property;
 
 public class PropertySwitchGenerator
 {

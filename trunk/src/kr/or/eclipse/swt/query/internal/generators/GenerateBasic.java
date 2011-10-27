@@ -1,4 +1,4 @@
-package kr.or.eclipse.swt.query.internal.gen;
+package kr.or.eclipse.swt.query.internal.generators;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

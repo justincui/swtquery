@@ -1,10 +1,10 @@
-package kr.or.eclipse.swt.query.internal.gen;
+package kr.or.eclipse.swt.query.internal.generators;
 
 import java.util.*;
 import org.eclipse.swt.*;
 import kr.or.eclipse.swt.query.*;
 import kr.or.eclipse.swt.query.internal.grammar.*;
-import kr.or.eclipse.swt.query.internal.gen.*;
+import kr.or.eclipse.swt.query.internal.generators.*;
 import kr.or.eclipse.swt.query.filter.*;
 import kr.or.eclipse.swt.query.internal.*;
 import kr.or.eclipse.swt.query.util.*;
