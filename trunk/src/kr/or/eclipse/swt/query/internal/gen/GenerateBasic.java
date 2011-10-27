@@ -9,32 +9,68 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Stack;
 
 import org.eclipse.swt.widgets.Widget;
 
 public class GenerateBasic {
+	private static Map<String, Property> properties;
 	private static File srcFolder;
+
 	private static ArrayList<Class<?>> types;
 
-	public static void main(String[] args) throws IOException,
-			ClassNotFoundException, SecurityException, NoSuchMethodException {
-		srcFolder = new File(args[0]);
+	private static File ensureFolder(File file) {
+		Stack<File> stack = new Stack<File>();
+		File finger = file;
+		while (!finger.exists()) {
+			stack.push(finger);
+			finger = finger.getParentFile();
+		}
 
-		System.out.print("타입을 로드하는 중...");
-		types = loadTypes();
-		System.out.println("완료.");
+		while (!stack.isEmpty()) {
+			stack.pop().mkdir();
+		}
 
-		System.out.print("스위치 생성 중...");
-		generateSwitch();
-		System.out.println("완료.");
+		return file;
 	}
 
-	private static void generateSwitch() throws FileNotFoundException,
-			IOException {
-		File utilFolder = new File(srcFolder, "kr/or/eclipse/swt/query/util");
+	private static void generatePropertySwitches() throws FileNotFoundException, IOException, SecurityException,
+			NoSuchMethodException {
+		File utilFolder = getFolder("kr/or/eclipse/swt/query/util");
+		File internalUtilFolder = getFolder("kr/or/eclipse/swt/query/util/internal");
+
+		GetPropertySwitchGenerator getterGenerator = new GetPropertySwitchGenerator();
+		SetPropertySwitchGenerator setterGenerator = new SetPropertySwitchGenerator();
+
+		for (Property each : properties.values()) {
+			if (!each.isValid) {
+				continue;
+			}
+
+			File getterFile = new File(internalUtilFolder, "Get" + each.propertyName + "Switch.java");
+			File setterFile = new File(internalUtilFolder, "Set" + each.propertyName + "Switch.java");
+			if (each.gettableTypes.size() > 0)
+				write(getterGenerator.generate(each), new FileOutputStream(getterFile));
+
+			if (each.settableTypes.size() > 0)
+				write(setterGenerator.generate(each), new FileOutputStream(setterFile));
+		}
+
+		PropertySwitchGenerator psGenerator = new PropertySwitchGenerator();
+		File psFile = new File(utilFolder, "WidgetPropertySwitch.java");
+		write(psGenerator.generate(properties), new FileOutputStream(psFile));
+	}
+
+	private static void generateSwitch() throws FileNotFoundException, IOException {
+		File utilFolder = getFolder("kr/or/eclipse/swt/query/util");
 
 		WidgetSwitchGenerator widgetSwitchGenerator = new WidgetSwitchGenerator();
 		File widgetSwitchJavaFile = new File(utilFolder, "WidgetSwitch.java");
@@ -42,30 +78,136 @@ public class GenerateBasic {
 		write(widgetSwitchGenerator.generate(types), fos);
 
 		WidgetSwitchWithArgumentGenerator widgetSwitchWithArgumentGenerator = new WidgetSwitchWithArgumentGenerator();
-		File widgetSwitchWithArgumentJavaFile = new File(utilFolder,
-				"WidgetSwitchWithArgument.java");
-		write(widgetSwitchWithArgumentGenerator.generate(types),
-				new FileOutputStream(widgetSwitchWithArgumentJavaFile));
+		File widgetSwitchWithArgumentJavaFile = new File(utilFolder, "WidgetSwitchWithArgument.java");
+		write(widgetSwitchWithArgumentGenerator.generate(types), new FileOutputStream(widgetSwitchWithArgumentJavaFile));
 	}
 
-	public static void write(String content, OutputStream stream,
-			String encoding) throws IOException {
-		byte[] data = content.getBytes(encoding);
-		int block = 512;
-		for (int i = 0; i < data.length; i += block) {
-			int size = Math.min(data.length - i, block);
-			stream.write(data, i, size);
+	private static void generateSWTQuery() throws FileNotFoundException, IOException {
+		File folder = getFolder("kr/or/eclipse/swt/query");
+		SWTQueryGenerator generator = new SWTQueryGenerator();
+
+		File file = new File(folder, "SWTQuery.java");
+		write(generator.generate(properties.values()), new FileOutputStream(file));
+	}
+
+	private static void generateSWTTools() throws FileNotFoundException, IOException {
+		File utilFolder = getFolder("kr/or/eclipse/swt/query/util");
+		if (!utilFolder.exists()) {
+			utilFolder.mkdir();
 		}
-		stream.close();
+
+		SWTConstantsGenerator generator = new SWTConstantsGenerator();
+		File file = new File(utilFolder, "SWTConstants.java");
+		write(generator.generate(null), new FileOutputStream(file));
 	}
 
-	public static void write(String content, OutputStream stream)
-			throws IOException {
-		write(content, stream, System.getProperty("file.encoding"));
+	private static File getFolder(String path) {
+		return ensureFolder(new File(srcFolder, path));
 	}
 
-	private static ArrayList<Class<?>> loadTypes() throws IOException,
-			ClassNotFoundException {
+	private static Map<String, Property> loadProperties() throws IOException {
+		InputStream is = GenerateBasic.class.getResourceAsStream("filtered-property.txt");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		String eachFilter = null;
+		HashSet<String> filters = new HashSet<String>();
+		while ((eachFilter = reader.readLine()) != null) {
+			if (!eachFilter.trim().isEmpty()) {
+				filters.add(eachFilter.trim());
+			}
+		}
+
+		properties = new HashMap<String, Property>();
+
+		for (Class<?> each : types) {
+			Method[] methods = each.getDeclaredMethods();
+			for (Method eachMethod : methods) {
+				boolean setterExist = true;
+
+				if ((eachMethod.getModifiers() & Modifier.PUBLIC) == 0) {
+					continue;
+				}
+				if (eachMethod.getParameterTypes().length > 0) {
+					continue;
+				}
+
+				if (eachMethod.getReturnType() == null) {
+					continue;
+				}
+				Class<?> propertyType = eachMethod.getReturnType();
+
+				String propertyName;
+				if (propertyType == Boolean.class || propertyType == boolean.class) {
+					if (!eachMethod.getName().startsWith("is")) {
+						continue;
+					}
+					propertyName = eachMethod.getName().substring(2);
+
+				} else {
+					propertyName = eachMethod.getName().substring(3);
+					if (!eachMethod.getName().startsWith("get")) {
+						continue;
+					}
+				}
+
+				if (eachMethod.getAnnotation(Deprecated.class) != null) {
+					continue;
+				}
+
+				if (filters.contains(propertyName)) {
+					continue;
+				}
+
+				String setterName = "set" + propertyName;
+				try {
+					each.getMethod(setterName, propertyType);
+				} catch (NoSuchMethodException e) {
+					setterExist = false;
+				}
+
+				if (propertyType.isPrimitive()) {
+					if (propertyType == int.class) {
+						propertyType = Integer.class;
+					} else if (propertyType == long.class) {
+						propertyType = Long.class;
+					} else if (propertyType == boolean.class) {
+						propertyType = Boolean.class;
+					} else if (propertyType == double.class) {
+						propertyType = Double.class;
+					} else if (propertyType == char.class) {
+						propertyType = Character.class;
+					}
+				}
+
+				Property property = properties.get(propertyName);
+				if (property == null) {
+					property = new Property();
+					property.propertyName = propertyName;
+					property.propertyType = propertyType;
+					properties.put(propertyName, property);
+				}
+
+				if (propertyType != property.propertyType) {
+					property.isValid = false;
+				}
+
+				if (!property.gettableTypes.contains(each)) {
+					property.gettableTypes.add(each);
+				}
+				if (setterExist && !property.settableTypes.contains(each)) {
+					property.settableTypes.add(each);
+				}
+			}
+		}
+
+		for (Property each : properties.values().toArray(new Property[properties.size()])) {
+			if (!each.isValid) {
+				properties.remove(each.propertyName);
+			}
+		}
+		return properties;
+	}
+
+	private static ArrayList<Class<?>> loadTypes() throws IOException, ClassNotFoundException {
 		InputStream is = GenerateBasic.class.getResourceAsStream("target.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String line = null;
@@ -76,8 +218,7 @@ public class GenerateBasic {
 			if (line.trim().isEmpty()) {
 				continue;
 			}
-			Class<?> eachType = Class.forName(line, false,
-					GenerateBasic.class.getClassLoader());
+			Class<?> eachType = Class.forName(line, false, GenerateBasic.class.getClassLoader());
 			types.add(eachType);
 		}
 		reader.close();
@@ -89,8 +230,7 @@ public class GenerateBasic {
 					return 0;
 				}
 
-				if (o1.getSuperclass() == Widget.class
-						&& o2.getSuperclass() == Widget.class) {
+				if (o1.getSuperclass() == Widget.class && o2.getSuperclass() == Widget.class) {
 					return o1.getName().compareTo(o2.getName());
 				}
 
@@ -126,8 +266,31 @@ public class GenerateBasic {
 		return types;
 	}
 
-	public static String read(InputStream stream, String encoding)
-			throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SecurityException, NoSuchMethodException {
+		srcFolder = new File(args[0]);
+
+		System.out.print("타입을 로드하는 중...");
+		types = loadTypes();
+		System.out.println("완료.");
+
+		System.out.print("스위치 생성 중...");
+		generateSwitch();
+
+		System.out.print("프로퍼티를 로드하는 중...");
+		loadProperties();
+		System.out.println("완료.");
+
+		System.out.print("프로퍼티 생성 중...");
+		generatePropertySwitches();
+		System.out.println("완료.");
+
+		generateSWTTools();
+
+		generateSWTQuery();
+		System.out.println("완료.");
+	}
+
+	public static String read(InputStream stream, String encoding) throws IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		byte buf[] = new byte[512];
 		int len = -1;
@@ -139,5 +302,19 @@ public class GenerateBasic {
 		String result = new String(buffer.toByteArray(), encoding);
 
 		return result;
+	}
+
+	public static void write(String content, OutputStream stream) throws IOException {
+		write(content, stream, System.getProperty("file.encoding"));
+	}
+
+	public static void write(String content, OutputStream stream, String encoding) throws IOException {
+		byte[] data = content.getBytes(encoding);
+		int block = 512;
+		for (int i = 0; i < data.length; i += block) {
+			int size = Math.min(data.length - i, block);
+			stream.write(data, i, size);
+		}
+		stream.close();
 	}
 }
