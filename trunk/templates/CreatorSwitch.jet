@@ -13,7 +13,20 @@ package kr.or.eclipse.swt.query.util.internal;
 <%
 GenUtil.startImport();
 for(Class<?> eachType : types){
+	if(Modifier.isAbstract(eachType.getModifiers())){
+		continue;
+	}
+	
+	List<Constructor<?>> constructors = CreatorTool.findBasicConstructor(eachType);
+	if(constructors.size() == 0){
+		continue;
+	}
+
 	GenUtil.addImportStatement(eachType);
+	for(Constructor<?> each : constructors){ 
+		Class<?> parentType = each.getParameterTypes()[0];
+		GenUtil.addImportStatement(parentType);
+	}
 }
 GenUtil.addImportStatement(kr.or.eclipse.swt.query.internal.generators.ConstructorArgs.class);
 GenUtil.addImportStatement(kr.or.eclipse.swt.query.util.WidgetClassSwitchWithArgument.class);
