@@ -1,11 +1,13 @@
-package kr.or.eclipse.swt.query;
+package kr.or.eclipse.swt.query.internal;
 
 import static kr.or.eclipse.swt.query.SWTQuery.$;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import kr.or.eclipse.swt.query.internal.AnimationFrame;
+import kr.or.eclipse.swt.query.IWidgetFunction;
+import kr.or.eclipse.swt.query.SWTQuery;
+import kr.or.eclipse.swt.query.TimingFunction;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
