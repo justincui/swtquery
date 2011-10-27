@@ -21,10 +21,9 @@ import java.util.Stack;
 
 import org.eclipse.swt.widgets.Widget;
 
-public class GenerateBasic {
+public class GenerateAll {
 	private static Map<String, Property> properties;
 	private static File srcFolder;
-
 	private static ArrayList<Class<?>> types;
 
 	private static File ensureFolder(File file) {
@@ -83,7 +82,6 @@ public class GenerateBasic {
 		File widgetSwitchWithArgumentJavaFile = new File(utilFolder, "WidgetSwitchWithArgument.java");
 		write(widgetSwitchWithArgumentGenerator.generate(types), new FileOutputStream(widgetSwitchWithArgumentJavaFile));
 
-
 		WidgetClassSwitchGenerator cGenerator = new WidgetClassSwitchGenerator();
 		File wcsgFile = new File(utilFolder, "WidgetClassSwitch.java");
 		write(cGenerator.generate(types), new FileOutputStream(wcsgFile));
@@ -117,7 +115,7 @@ public class GenerateBasic {
 	}
 
 	private static Map<String, Property> loadProperties() throws IOException {
-		InputStream is = GenerateBasic.class.getResourceAsStream("filtered-property.txt");
+		InputStream is = GenerateAll.class.getResourceAsStream("filtered-property.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String eachFilter = null;
 		HashSet<String> filters = new HashSet<String>();
@@ -219,7 +217,7 @@ public class GenerateBasic {
 	}
 
 	private static ArrayList<Class<?>> loadTypes() throws IOException, ClassNotFoundException {
-		InputStream is = GenerateBasic.class.getResourceAsStream("target.txt");
+		InputStream is = GenerateAll.class.getResourceAsStream("target.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		String line = null;
 
@@ -229,7 +227,7 @@ public class GenerateBasic {
 			if (line.trim().isEmpty()) {
 				continue;
 			}
-			Class<?> eachType = Class.forName(line, false, GenerateBasic.class.getClassLoader());
+			Class<?> eachType = Class.forName(line, false, GenerateAll.class.getClassLoader());
 			types.add(eachType);
 		}
 		reader.close();
@@ -286,6 +284,7 @@ public class GenerateBasic {
 
 		System.out.print("스위치 생성 중...");
 		generateSwitch();
+		System.out.println("완료");
 
 		System.out.print("프로퍼티를 로드하는 중...");
 		loadProperties();
@@ -293,12 +292,11 @@ public class GenerateBasic {
 
 		System.out.print("프로퍼티 생성 중...");
 		generatePropertySwitches();
+		generateCreatorSwitches();
 		System.out.println("완료.");
 
-		generateCreatorSwitches();
-
+		System.out.print("SWTQuery 생성 중...");
 		generateSWTTools();
-
 		generateSWTQuery();
 		System.out.println("완료.");
 	}

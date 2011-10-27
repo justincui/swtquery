@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="generate-basic" name="Generator">
+<project default="generate-all" name="Generator">
 	<path id="dependencies-for-jeeeyul-home">
 		<pathelement path="C:/eclipse/plugins/org.eclipse.ui_3.7.0.I20110602-0100.jar" />
 		<pathelement path="C:/eclipse/plugins/org.eclipse.core.runtime_3.7.0.v20110110.jar" />
@@ -141,8 +141,8 @@
 		<eclipse.refreshLocal resource="/" depth="infinite" />
 	</target>
 
-	<target name="generate-basic">
-		<java classname="kr.or.eclipse.swt.query.internal.generators.GenerateBasic" logerror="true">
+	<target name="generate-all">
+		<java classname="kr.or.eclipse.swt.query.internal.generators.GenerateAll" logerror="true">
 			<arg path="gen" />
 			<classpath refid="dependencies" />
 			<classpath>
