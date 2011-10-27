@@ -141,14 +141,40 @@
 		<eclipse.refreshLocal resource="/" depth="infinite" />
 	</target>
 
-	<target name="generate-all">
+	<target name="generate-all" depends="clean">
+		<eclipse.refreshLocal resource="kr.or.eclipse.swt.query" depth="infinite" />
+
+		<echo>Building step 1...</echo>
+		<eclipse.incrementalBuild project="kr.or.eclipse.swt.query" kind="incremental" />
+
+		<echo>Generating step 1...</echo>
+		<antcall target="generate">
+			<param name="options">basic</param>
+		</antcall>
+
+		<echo>Building step 2...</echo>
+		<eclipse.incrementalBuild />
+
+		<echo>Generating step 2...</echo>
+		<antcall target="generate">
+			<param name="options">advanced</param>
+		</antcall>
+
+		<eclipse.refreshLocal resource="/" depth="infinite" />
+
+	</target>
+
+	<target name="generate">
+		<echo>${options}</echo>
 		<java classname="kr.or.eclipse.swt.query.internal.generators.GenerateAll" logerror="true">
 			<arg path="gen" />
-			<classpath refid="dependencies" />
+			<arg value="${options}" />
+			<classpath refid="dependencies-for-jeeeyul-home" />
 			<classpath>
 				<pathelement location="bin" />
 			</classpath>
 		</java>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
 	</target>
+
 </project>
