@@ -1,7 +1,7 @@
 <%@ jet
-    package="kr.or.eclipse.swt.query.internal.gen"
+    package="kr.or.eclipse.swt.query.internal.generators"
     class="PropertySwitchGenerator" 
-    imports="java.util.* kr.or.eclipse.swt.query.internal.gen.Property"
+    imports="java.util.* kr.or.eclipse.swt.query.internal.generators.Property"
     %>
 <% 
 @SuppressWarnings("unchecked")

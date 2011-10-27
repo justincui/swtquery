@@ -1,5 +1,5 @@
 <%@ jet
-    package="kr.or.eclipse.swt.query.internal.gen"
+    package="kr.or.eclipse.swt.query.internal.generators"
     class="WidgetSwitchGenerator" 
     imports="java.util.* org.eclipse.swt.widgets.Widget"
     %>

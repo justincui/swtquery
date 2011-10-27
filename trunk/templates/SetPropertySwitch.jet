@@ -1,7 +1,7 @@
 <%@ jet
-    package="kr.or.eclipse.swt.query.internal.gen"
+    package="kr.or.eclipse.swt.query.internal.generators"
     class="SetPropertySwitchGenerator" 
-    imports="kr.or.eclipse.swt.query.internal.gen.Property org.eclipse.swt.widgets.Widget kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument"
+    imports="kr.or.eclipse.swt.query.internal.generators.Property org.eclipse.swt.widgets.Widget kr.or.eclipse.swt.query.util.WidgetSwitchWithArgument"
     %>
 <% 
 Property property = (Property)argument; 
