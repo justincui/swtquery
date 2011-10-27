@@ -1,7 +1,7 @@
 <%@ jet
     package="kr.or.eclipse.swt.query.internal.generators"
     class="CreatorSwitchGenerator" 
-    imports="java.lang.reflect.* java.util.* kr.or.eclipse.swt.query.internal.generators.* org.eclipse.swt.widgets.Widget kr.or.eclipse.swt.query.util.WidgetSwitch"
+    imports="java.lang.reflect.* java.util.*"
     %>
 <% 
 @SuppressWarnings("unchecked")
