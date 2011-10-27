@@ -131,6 +131,16 @@
 		<pathelement path="${build.result.folder}/../kr.or.eclipse.swt.query_1.0.0.201110241204/lib/antlr-3.4-complete.jar" />
 	</path>
 
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="${basedir}">
+				<include name="gen/**/*" />
+				<include name="gen" />
+			</fileset>
+		</delete>
+		<eclipse.refreshLocal resource="/" depth="infinite" />
+	</target>
+
 	<target name="generate-basic">
 		<java classname="kr.or.eclipse.swt.query.internal.generators.GenerateBasic" logerror="true">
 			<arg path="gen" />

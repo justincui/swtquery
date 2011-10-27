@@ -1,11 +1,11 @@
 package kr.or.eclipse.swt.query.internal;
 
+import static kr.or.eclipse.swt.query.SWTQuery.$;
+
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Widget;
-import static kr.or.eclipse.swt.query.SWTQuery.$;
 
 public class AnimationFrame {
 	public Widget widget;
@@ -15,9 +15,9 @@ public class AnimationFrame {
 
 	public AnimationFrame(Widget widget) {
 		this.widget = widget;
-		bounds = $(widget).getBounds();
-		foreground = $(widget).getForeground();
-		background = $(widget).getBackground();
+		this.bounds = $(widget).getBounds();
+		this.foreground = $(widget).getForeground();
+		this.background = $(widget).getBackground();
 	}
 
 	private AnimationFrame() {
@@ -32,8 +32,8 @@ public class AnimationFrame {
 				return false;
 			}
 
-			else if ((this.foreground == null && other.foreground != null)
-					|| (this.foreground != null && other.foreground == null)) {
+			else if (this.foreground == null && other.foreground != null
+					|| this.foreground != null && other.foreground == null) {
 				return false;
 			}
 
@@ -41,8 +41,8 @@ public class AnimationFrame {
 				return false;
 			}
 
-			else if ((this.background == null && other.background != null)
-					|| (this.background != null && other.background == null)) {
+			else if (this.background == null && other.background != null
+					|| this.background != null && other.background == null) {
 				return false;
 			}
 
@@ -60,11 +60,11 @@ public class AnimationFrame {
 
 		result.widget = this.widget;
 
-		result.bounds = new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height);
-		int dx = after.bounds.x - bounds.x;
-		int dy = after.bounds.y - bounds.y;
-		int dw = after.bounds.width - bounds.width;
-		int dh = after.bounds.height - bounds.height;
+		result.bounds = new Rectangle(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+		int dx = after.bounds.x - this.bounds.x;
+		int dy = after.bounds.y - this.bounds.y;
+		int dw = after.bounds.width - this.bounds.width;
+		int dh = after.bounds.height - this.bounds.height;
 
 		result.bounds.x += Math.round(dx * timing);
 		result.bounds.y += Math.round(dy * timing);
@@ -72,11 +72,11 @@ public class AnimationFrame {
 		result.bounds.height += Math.round(dh * timing);
 
 		if (this.foreground != null && after.foreground != null) {
-			result.foreground = createColor(widget.getDisplay(), foreground, after.foreground, timing);
+			result.foreground = createColor(this.widget.getDisplay(), this.foreground, after.foreground, timing);
 		}
 
 		if (this.background != null && after.background != null) {
-			result.background = createColor(widget.getDisplay(), background, after.background, timing);
+			result.background = createColor(this.widget.getDisplay(), this.background, after.background, timing);
 		}
 
 		return result;
@@ -84,8 +84,8 @@ public class AnimationFrame {
 
 	@Override
 	public String toString() {
-		return "AnimationFrame [widget=" + widget + ", bounds=" + bounds + ", foreground=" + foreground + ", background="
-				+ background + "]";
+		return "AnimationFrame [widget=" + this.widget + ", bounds=" + this.bounds + ", foreground=" + this.foreground + ", background="
+				+ this.background + "]";
 	}
 
 	private Color createColor(Display display, Color c1, Color c2, double opacity) {
@@ -101,32 +101,32 @@ public class AnimationFrame {
 	}
 
 	public void dispose() {
-		if (background != null && !background.isDisposed()) {
-			background.dispose();
-			background = null;
+		if (this.background != null && !this.background.isDisposed()) {
+			this.background.dispose();
+			this.background = null;
 		}
 
-		if (foreground != null && !foreground.isDisposed()) {
-			foreground.dispose();
-			foreground = null;
+		if (this.foreground != null && !this.foreground.isDisposed()) {
+			this.foreground.dispose();
+			this.foreground = null;
 		}
 
-		widget = null;
-		bounds = null;
+		this.widget = null;
+		this.bounds = null;
 	}
 
 	public void apply() {
-		if (widget.isDisposed()) {
+		if (this.widget.isDisposed()) {
 			return;
 		}
 
-		if (foreground != null) {
-			$(widget).setForeground(foreground);
+		if (this.foreground != null) {
+			$(this.widget).setForeground(this.foreground);
 		}
-		if (background != null) {
-			$(widget).setBackground(background);
+		if (this.background != null) {
+			$(this.widget).setBackground(this.background);
 		}
-		$(widget).setBounds(bounds);
-		$(widget).parent().redraw();
+		$(this.widget).setBounds(this.bounds);
+		$(this.widget).parent().redraw();
 	}
 }
