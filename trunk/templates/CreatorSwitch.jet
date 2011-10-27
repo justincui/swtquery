@@ -1,0 +1,44 @@
+<%@ jet
+    package="kr.or.eclipse.swt.query.internal.generators"
+    class="CreatorSwitchGenerator" 
+    imports="java.lang.reflect.* java.util.* kr.or.eclipse.swt.query.internal.generators.* org.eclipse.swt.widgets.Widget kr.or.eclipse.swt.query.util.WidgetSwitch"
+    %>
+<% 
+@SuppressWarnings("unchecked")
+List<Class<?>> types = (List<Class<?>>)argument; 
+%>
+<%@ include file="copyright.txt" %>
+
+package kr.or.eclipse.swt.query.util.internal;
+<%
+GenUtil.startImport();
+for(Class<?> eachType : types){
+	GenUtil.addImportStatement(eachType);
+}
+GenUtil.addImportStatement(kr.or.eclipse.swt.query.internal.generators.ConstructorArgs.class);
+GenUtil.addImportStatement(kr.or.eclipse.swt.query.util.WidgetClassSwitchWithArgument.class);
+GenUtil.addImportStatement(org.eclipse.swt.widgets.Widget.class);
+%>
+
+<%=GenUtil.endImport()%>
+
+public class CreatorSwitch extends WidgetClassSwitchWithArgument<Widget, ConstructorArgs> {
+<% 
+for(Class<?> eachType : types) { 
+	List<Constructor<?>> constructors = CreatorTool.findBasicConstructor(eachType);
+	if(constructors.size() == 0) continue;
+	if(Modifier.isAbstract(eachType.getModifiers())) continue;
+%>
+	public <%=eachType.getSimpleName()%> case<%=eachType.getSimpleName() %>(ConstructorArgs args){	
+<% for(Constructor<?> each : constructors){ 
+Class<?> parentType = each.getParameterTypes()[0];
+%>
+		if(args.parent instanceof <%=parentType.getSimpleName()%>){
+			return new <%=eachType.getSimpleName()%>(((<%=parentType.getSimpleName()%>) args.parent), args.style);
+		}
+<% } %>
+
+		return null;
+	}
+<% } %>
+}

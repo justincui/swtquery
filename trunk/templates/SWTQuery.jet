@@ -11,30 +11,29 @@ Collection<Property> properties = (Collection<Property>)argument;
 package kr.or.eclipse.swt.query;
 
 <% GenUtil.startImport();
-GenUtil.addImportStatement(ArrayList.class);
-GenUtil.addImportStatement(List.class);
-GenUtil.addImportStatement(Map.class);
-GenUtil.addImportStatement(ChildrenSwitch.class);
-GenUtil.addImportStatement(ParentSwitch.class);
-GenUtil.addImportStatement(WidgetPropertySwitch.class);
-GenUtil.addImportStatement(UniqueList.class);
-GenUtil.addImportStatement(Selector.class);
-GenUtil.addImportStatement(SelectorInterpreter.class);
 for(Property each : properties){
 	if(each.gettableTypes.size() + each.settableTypes.size() > 0){
 		GenUtil.addImportStatement(each.propertyType);
 	}
 }
 %>
+<%=GenUtil.endImport()%>
+
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.dnd.*;
-import java.util.*;
 
-<%=GenUtil.endImport()%>
+import kr.or.eclipse.swt.query.util.*;
+import kr.or.eclipse.swt.query.util.internal.*;
+import kr.or.eclipse.swt.query.internal.grammar.*;
+import kr.or.eclipse.swt.query.internal.*;
+import kr.or.eclipse.swt.query.internal.generators.*;
+
+import java.util.*;
+import java.util.List;
 
 public final class SWTQuery {
 	private static int CURRENT_DEBUG_COLOR = 0;
@@ -83,13 +82,49 @@ public final class SWTQuery {
 		}
 	}
 	
+	public SWTQuery setGridLayout() {
+		for (Widget each : items) {
+			GridLayout layout = new GridLayout();
+			WidgetPropertySwitch.setLayout(each, layout);
+		}
+		return this;
+	}
+	
+	public SWTQuery setGridLayout(int numColumns, boolean makeColumnsEqualWidth) {
+		for (Widget each : items) {
+			GridLayout layout = new GridLayout(numColumns, makeColumnsEqualWidth);
+			WidgetPropertySwitch.setLayout(each, layout);
+		}
+		return this;
+	}
+	
+	public SWTQuery setRowLayout() {
+		for (Widget each : items) {
+			WidgetPropertySwitch.setLayout(each, new RowLayout());
+		}
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @param type {@link SWT#HORIZONTAL} or {@link SWT#VERTICAL}.
+	 * @return
+	 */
+	public SWTQuery setRowLayout(int type) {
+		for (Widget each : items) {
+			WidgetPropertySwitch.setLayout(each, new RowLayout(type));
+		}
+		return this;
+	}
+	
+	
 	public SWTQuery setGridLayoutData(int style) {
 		for (Widget each : items) {
 			WidgetPropertySwitch.setLayoutData(each, new GridData(style));
 		}
 		return this;
 	}
-
+	
 	public SWTQuery setGridLayoutData(int horizontalAlignment, int verticalAlignment, boolean grabExcessHorizontalSpace,
 			boolean grabExcessVerticalSpace, int horizontalSpan, int verticalSpan) {
 		for (Widget each : items) {
@@ -585,9 +620,67 @@ public final class SWTQuery {
 		return markAnimationStart(0.4, TimingFunction.EASE_IN_OUT);
 	}
 	
+	/**
+	 * merges selected widgets with other {@link SWTQuery}
+	 * 
+	 * @param query
+	 *        {@link SWTQuery} to merge.
+	 * @return merged {@link SWTQuery}.
+	 */
 	public SWTQuery and(SWTQuery query) {
 		UniqueList<Widget> list = new UniqueList<Widget>(items);
 		list.addAll(query.items);
 		return new SWTQuery(list);
+	}
+	
+	/**
+	 * Create child widgets on currently selected widgets.
+	 * 
+	 * @param type
+	 *        types to create.
+	 * @param style
+	 *        style.
+	 * @return {@link SWTQuery} contains new children.
+	 */
+	public SWTQuery create(Class<? extends Widget> type, int style) {
+		UniqueList<Widget> result = new UniqueList<Widget>();
+
+		CreatorSwitch creator = new CreatorSwitch();
+		for (Widget each : this.items) {
+			ConstructorArgs args = new ConstructorArgs(each, style);
+			Widget eachResult = creator.doSwitch(type, args);
+			if (eachResult != null) {
+				result.add(eachResult);
+			}
+		}
+
+		return new SWTQuery(result);
+	}
+	
+	/**
+	 * Dispose given {@link Resource}s when any one of currently selected
+	 * widgets is disposed.
+	 * 
+	 * @param r
+	 * @return
+	 */
+	public SWTQuery chainDispose(final Resource... r) {
+		Listener disposer = new Listener() {
+			boolean disposed = false;
+			@Override
+			public void handleEvent(Event event) {
+				if (this.disposed) {
+					return;
+				}
+				for (Resource each : r) {
+					if (!each.isDisposed()) {
+						each.dispose();
+					}
+				}
+				this.disposed = true;
+			}
+		};
+		addListener(SWT.Dispose, disposer);
+		return this;
 	}
 }
