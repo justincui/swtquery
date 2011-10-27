@@ -1,0 +1,57 @@
+<%@ jet
+    package="kr.or.eclipse.swt.query.internal.generators"
+    class="WidgetClassSwitchGenerator" 
+    imports="java.util.* org.eclipse.swt.widgets.Widget"
+    %>
+<% 
+@SuppressWarnings("unchecked")
+List<Class<?>> types = (List<Class<?>>)argument; 
+%>
+<%@ include file="copyright.txt" %>
+
+package kr.or.eclipse.swt.query.util;
+
+<% GenUtil.startImport(); %> 
+<% for(Class<?> each : types) { %>
+<% GenUtil.addImportStatement(each); %>
+<% } %>
+<%=GenUtil.endImport() %>
+
+<%@ include file="generation-header.txt" %>
+public class WidgetClassSwitch<T> {
+<% for(Class<?> each : types) { %>
+<%
+String eachTypeName = each.getSimpleName();
+StringBuffer buffer = new StringBuffer(eachTypeName);
+buffer.setCharAt(0, Character.toLowerCase(eachTypeName.charAt(0)));
+String varName = buffer.toString();
+%>
+    /**
+     * do switching for <%=eachTypeName%>.
+     * @param <%=varName%> <%=eachTypeName%> to switch.
+     * @return switching result.
+     */
+	public T case<%=eachTypeName%>(){
+<% if(each != Widget.class) {%>		
+		return case<%=each.getSuperclass().getSimpleName() %>();
+<%}%>
+<% else { %>		
+		return null;
+<%}%>
+	}
+<% } %>
+	public final T doSwitch(Class<? extends Widget> type) {
+<% 
+int size = types.size();
+for(int i=0; i< size; i++) { 
+Class<?> each = types.get(i);
+%>		
+		<% if(i == 0) {%>if(type == <%=each.getSimpleName()%>.class) {<% } 
+		else if(i < types.size()-1 ) {%>if(type == <%=each.getSimpleName()%>.class) {<% }
+		else { %>else {<% } %>
+			return case<%=each.getSimpleName()%>();
+		}
+<% } %>
+    }
+}
+    

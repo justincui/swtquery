@@ -43,7 +43,7 @@ public class GenerateBasic {
 	}
 
 	private static void generatePropertySwitches() throws FileNotFoundException, IOException, SecurityException,
-			NoSuchMethodException {
+	NoSuchMethodException {
 		File utilFolder = getFolder("kr/or/eclipse/swt/query/util");
 		File internalUtilFolder = getFolder("kr/or/eclipse/swt/query/util/internal");
 
@@ -57,11 +57,13 @@ public class GenerateBasic {
 
 			File getterFile = new File(internalUtilFolder, "Get" + each.propertyName + "Switch.java");
 			File setterFile = new File(internalUtilFolder, "Set" + each.propertyName + "Switch.java");
-			if (each.gettableTypes.size() > 0)
+			if (each.gettableTypes.size() > 0) {
 				write(getterGenerator.generate(each), new FileOutputStream(getterFile));
+			}
 
-			if (each.settableTypes.size() > 0)
+			if (each.settableTypes.size() > 0) {
 				write(setterGenerator.generate(each), new FileOutputStream(setterFile));
+			}
 		}
 
 		PropertySwitchGenerator psGenerator = new PropertySwitchGenerator();
@@ -80,6 +82,15 @@ public class GenerateBasic {
 		WidgetSwitchWithArgumentGenerator widgetSwitchWithArgumentGenerator = new WidgetSwitchWithArgumentGenerator();
 		File widgetSwitchWithArgumentJavaFile = new File(utilFolder, "WidgetSwitchWithArgument.java");
 		write(widgetSwitchWithArgumentGenerator.generate(types), new FileOutputStream(widgetSwitchWithArgumentJavaFile));
+
+
+		WidgetClassSwitchGenerator cGenerator = new WidgetClassSwitchGenerator();
+		File wcsgFile = new File(utilFolder, "WidgetClassSwitch.java");
+		write(cGenerator.generate(types), new FileOutputStream(wcsgFile));
+
+		WidgetClassSwitchWithArgumentGenerator cGenerator2 = new WidgetClassSwitchWithArgumentGenerator();
+		File wcsgFile2 = new File(utilFolder, "WidgetClassSwitchWithArgument.java");
+		write(cGenerator2.generate(types), new FileOutputStream(wcsgFile2));
 	}
 
 	private static void generateSWTQuery() throws FileNotFoundException, IOException {
@@ -284,10 +295,21 @@ public class GenerateBasic {
 		generatePropertySwitches();
 		System.out.println("완료.");
 
+		generateCreatorSwitches();
+
 		generateSWTTools();
 
 		generateSWTQuery();
 		System.out.println("완료.");
+	}
+
+	private static void generateCreatorSwitches() throws FileNotFoundException, IOException {
+		File internalUtilFolder = getFolder("kr/or/eclipse/swt/query/util/internal");
+		File file = new File(internalUtilFolder, "CreatorSwitch.java");
+
+		String contents = new CreatorSwitchGenerator().generate(types);
+		write(contents, new FileOutputStream(file));
+
 	}
 
 	public static String read(InputStream stream, String encoding) throws IOException {

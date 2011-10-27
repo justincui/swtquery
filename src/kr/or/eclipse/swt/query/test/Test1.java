@@ -2,29 +2,38 @@ package kr.or.eclipse.swt.query.test;
 
 import static kr.or.eclipse.swt.query.SWTQuery.$;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 
 public class Test1 {
 	public static void main(String[] args) throws IOException {
-		File f = new File("c:/test/aaa/bbb.txt");
-		System.out.println(f.getParentFile());
-		System.out.println(f.mkdir());
+		Display display = Display.getDefault();
 
+		Shell shell = new Shell(display);
+		shell.setLayout(new GridLayout());
+		for (int i = 0; i < 5; i++) {
+			Group g = new Group(shell, SWT.NORMAL);
+			g.setText("group " + i);
+		}
+
+		$(shell, "group").setGridLayoutData(GridData.FILL_BOTH).setRowLayout().create(Button.class, SWT.PUSH).setText("Áö¶ö")
+		.parent().create(Label.class, SWT.NORMAL).setText("Áö¶ö¸¶");
+
+		shell.pack();
+		shell.open();
+
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
 	}
 }

@@ -5,7 +5,12 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * SWT Query was developed as part of eXERD (http://exerd.com)
+ * SWT Query was developed as a part of eXERD by jeeeyul@gmail.com
+ *
+ * http://code.google.com/p/swtquery/
+ * http://eclipse.or.kr
+ * http://exerd.com
+ * http://tomatosystem.co.kr
  *
  * Contributors:
  *     Tomato System - initial API and implementation
