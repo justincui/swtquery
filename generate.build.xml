@@ -83,6 +83,9 @@
 
 	<target name="create-new-config-file" unless="config-file-exists" depends="check-config-file">
 		<echo file="${config-file}">target = ${eclipse.home}</echo>
+		<replace file="${config-file}">
+			<replacefilter token="\" value="\\" />
+		</replace>
 		<echo>"${config-file}" has been generated. Build will use current eclipse as a Target Eclipse.</echo>
 		<echo>Edit "${config-file}" file to use other Target Eclipses.</echo>
 		<echo>"${config-file}" 파일이 생성되었습니다. 기본값으로 현재 실행중인 이클립스를 타겟으로 빌드합니다.</echo>
