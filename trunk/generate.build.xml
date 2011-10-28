@@ -36,7 +36,7 @@
 		<antcall target="generate">
 			<param name="options">advanced</param>
 		</antcall>
-		<eclipse.refreshLocal resource="/" depth="infinite" />
+		<eclipse.refreshLocal resource="${project-name}" depth="infinite" />
 
 		<echo>Building step 3...</echo>
 		<eclipse.incrementalBuild project="${project-name}" kind="incremental" />
