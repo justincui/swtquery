@@ -3,17 +3,6 @@
 	<property name="config-file" value="generator.config.properties" />
 	<property name="project-name" value="kr.or.eclipse.swt.query" />
 
-	<path id="class.path">
-		<fileset dir="${target}/plugins">
-			<include name="org.eclipse.swt*.jar" />
-			<include name="org.eclipse.jface*.jar" />
-			<include name="org.eclipse.core.runtime*.jar" />
-			<include name="org.eclipse.core.jobs*.jar" />
-			<include name="org.eclipse.equinox.common*.jar" />
-			<include name="org.eclipse.ui.*.jar" />
-		</fileset>
-	</path>
-
 	<target name="clean">
 		<echo>Cleaing...</echo>
 		<delete includeemptydirs="true">
@@ -22,8 +11,9 @@
 				<include name="gen" />
 			</fileset>
 		</delete>
-		<eclipse.refreshLocal resource="/" depth="infinite" />
+		<eclipse.refreshLocal resource="${project-name}" depth="infinite" />
 		<eclipse.incrementalBuild project="${project-name}" kind="incremental" />
+		<sleep seconds="1" />
 	</target>
 
 	<target name="generate-all" depends="clean, init">
@@ -31,6 +21,7 @@
 
 		<echo>Building step 1...</echo>
 		<eclipse.incrementalBuild project="${project-name}" kind="incremental" />
+		<sleep seconds="1" />
 
 		<echo>Generating step 1...</echo>
 		<antcall target="generate">
@@ -39,6 +30,7 @@
 
 		<echo>Building step 2...</echo>
 		<eclipse.incrementalBuild />
+		<sleep seconds="1" />
 
 		<echo>Generating step 2...</echo>
 		<antcall target="generate">
@@ -51,13 +43,26 @@
 	</target>
 
 	<target name="generate">
-		<java classname="kr.or.eclipse.swt.query.internal.generators.Generator" logerror="true" failonerror="true">
+		<loadproperties srcfile="${config-file}" />
+		<path id="class.path">
+			<fileset dir="${target}/plugins">
+				<include name="org.eclipse.swt*.jar" />
+				<include name="org.eclipse.jface*.jar" />
+				<include name="org.eclipse.core.runtime*.jar" />
+				<include name="org.eclipse.core.jobs*.jar" />
+				<include name="org.eclipse.equinox.common*.jar" />
+				<include name="org.eclipse.ui.*.jar" />
+			</fileset>
+		</path>
+
+		<java classname="kr.or.eclipse.swt.query.internal.generators.Generator" fork="true" logerror="true" failonerror="true">
 			<arg path="gen" />
 			<arg value="${options}" />
 			<classpath refid="class.path" />
 			<classpath>
 				<pathelement location="bin" />
 			</classpath>
+			<jvmarg value="-XX:MaxPermSize=256m" />
 		</java>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
 	</target>
@@ -72,13 +77,11 @@
 	</target>
 
 	<target name="init">
-		<property name="target" location="${eclipse.home}" />
-		<antcall target="load-config-from-file" />
 		<antcall target="create-new-config-file" />
-		<echo>${config-file-not-exists}</echo>
+		<antcall target="load-config-from-file" />
 	</target>
 
-	<target name="create-new-config-file" unless="config-file-exists">
+	<target name="create-new-config-file" unless="config-file-exists" depends="check-config-file">
 		<echo file="${config-file}">target = ${eclipse.home}</echo>
 		<echo>"${config-file}" has been generated. Build will use current eclipse as a Target Eclipse.</echo>
 		<echo>Edit "${config-file}" file to use other Target Eclipses.</echo>
@@ -87,4 +90,5 @@
 		<sleep seconds="3" />
 		<eclipse.refreshLocal resource="${project-name}" depth="infinite" />
 	</target>
+
 </project>
