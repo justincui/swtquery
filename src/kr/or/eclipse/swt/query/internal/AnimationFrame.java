@@ -5,6 +5,7 @@ import static kr.or.eclipse.swt.query.SWTQuery.$;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
 public class AnimationFrame {
@@ -32,8 +33,7 @@ public class AnimationFrame {
 				return false;
 			}
 
-			else if (this.foreground == null && other.foreground != null
-					|| this.foreground != null && other.foreground == null) {
+			else if (this.foreground == null && other.foreground != null || this.foreground != null && other.foreground == null) {
 				return false;
 			}
 
@@ -41,8 +41,7 @@ public class AnimationFrame {
 				return false;
 			}
 
-			else if (this.background == null && other.background != null
-					|| this.background != null && other.background == null) {
+			else if (this.background == null && other.background != null || this.background != null && other.background == null) {
 				return false;
 			}
 
@@ -84,8 +83,8 @@ public class AnimationFrame {
 
 	@Override
 	public String toString() {
-		return "AnimationFrame [widget=" + this.widget + ", bounds=" + this.bounds + ", foreground=" + this.foreground + ", background="
-				+ this.background + "]";
+		return "AnimationFrame [widget=" + this.widget + ", bounds=" + this.bounds + ", foreground=" + this.foreground
+				+ ", background=" + this.background + "]";
 	}
 
 	private Color createColor(Display display, Color c1, Color c2, double opacity) {
@@ -127,6 +126,9 @@ public class AnimationFrame {
 			$(this.widget).setBackground(this.background);
 		}
 		$(this.widget).setBounds(this.bounds);
-		$(this.widget).parent().redraw();
+		if (!(this.widget instanceof Shell)) {
+			$(this.widget).parent().redraw();
+		}
+
 	}
 }
