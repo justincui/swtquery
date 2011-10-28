@@ -37,7 +37,7 @@ public class WebBrowserExample {
 		final SWTQuery $shell = $(new Shell(display));
 
 		$shell.setGridLayout();
-		$shell.create(ToolBar.class, SWT.FLAT).setData("role", "bookmark-bar");
+		$shell.create(ToolBar.class, SWT.FLAT).setData("role", "bookmark-bar").setGridLayoutData(GridData.FILL_HORIZONTAL);
 		$shell.create(Browser.class, SWT.NORMAL).setGridLayoutData(GridData.FILL_BOTH).setData("role", "browser");
 
 		// 컨트롤러 예제: 북마크 데이터 표시
