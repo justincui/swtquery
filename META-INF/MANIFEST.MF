@@ -14,4 +14,5 @@ Bundle-ClassPath: lib/antlr-3.4-complete.jar,
  .
 Export-Package: kr.or.eclipse.swt.query,
  kr.or.eclipse.swt.query.filter,
+ kr.or.eclipse.swt.query.graphics,
  kr.or.eclipse.swt.query.util
