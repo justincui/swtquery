@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="generate-all" name="Generator">
-	<!-- Set Target Eclipse Here! -->
-	<property name="target" location="${eclipse.home}" />
+	<property name="config-file" value="generator.config.properties" />
+	<property name="project-name" value="kr.or.eclipse.swt.query" />
 
 	<path id="class.path">
 		<fileset dir="${target}/plugins">
@@ -23,14 +23,14 @@
 			</fileset>
 		</delete>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
-		<eclipse.incrementalBuild project="kr.or.eclipse.swt.query" kind="incremental" />
+		<eclipse.incrementalBuild project="${project-name}" kind="incremental" />
 	</target>
 
-	<target name="generate-all" depends="clean">
-		<eclipse.refreshLocal resource="kr.or.eclipse.swt.query" depth="infinite" />
+	<target name="generate-all" depends="clean, init">
+		<eclipse.refreshLocal resource="${project-name}" depth="infinite" />
 
 		<echo>Building step 1...</echo>
-		<eclipse.incrementalBuild project="kr.or.eclipse.swt.query" kind="incremental" />
+		<eclipse.incrementalBuild project="${project-name}" kind="incremental" />
 
 		<echo>Generating step 1...</echo>
 		<antcall target="generate">
@@ -47,7 +47,7 @@
 		<eclipse.refreshLocal resource="/" depth="infinite" />
 
 		<echo>Building step 3...</echo>
-		<eclipse.incrementalBuild project="kr.or.eclipse.swt.query" kind="incremental" />
+		<eclipse.incrementalBuild project="${project-name}" kind="incremental" />
 	</target>
 
 	<target name="generate">
@@ -60,5 +60,31 @@
 			</classpath>
 		</java>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
+	</target>
+
+	<target name="check-config-file">
+		<available file="${config-file}" property="config-file-exists" />
+	</target>
+
+	<target name="load-config-from-file" if="config-file-exists" depends="check-config-file">
+		<loadproperties srcfile="generator.config.properties" />
+		<echo>${target} 이 로드됨</echo>
+	</target>
+
+	<target name="init">
+		<property name="target" location="${eclipse.home}" />
+		<antcall target="load-config-from-file" />
+		<antcall target="create-new-config-file" />
+		<echo>${config-file-not-exists}</echo>
+	</target>
+
+	<target name="create-new-config-file" unless="config-file-exists">
+		<echo file="${config-file}">target = ${eclipse.home}</echo>
+		<echo>"${config-file}" has been generated. Build will use current eclipse as a Target Eclipse.</echo>
+		<echo>Edit "${config-file}" file to use other Target Eclipses.</echo>
+		<echo>"${config-file}" 파일이 생성되었습니다. 기본값으로 현재 실행중인 이클립스를 타겟으로 빌드합니다.</echo>
+		<echo>타겟 이클립스를 변경하려면 "${config-file}" 파일을 수정 하십시오.</echo>
+		<sleep seconds="3" />
+		<eclipse.refreshLocal resource="${project-name}" depth="infinite" />
 	</target>
 </project>
