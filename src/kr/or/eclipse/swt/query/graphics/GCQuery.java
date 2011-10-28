@@ -339,80 +339,94 @@ public class GCQuery {
 		this.gc.setAdvanced(advanced);
 	}
 
-	public void setAlpha(int alpha) {
+	public GCQuery setAlpha(int alpha) {
 		this.gc.setAlpha(alpha);
+		return this;
 	}
 
-	public void setAntialias(int antialias) {
+	public GCQuery setAntialias(int antialias) {
 		this.gc.setAntialias(antialias);
+		return this;
 	}
 
-	public void setBackground(Color color) {
+	public GCQuery setBackground(Color color) {
 		this.gc.setBackground(color);
+		return this;
 	}
 
-	public void setBackgroundPattern(Pattern pattern) {
+	public GCQuery setBackgroundPattern(Pattern pattern) {
 		this.gc.setBackgroundPattern(pattern);
+		return this;
 	}
 
-	public void setClipping(int x, int y, int width, int height) {
+	public GCQuery setClipping(int x, int y, int width, int height) {
 		this.gc.setClipping(x, y, width, height);
+		return this;
 	}
 
-	public void setClipping(Path path) {
+	public GCQuery setClipping(Path path) {
 		this.gc.setClipping(path);
+		return this;
 	}
 
-	public void setClipping(Rectangle rect) {
+	public GCQuery setClipping(Rectangle rect) {
 		this.gc.setClipping(rect);
+		return this;
 	}
 
-	public void setClipping(Region region) {
+	public GCQuery setClipping(Region region) {
 		this.gc.setClipping(region);
+		return this;
 	}
 
-	public void setFillRule(int rule) {
+	public GCQuery setFillRule(int rule) {
 		this.gc.setFillRule(rule);
+		return this;
 	}
 
-	public void setFont(Font font) {
+	public GCQuery setFont(Font font) {
 		this.gc.setFont(font);
+		return this;
 	}
 
-	public void setForeground(Color color) {
+	public GCQuery setForeground(Color color) {
 		this.gc.setForeground(color);
+		return this;
 	}
 
-	public void setForegroundPattern(Pattern pattern) {
+	public GCQuery setForegroundPattern(Pattern pattern) {
 		this.gc.setForegroundPattern(pattern);
+		return this;
 	}
 
-	public void setInterpolation(int interpolation) {
+	public GCQuery setInterpolation(int interpolation) {
 		this.gc.setInterpolation(interpolation);
+		return this;
 	}
 
-	public void setLineAttributes(LineAttributes attributes) {
+	public GCQuery setLineAttributes(LineAttributes attributes) {
 		this.gc.setLineAttributes(attributes);
+		return this;
 	}
 
-	public void setLineCap(int cap) {
-		this.gc.setLineCap(cap);
+	public GCQuery setLineCap(int cap) {
+		this.gc.setLineCap(cap);	return this;
 	}
 
-	public void setLineDash(int[] dashes) {
-		this.gc.setLineDash(dashes);
+	public GCQuery setLineDash(int[] dashes) {
+		this.gc.setLineDash(dashes);	return this;
 	}
 
-	public void setLineJoin(int join) {
-		this.gc.setLineJoin(join);
+	public GCQuery setLineJoin(int join) {
+		this.gc.setLineJoin(join);	return this;
 	}
 
-	public void setLineStyle(int lineStyle) {
-		this.gc.setLineStyle(lineStyle);
+	public GCQuery setLineStyle(int lineStyle) {
+		this.gc.setLineStyle(lineStyle);	return this;
 	}
 
-	public void setLineWidth(int lineWidth) {
-		this.gc.setLineWidth(lineWidth);
+	public GCQuery setLineWidth(int lineWidth) {
+		this.gc.setLineWidth(lineWidth);	return this;
 	}
 
 	public GCQuery setRoundRectClip(int x, int y, int width, int height, int radius) {
@@ -430,12 +444,13 @@ public class GCQuery {
 		return this;
 	}
 
-	public void setTextAntialias(int antialias) {
-		this.gc.setTextAntialias(antialias);
+	public GCQuery setTextAntialias(int antialias) {
+		this.gc.setTextAntialias(antialias);	return this;
 	}
 
-	public void setTransform(Transform transform) {
+	public GCQuery setTransform(Transform transform) {
 		this.gc.setTransform(transform);
+		return this;
 	}
 
 	public Point stringExtent(String string) {
