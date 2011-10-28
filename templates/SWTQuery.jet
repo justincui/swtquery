@@ -63,8 +63,7 @@ public final class SWTQuery {
 			return new SWTQuery(new Widget[0]);
 		}
 	}
-	
-	
+
 	/**
 	 * Creates {@link SWTQuery} for sender of {@link DropTargetEvent}.
 	 * 
@@ -709,12 +708,13 @@ public final class SWTQuery {
 		return this;
 	}
 	
-	public void dispose() {
+	public SWTQuery dispose() {
 		for (Widget each : this.items) {
 			if (!each.isDisposed()) {
 				each.dispose();
 			}
 		}
+		return this;
 	}
 	
 	public Rectangle getAbsoluteBounds() {
@@ -760,6 +760,37 @@ public final class SWTQuery {
 				each.notifyListeners(type, clonedEvent);
 			}
 		}
+		return this;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends Widget> T as() {
+		if (this.items.size() > 0) {
+			return (T) this.items.get(0);
+		}
+		return null;
+	}
+	
+	/**
+	 * runs an UI event loop until any one widget of this context will be
+	 * disposed.
+	 */
+	public SWTQuery runEventLoopUntilDispose() {
+		final Set<Widget> disposed = new HashSet<Widget>();
+		addListener(SWT.Dispose, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				disposed.add(event.widget);
+			}
+		});
+
+		Display display = Display.getDefault();
+		while (disposed.size() == 0) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+
 		return this;
 	}
 }
