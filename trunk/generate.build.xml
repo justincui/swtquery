@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="generate-all" name="Generator">
+	<!-- Set Target Eclipse Here! -->
 	<property name="target" location="${eclipse.home}" />
 
 	<path id="class.path">
@@ -44,7 +45,7 @@
 			<param name="options">advanced</param>
 		</antcall>
 		<eclipse.refreshLocal resource="/" depth="infinite" />
-		
+
 		<echo>Building step 3...</echo>
 		<eclipse.incrementalBuild project="kr.or.eclipse.swt.query" kind="incremental" />
 	</target>
