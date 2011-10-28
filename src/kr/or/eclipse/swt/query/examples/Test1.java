@@ -1,4 +1,4 @@
-package kr.or.eclipse.swt.query.test;
+package kr.or.eclipse.swt.query.examples;
 
 import static kr.or.eclipse.swt.query.SWTQuery.$;
 
