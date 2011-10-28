@@ -1,4 +1,4 @@
-// $ANTLR 3.4 P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g 2011-10-27 22:40:22
+// $ANTLR 3.4 C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g 2011-10-28 16:50:15
 
 package kr.or.eclipse.swt.query.internal.grammar;
 
@@ -60,7 +60,7 @@ public TreeAdaptor getTreeAdaptor() {
     return adaptor;
 }
     public String[] getTokenNames() { return SWTQuerySelectorParser.tokenNames; }
-    public String getGrammarFileName() { return "P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g"; }
+    public String getGrammarFileName() { return "C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g"; }
 
 
     public static class selectors_return extends ParserRuleReturnScope {
@@ -70,7 +70,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "selectors"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:19:1: selectors : selector ( COMMA selector )* ;
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:19:1: selectors : selector ( COMMA selector )* ;
     public final SWTQuerySelectorParser.selectors_return selectors() throws RecognitionException {
         SWTQuerySelectorParser.selectors_return retval = new SWTQuerySelectorParser.selectors_return();
         retval.start = input.LT(1);
@@ -87,8 +87,8 @@ public TreeAdaptor getTreeAdaptor() {
         Object COMMA2_tree=null;
 
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:19:11: ( selector ( COMMA selector )* )
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:20:3: selector ( COMMA selector )*
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:19:11: ( selector ( COMMA selector )* )
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:20:3: selector ( COMMA selector )*
             {
             root_0 = (Object)adaptor.nil();
 
@@ -100,7 +100,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             adaptor.addChild(root_0, selector1.getTree());
 
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:20:12: ( COMMA selector )*
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:20:12: ( COMMA selector )*
             loop1:
             do {
                 int alt1=2;
@@ -113,7 +113,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt1) {
             	case 1 :
-            	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:20:13: COMMA selector
+            	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:20:13: COMMA selector
             	    {
             	    COMMA2=(Token)match(input,COMMA,FOLLOW_COMMA_in_selectors50); 
             	    COMMA2_tree = 
@@ -169,7 +169,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "selector"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:22:1: selector : selectorSegment ( selectorSegment )* -> ( selectorSegment )+ ;
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:22:1: selector : selectorSegment ( selectorSegment )* -> ( selectorSegment )+ ;
     public final SWTQuerySelectorParser.selector_return selector() throws RecognitionException {
         SWTQuerySelectorParser.selector_return retval = new SWTQuerySelectorParser.selector_return();
         retval.start = input.LT(1);
@@ -184,8 +184,8 @@ public TreeAdaptor getTreeAdaptor() {
 
         RewriteRuleSubtreeStream stream_selectorSegment=new RewriteRuleSubtreeStream(adaptor,"rule selectorSegment");
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:22:10: ( selectorSegment ( selectorSegment )* -> ( selectorSegment )+ )
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:23:3: selectorSegment ( selectorSegment )*
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:22:10: ( selectorSegment ( selectorSegment )* -> ( selectorSegment )+ )
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:23:3: selectorSegment ( selectorSegment )*
             {
             pushFollow(FOLLOW_selectorSegment_in_selector64);
             selectorSegment4=selectorSegment();
@@ -194,7 +194,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             stream_selectorSegment.add(selectorSegment4.getTree());
 
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:23:19: ( selectorSegment )*
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:23:19: ( selectorSegment )*
             loop2:
             do {
                 int alt2=2;
@@ -207,7 +207,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt2) {
             	case 1 :
-            	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:23:20: selectorSegment
+            	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:23:20: selectorSegment
             	    {
             	    pushFollow(FOLLOW_selectorSegment_in_selector67);
             	    selectorSegment5=selectorSegment();
@@ -283,7 +283,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "selectorSegment"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:28:1: selectorSegment : ( LT )? ( ID | ASTERIK ) ^ ( styleFilter )? ( attributeFilters )? ;
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:28:1: selectorSegment : ( LT )? ( ID | ASTERIK ) ^ ( styleFilter )? ( attributeFilters )? ;
     public final SWTQuerySelectorParser.selectorSegment_return selectorSegment() throws RecognitionException {
         SWTQuerySelectorParser.selectorSegment_return retval = new SWTQuerySelectorParser.selectorSegment_return();
         retval.start = input.LT(1);
@@ -302,13 +302,13 @@ public TreeAdaptor getTreeAdaptor() {
         Object set7_tree=null;
 
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:28:17: ( ( LT )? ( ID | ASTERIK ) ^ ( styleFilter )? ( attributeFilters )? )
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:29:3: ( LT )? ( ID | ASTERIK ) ^ ( styleFilter )? ( attributeFilters )?
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:28:17: ( ( LT )? ( ID | ASTERIK ) ^ ( styleFilter )? ( attributeFilters )? )
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:29:3: ( LT )? ( ID | ASTERIK ) ^ ( styleFilter )? ( attributeFilters )?
             {
             root_0 = (Object)adaptor.nil();
 
 
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:29:3: ( LT )?
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:29:3: ( LT )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -317,7 +317,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt3) {
                 case 1 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:29:3: LT
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:29:3: LT
                     {
                     LT6=(Token)match(input,LT,FOLLOW_LT_in_selectorSegment90); 
                     LT6_tree = 
@@ -349,7 +349,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
 
 
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:3: ( styleFilter )?
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:3: ( styleFilter )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -358,7 +358,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt4) {
                 case 1 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:3: styleFilter
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:3: styleFilter
                     {
                     pushFollow(FOLLOW_styleFilter_in_selectorSegment118);
                     styleFilter8=styleFilter();
@@ -373,7 +373,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
 
 
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:16: ( attributeFilters )?
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:16: ( attributeFilters )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -382,7 +382,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt5) {
                 case 1 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:16: attributeFilters
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:34:16: attributeFilters
                     {
                     pushFollow(FOLLOW_attributeFilters_in_selectorSegment121);
                     attributeFilters9=attributeFilters();
@@ -428,7 +428,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "idList"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:36:1: idList : ID ( ',' ID )* -> ( ID )+ ;
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:36:1: idList : ID ( ',' ID )* -> ( ID )+ ;
     public final SWTQuerySelectorParser.idList_return idList() throws RecognitionException {
         SWTQuerySelectorParser.idList_return retval = new SWTQuerySelectorParser.idList_return();
         retval.start = input.LT(1);
@@ -447,14 +447,14 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
 
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:36:8: ( ID ( ',' ID )* -> ( ID )+ )
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:37:3: ID ( ',' ID )*
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:36:8: ( ID ( ',' ID )* -> ( ID )+ )
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:37:3: ID ( ',' ID )*
             {
             ID10=(Token)match(input,ID,FOLLOW_ID_in_idList132);  
             stream_ID.add(ID10);
 
 
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:37:6: ( ',' ID )*
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:37:6: ( ',' ID )*
             loop6:
             do {
                 int alt6=2;
@@ -467,7 +467,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt6) {
             	case 1 :
-            	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:37:7: ',' ID
+            	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:37:7: ',' ID
             	    {
             	    char_literal11=(Token)match(input,COMMA,FOLLOW_COMMA_in_idList135);  
             	    stream_COMMA.add(char_literal11);
@@ -546,7 +546,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "styleFilter"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:40:1: styleFilter : ( COLON ^ ID | COLON ^ '(' ! idList ')' !);
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:40:1: styleFilter : ( COLON ^ ID | COLON ^ '(' ! idList ')' !);
     public final SWTQuerySelectorParser.styleFilter_return styleFilter() throws RecognitionException {
         SWTQuerySelectorParser.styleFilter_return retval = new SWTQuerySelectorParser.styleFilter_return();
         retval.start = input.LT(1);
@@ -569,7 +569,7 @@ public TreeAdaptor getTreeAdaptor() {
         Object char_literal18_tree=null;
 
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:40:13: ( COLON ^ ID | COLON ^ '(' ! idList ')' !)
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:40:13: ( COLON ^ ID | COLON ^ '(' ! idList ')' !)
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -599,7 +599,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt7) {
                 case 1 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:41:3: COLON ^ ID
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:41:3: COLON ^ ID
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -621,7 +621,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 2 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:42:5: COLON ^ '(' ! idList ')' !
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:42:5: COLON ^ '(' ! idList ')' !
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -677,7 +677,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "attributeFilters"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:44:1: attributeFilters : OPEN_BR attributeFilter ( ',' attributeFilter )* CLOSE_BR -> ( attributeFilter )+ ;
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:44:1: attributeFilters : OPEN_BR attributeFilter ( ',' attributeFilter )* CLOSE_BR -> ( attributeFilter )+ ;
     public final SWTQuerySelectorParser.attributeFilters_return attributeFilters() throws RecognitionException {
         SWTQuerySelectorParser.attributeFilters_return retval = new SWTQuerySelectorParser.attributeFilters_return();
         retval.start = input.LT(1);
@@ -701,8 +701,8 @@ public TreeAdaptor getTreeAdaptor() {
         RewriteRuleTokenStream stream_OPEN_BR=new RewriteRuleTokenStream(adaptor,"token OPEN_BR");
         RewriteRuleSubtreeStream stream_attributeFilter=new RewriteRuleSubtreeStream(adaptor,"rule attributeFilter");
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:44:18: ( OPEN_BR attributeFilter ( ',' attributeFilter )* CLOSE_BR -> ( attributeFilter )+ )
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:45:3: OPEN_BR attributeFilter ( ',' attributeFilter )* CLOSE_BR
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:44:18: ( OPEN_BR attributeFilter ( ',' attributeFilter )* CLOSE_BR -> ( attributeFilter )+ )
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:45:3: OPEN_BR attributeFilter ( ',' attributeFilter )* CLOSE_BR
             {
             OPEN_BR19=(Token)match(input,OPEN_BR,FOLLOW_OPEN_BR_in_attributeFilters186);  
             stream_OPEN_BR.add(OPEN_BR19);
@@ -715,7 +715,7 @@ public TreeAdaptor getTreeAdaptor() {
 
             stream_attributeFilter.add(attributeFilter20.getTree());
 
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:45:27: ( ',' attributeFilter )*
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:45:27: ( ',' attributeFilter )*
             loop8:
             do {
                 int alt8=2;
@@ -728,7 +728,7 @@ public TreeAdaptor getTreeAdaptor() {
 
                 switch (alt8) {
             	case 1 :
-            	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:45:28: ',' attributeFilter
+            	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:45:28: ',' attributeFilter
             	    {
             	    char_literal21=(Token)match(input,COMMA,FOLLOW_COMMA_in_attributeFilters191);  
             	    stream_COMMA.add(char_literal21);
@@ -812,7 +812,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "attributeFilter"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:48:1: attributeFilter : ( ID ATTR_OP ^ ( operand )? | EXCLAMATION ^ ID | ID ^);
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:48:1: attributeFilter : ( ID ATTR_OP ^ ( operand )? | EXCLAMATION ^ ID | ID ^);
     public final SWTQuerySelectorParser.attributeFilter_return attributeFilter() throws RecognitionException {
         SWTQuerySelectorParser.attributeFilter_return retval = new SWTQuerySelectorParser.attributeFilter_return();
         retval.start = input.LT(1);
@@ -835,7 +835,7 @@ public TreeAdaptor getTreeAdaptor() {
         Object ID29_tree=null;
 
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:48:17: ( ID ATTR_OP ^ ( operand )? | EXCLAMATION ^ ID | ID ^)
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:48:17: ( ID ATTR_OP ^ ( operand )? | EXCLAMATION ^ ID | ID ^)
             int alt10=3;
             int LA10_0 = input.LA(1);
 
@@ -868,7 +868,7 @@ public TreeAdaptor getTreeAdaptor() {
             }
             switch (alt10) {
                 case 1 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:49:3: ID ATTR_OP ^ ( operand )?
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:49:3: ID ATTR_OP ^ ( operand )?
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -887,7 +887,7 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (Object)adaptor.becomeRoot(ATTR_OP25_tree, root_0);
 
 
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:49:15: ( operand )?
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:49:15: ( operand )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -896,7 +896,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     switch (alt9) {
                         case 1 :
-                            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:49:15: operand
+                            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:49:15: operand
                             {
                             pushFollow(FOLLOW_operand_in_attributeFilter221);
                             operand26=operand();
@@ -914,7 +914,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 2 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:50:5: EXCLAMATION ^ ID
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:50:5: EXCLAMATION ^ ID
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -936,7 +936,7 @@ public TreeAdaptor getTreeAdaptor() {
                     }
                     break;
                 case 3 :
-                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:51:5: ID ^
+                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:51:5: ID ^
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -981,7 +981,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "operand"
-    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:53:1: operand : ( LITERAL | ID | NUMBER );
+    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:53:1: operand : ( LITERAL | ID | NUMBER );
     public final SWTQuerySelectorParser.operand_return operand() throws RecognitionException {
         SWTQuerySelectorParser.operand_return retval = new SWTQuerySelectorParser.operand_return();
         retval.start = input.LT(1);
@@ -994,8 +994,8 @@ public TreeAdaptor getTreeAdaptor() {
         Object set30_tree=null;
 
         try {
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:53:9: ( LITERAL | ID | NUMBER )
-            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:53:9: ( LITERAL | ID | NUMBER )
+            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
             {
             root_0 = (Object)adaptor.nil();
 

@@ -751,4 +751,15 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+	
+	public SWTQuery notifyListener(int type, Event e) {
+		for (Widget each : this.items) {
+			if (each instanceof Control) {
+				Event clonedEvent = EventUtil.clone(e);
+				clonedEvent.widget = each;
+				each.notifyListeners(type, clonedEvent);
+			}
+		}
+		return this;
+	}
 }
