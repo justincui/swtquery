@@ -1,0 +1,32 @@
+<%@ jet
+    package="kr.or.eclipse.swt.query.internal.generators"
+    class="EventUtilGenerator" 
+    imports="org.eclipse.swt.widgets.* java.lang.reflect.*"
+    %>
+<%@ include file="copyright.txt" %>
+
+package kr.or.eclipse.swt.query.util;
+
+import org.eclipse.swt.widgets.*;
+
+<%@ include file="generation-header.txt" %>
+public final class EventUtil{
+	public static Event clone(Event e){
+		Event result = new Event();
+<% 
+Field[] fields = Event.class.getFields();
+for(Field eachField : fields){
+	int mod = eachField.getModifiers();
+	if(!Modifier.isPublic(mod)){
+		continue;
+	}
+	
+		String fieldName = eachField.getName();
+%>
+		result.<%=fieldName%> = e.<%=fieldName%>; 
+<% 
+} 
+%>
+		return result;
+	}
+}

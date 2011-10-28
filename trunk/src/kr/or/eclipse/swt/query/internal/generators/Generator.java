@@ -44,7 +44,7 @@ public class Generator {
 	}
 
 	private static void generatePropertySwitches() throws FileNotFoundException, IOException, SecurityException,
-			NoSuchMethodException {
+	NoSuchMethodException {
 		File utilFolder = getFolder("kr/or/eclipse/swt/query/util");
 		File internalUtilFolder = getFolder("kr/or/eclipse/swt/query/util/internal");
 
@@ -110,6 +110,9 @@ public class Generator {
 		SWTConstantsGenerator generator = new SWTConstantsGenerator();
 		File file = new File(utilFolder, "SWTConstants.java");
 		write(generator.generate(null), new FileOutputStream(file));
+
+		EventUtilGenerator eventUtilGenerator = new EventUtilGenerator();
+		write(eventUtilGenerator.generate(null), new FileOutputStream(new File(utilFolder, "EventUtil.java")));
 	}
 
 	private static File getFolder(String path) {
