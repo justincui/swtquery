@@ -716,4 +716,39 @@ public final class SWTQuery {
 			}
 		}
 	}
+	
+	public Rectangle getAbsoluteBounds() {
+		if (this.items.size() > 0) {
+			return new AbsoluteBounds().doSwitch(this.items.get(0));
+		}
+		return null;
+	}
+
+	public SWTQuery setBackground(int systemColor) {
+		this.setBackground(Display.getDefault().getSystemColor(systemColor));
+		return this;
+	}
+	
+	public SWTQuery setForeground(int systemColor) {
+		this.setForeground(Display.getDefault().getSystemColor(systemColor));
+		return this;
+	}
+	
+	public SWTQuery open() {
+		for (Widget each : this.items) {
+			if (each instanceof Shell) {
+				((Shell) each).open();
+			}
+		}
+		return this;
+	}
+	
+	public SWTQuery pack() {
+		for (Widget each : this.items) {
+			if (each instanceof Control) {
+				((Control) each).pack();
+			}
+		}
+		return this;
+	}
 }
