@@ -31,6 +31,7 @@ import kr.or.eclipse.swt.query.util.internal.*;
 import kr.or.eclipse.swt.query.internal.grammar.*;
 import kr.or.eclipse.swt.query.internal.*;
 import kr.or.eclipse.swt.query.internal.generators.*;
+import org.eclipse.core.commands.ExecutionEvent;
 
 import java.util.*;
 import java.util.List;
@@ -54,6 +55,15 @@ public final class SWTQuery {
 	public static SWTQuery $(TypedEvent event){
 		return new SWTQuery(event.widget);
 	}
+	
+	public static SWTQuery $(ExecutionEvent e) {
+		if (e.getTrigger() instanceof Event) {
+			return $((Event) e.getTrigger());
+		} else {
+			return new SWTQuery(new Widget[0]);
+		}
+	}
+	
 	
 	/**
 	 * Creates {@link SWTQuery} for sender of {@link DropTargetEvent}.
@@ -117,6 +127,12 @@ public final class SWTQuery {
 		return this;
 	}
 	
+	public SWTQuery setFillLayout() {
+		for (Widget each : this.items) {
+			WidgetPropertySwitch.setLayout(each, new FillLayout());
+		}
+		return this;
+	}
 	
 	public SWTQuery setGridLayoutData(int style) {
 		for (Widget each : items) {
@@ -147,6 +163,15 @@ public final class SWTQuery {
 	public SWTQuery addListener(int eventType, Listener listener) {
 		for (Widget each : this.items) {
 			each.addListener(eventType, listener);
+		}
+		return this;
+	}
+	
+	public SWTQuery addListener(int[] eventTypes, Listener listener) {
+		for (Widget each : this.items) {
+			for (int eachType : eventTypes) {
+				each.addListener(eachType, listener);
+			}
 		}
 		return this;
 	}
@@ -682,5 +707,13 @@ public final class SWTQuery {
 		};
 		addListener(SWT.Dispose, disposer);
 		return this;
+	}
+	
+	public void dispose() {
+		for (Widget each : this.items) {
+			if (!each.isDisposed()) {
+				each.dispose();
+			}
+		}
 	}
 }
