@@ -25,7 +25,7 @@
 
 		<echo>Generating step 1...</echo>
 		<antcall target="generate">
-			<param name="options">basic</param>
+			<param name="options" value="basic" />
 		</antcall>
 
 		<echo>Building step 2...</echo>
@@ -34,7 +34,7 @@
 
 		<echo>Generating step 2...</echo>
 		<antcall target="generate">
-			<param name="options">advanced</param>
+			<param name="options" value="advanced" />
 		</antcall>
 		<eclipse.refreshLocal resource="${project-name}" depth="infinite" />
 
