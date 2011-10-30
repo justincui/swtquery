@@ -25,6 +25,7 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.dnd.*;
+import org.eclipse.core.runtime.Platform;
 
 import kr.or.eclipse.swt.query.util.*;
 import kr.or.eclipse.swt.query.util.internal.*;
@@ -792,5 +793,10 @@ public final class SWTQuery {
 		}
 
 		return this;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getAdpater(Class<T> type) {
+		return (T) Platform.getAdapterManager().getAdapter(this, type);
 	}
 }
