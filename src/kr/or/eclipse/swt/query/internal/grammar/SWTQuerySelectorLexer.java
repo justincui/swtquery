@@ -1,4 +1,4 @@
-// $ANTLR 3.4 C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g 2011-10-28 16:50:15
+// $ANTLR 3.4 P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g 2011-10-31 00:59:36
 
 package kr.or.eclipse.swt.query.internal.grammar;
 
@@ -42,15 +42,15 @@ public class SWTQuerySelectorLexer extends Lexer {
     public SWTQuerySelectorLexer(CharStream input, RecognizerSharedState state) {
         super(input,state);
     }
-    public String getGrammarFileName() { return "C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g"; }
+    public String getGrammarFileName() { return "P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g"; }
 
     // $ANTLR start "T__19"
     public final void mT__19() throws RecognitionException {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:6:7: ( '(' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:6:9: '('
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:6:7: ( '(' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:6:9: '('
             {
             match('('); 
 
@@ -70,8 +70,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:7:7: ( ')' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:7:9: ')'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:7:7: ( ')' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:7:9: ')'
             {
             match(')'); 
 
@@ -91,8 +91,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = OPEN_BR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:58:9: ( '[' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:59:3: '['
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:58:9: ( '[' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:59:3: '['
             {
             match('['); 
 
@@ -112,8 +112,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = CLOSE_BR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:61:10: ( ']' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:62:3: ']'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:61:10: ( ']' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:62:3: ']'
             {
             match(']'); 
 
@@ -133,8 +133,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = ASTERIK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:64:9: ( '*' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:65:3: '*'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:64:9: ( '*' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:65:3: '*'
             {
             match('*'); 
 
@@ -154,8 +154,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = SQUOTE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:67:8: ( '\\'' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:68:3: '\\''
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:67:8: ( '\\'' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:68:3: '\\''
             {
             match('\''); 
 
@@ -175,8 +175,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = DQUOTE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:70:8: ( '\"' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:71:3: '\"'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:70:8: ( '\"' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:71:3: '\"'
             {
             match('\"'); 
 
@@ -196,8 +196,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = BSLASH;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:73:8: ( '\\\\' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:74:3: '\\\\'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:73:8: ( '\\\\' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:74:3: '\\\\'
             {
             match('\\'); 
 
@@ -217,8 +217,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = LT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:76:4: ( '>' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:77:3: '>'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:76:4: ( '>' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:77:3: '>'
             {
             match('>'); 
 
@@ -238,8 +238,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:79:7: ( ':' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:80:3: ':'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:79:7: ( ':' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:80:3: ':'
             {
             match(':'); 
 
@@ -259,8 +259,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = EXCLAMATION;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:82:13: ( '!' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:83:3: '!'
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:82:13: ( '!' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:83:3: '!'
             {
             match('!'); 
 
@@ -280,8 +280,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:85:7: ( ',' )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:86:3: ','
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:85:7: ( ',' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:86:3: ','
             {
             match(','); 
 
@@ -301,8 +301,8 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:88:4: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '-' | '_' )* )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:89:3: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '-' | '_' )*
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:88:4: ( ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '-' | '_' )* )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:89:3: ( 'a' .. 'z' | 'A' .. 'Z' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '-' | '_' )*
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
                 input.consume();
@@ -314,7 +314,7 @@ public class SWTQuerySelectorLexer extends Lexer {
             }
 
 
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:93:3: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '-' | '_' )*
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:93:3: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '-' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -327,7 +327,7 @@ public class SWTQuerySelectorLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
+            	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
             	    {
             	    if ( input.LA(1)=='-'||(input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
             	        input.consume();
@@ -364,10 +364,10 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = ATTR_OP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:101:9: ( ( '=' | '!=' | '*=' ) )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:102:3: ( '=' | '!=' | '*=' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:101:9: ( ( '=' | '!=' | '*=' ) )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:102:3: ( '=' | '!=' | '*=' )
             {
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:102:3: ( '=' | '!=' | '*=' )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:102:3: ( '=' | '!=' | '*=' )
             int alt2=3;
             switch ( input.LA(1) ) {
             case '=':
@@ -395,14 +395,14 @@ public class SWTQuerySelectorLexer extends Lexer {
 
             switch (alt2) {
                 case 1 :
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:103:5: '='
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:103:5: '='
                     {
                     match('='); 
 
                     }
                     break;
                 case 2 :
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:104:7: '!='
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:104:7: '!='
                     {
                     match("!="); 
 
@@ -411,7 +411,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:105:7: '*='
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:105:7: '*='
                     {
                     match("*="); 
 
@@ -439,7 +439,7 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = LITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:108:9: ( SQUOTE (~ SQUOTE | BSLASH SQUOTE )* SQUOTE | DQUOTE (~ DQUOTE | BSLASH DQUOTE )* DQUOTE )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:108:9: ( SQUOTE (~ SQUOTE | BSLASH SQUOTE )* SQUOTE | DQUOTE (~ DQUOTE | BSLASH DQUOTE )* DQUOTE )
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -458,12 +458,12 @@ public class SWTQuerySelectorLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:109:3: SQUOTE (~ SQUOTE | BSLASH SQUOTE )* SQUOTE
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:109:3: SQUOTE (~ SQUOTE | BSLASH SQUOTE )* SQUOTE
                     {
                     mSQUOTE(); 
 
 
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:110:3: (~ SQUOTE | BSLASH SQUOTE )*
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:110:3: (~ SQUOTE | BSLASH SQUOTE )*
                     loop3:
                     do {
                         int alt3=3;
@@ -498,7 +498,7 @@ public class SWTQuerySelectorLexer extends Lexer {
 
                         switch (alt3) {
                     	case 1 :
-                    	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:111:5: ~ SQUOTE
+                    	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:111:5: ~ SQUOTE
                     	    {
                     	    if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\u0010')||(input.LA(1) >= '\u0012' && input.LA(1) <= '\uFFFF') ) {
                     	        input.consume();
@@ -513,7 +513,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:112:7: BSLASH SQUOTE
+                    	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:112:7: BSLASH SQUOTE
                     	    {
                     	    mBSLASH(); 
 
@@ -536,12 +536,12 @@ public class SWTQuerySelectorLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:115:5: DQUOTE (~ DQUOTE | BSLASH DQUOTE )* DQUOTE
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:115:5: DQUOTE (~ DQUOTE | BSLASH DQUOTE )* DQUOTE
                     {
                     mDQUOTE(); 
 
 
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:116:3: (~ DQUOTE | BSLASH DQUOTE )*
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:116:3: (~ DQUOTE | BSLASH DQUOTE )*
                     loop4:
                     do {
                         int alt4=3;
@@ -576,7 +576,7 @@ public class SWTQuerySelectorLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:117:5: ~ DQUOTE
+                    	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:117:5: ~ DQUOTE
                     	    {
                     	    if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t')||(input.LA(1) >= '\u000B' && input.LA(1) <= '\uFFFF') ) {
                     	        input.consume();
@@ -591,7 +591,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:118:7: BSLASH DQUOTE
+                    	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:118:7: BSLASH DQUOTE
                     	    {
                     	    mBSLASH(); 
 
@@ -629,10 +629,10 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:122:8: ( ( '+' | '-' )? ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:123:3: ( '+' | '-' )? ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )?
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:122:8: ( ( '+' | '-' )? ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:123:3: ( '+' | '-' )? ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )?
             {
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:123:3: ( '+' | '-' )?
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:123:3: ( '+' | '-' )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -641,7 +641,7 @@ public class SWTQuerySelectorLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
                     {
                     if ( input.LA(1)=='+'||input.LA(1)=='-' ) {
                         input.consume();
@@ -659,7 +659,7 @@ public class SWTQuerySelectorLexer extends Lexer {
             }
 
 
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:3: ( '0' .. '9' )+
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:3: ( '0' .. '9' )+
             int cnt7=0;
             loop7:
             do {
@@ -673,7 +673,7 @@ public class SWTQuerySelectorLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
+            	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
             	    {
             	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
             	        input.consume();
@@ -698,7 +698,7 @@ public class SWTQuerySelectorLexer extends Lexer {
             } while (true);
 
 
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:13: ( '.' ( '0' .. '9' )+ )?
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:13: ( '.' ( '0' .. '9' )+ )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -707,11 +707,11 @@ public class SWTQuerySelectorLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:14: '.' ( '0' .. '9' )+
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:14: '.' ( '0' .. '9' )+
                     {
                     match('.'); 
 
-                    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:18: ( '0' .. '9' )+
+                    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:127:18: ( '0' .. '9' )+
                     int cnt8=0;
                     loop8:
                     do {
@@ -725,7 +725,7 @@ public class SWTQuerySelectorLexer extends Lexer {
 
                         switch (alt8) {
                     	case 1 :
-                    	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
+                    	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
                     	    {
                     	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
                     	        input.consume();
@@ -772,10 +772,10 @@ public class SWTQuerySelectorLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:129:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:130:3: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:129:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:130:3: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             {
-            // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:130:3: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:130:3: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             int cnt10=0;
             loop10:
             do {
@@ -789,7 +789,7 @@ public class SWTQuerySelectorLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
+            	    // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:
             	    {
             	    if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n')||(input.LA(1) >= '\f' && input.LA(1) <= '\r')||input.LA(1)==' ' ) {
             	        input.consume();
@@ -828,7 +828,7 @@ public class SWTQuerySelectorLexer extends Lexer {
     // $ANTLR end "WHITESPACE"
 
     public void mTokens() throws RecognitionException {
-        // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:8: ( T__19 | T__20 | OPEN_BR | CLOSE_BR | ASTERIK | SQUOTE | DQUOTE | BSLASH | LT | COLON | EXCLAMATION | COMMA | ID | ATTR_OP | LITERAL | NUMBER | WHITESPACE )
+        // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:8: ( T__19 | T__20 | OPEN_BR | CLOSE_BR | ASTERIK | SQUOTE | DQUOTE | BSLASH | LT | COLON | EXCLAMATION | COMMA | ID | ATTR_OP | LITERAL | NUMBER | WHITESPACE )
         int alt11=17;
         switch ( input.LA(1) ) {
         case '(':
@@ -1015,7 +1015,7 @@ public class SWTQuerySelectorLexer extends Lexer {
 
         switch (alt11) {
             case 1 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:10: T__19
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:10: T__19
                 {
                 mT__19(); 
 
@@ -1023,7 +1023,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 2 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:16: T__20
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:16: T__20
                 {
                 mT__20(); 
 
@@ -1031,7 +1031,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 3 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:22: OPEN_BR
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:22: OPEN_BR
                 {
                 mOPEN_BR(); 
 
@@ -1039,7 +1039,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 4 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:30: CLOSE_BR
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:30: CLOSE_BR
                 {
                 mCLOSE_BR(); 
 
@@ -1047,7 +1047,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 5 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:39: ASTERIK
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:39: ASTERIK
                 {
                 mASTERIK(); 
 
@@ -1055,7 +1055,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 6 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:47: SQUOTE
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:47: SQUOTE
                 {
                 mSQUOTE(); 
 
@@ -1063,7 +1063,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 7 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:54: DQUOTE
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:54: DQUOTE
                 {
                 mDQUOTE(); 
 
@@ -1071,7 +1071,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 8 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:61: BSLASH
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:61: BSLASH
                 {
                 mBSLASH(); 
 
@@ -1079,7 +1079,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 9 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:68: LT
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:68: LT
                 {
                 mLT(); 
 
@@ -1087,7 +1087,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 10 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:71: COLON
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:71: COLON
                 {
                 mCOLON(); 
 
@@ -1095,7 +1095,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 11 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:77: EXCLAMATION
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:77: EXCLAMATION
                 {
                 mEXCLAMATION(); 
 
@@ -1103,7 +1103,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 12 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:89: COMMA
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:89: COMMA
                 {
                 mCOMMA(); 
 
@@ -1111,7 +1111,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 13 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:95: ID
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:95: ID
                 {
                 mID(); 
 
@@ -1119,7 +1119,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 14 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:98: ATTR_OP
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:98: ATTR_OP
                 {
                 mATTR_OP(); 
 
@@ -1127,7 +1127,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 15 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:106: LITERAL
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:106: LITERAL
                 {
                 mLITERAL(); 
 
@@ -1135,7 +1135,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 16 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:114: NUMBER
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:114: NUMBER
                 {
                 mNUMBER(); 
 
@@ -1143,7 +1143,7 @@ public class SWTQuerySelectorLexer extends Lexer {
                 }
                 break;
             case 17 :
-                // C:\\Users\\Jeeeyul\\workspaces\\exerd\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:121: WHITESPACE
+                // P:\\Jeeeyul\\workspaces\\cba\\kr.or.eclipse.swt.query\\src\\kr\\or\\eclipse\\swt\\query\\internal\\grammar\\SWTQuerySelector.g:1:121: WHITESPACE
                 {
                 mWHITESPACE(); 
 
