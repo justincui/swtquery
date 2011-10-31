@@ -1,7 +1,6 @@
 package kr.or.eclipse.swt.query.examples;
 
 import static kr.or.eclipse.swt.query.SWTQuery.$;
-import static kr.or.eclipse.swt.query.graphics.GCQuery.$gc;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -45,7 +44,6 @@ public class AddressBook {
 		$shell.chainDispose(emptyImage);
 
 		// 컨트롤러
-
 		$shell.select("toolitem[data-role=add]").addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -77,7 +75,6 @@ public class AddressBook {
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					}
-
 				}
 			}
 		});
