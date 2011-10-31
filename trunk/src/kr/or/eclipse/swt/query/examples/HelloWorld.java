@@ -39,7 +39,6 @@ public class HelloWorld {
 			}
 		};
 		$group.create(Button.class, SWT.PUSH).setText("È®ÀÎ").addListener(SWT.Selection, updateWelcomeMessage);
-		$shell.select("label").getPlugin(PopBar.class).install().addContent("Áö¶ö", "²¨Á®");
 
 		$shell.pack().open().runEventLoopUntilDispose();
 

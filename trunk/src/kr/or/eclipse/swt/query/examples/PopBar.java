@@ -47,20 +47,6 @@ public class PopBar extends SWTQueryExtension {
 		for (String each : contents) {
 			$menu.create(MenuItem.class, SWT.NORMAL).setText(each);
 		}
-
-		$menu.each(Menu.class, new IWidgetFunction<Menu>() {
-			@Override
-			public void doFunction(Menu w) {
-				try {
-					Rectangle absoluteBounds = $selectedWidget.getAbsoluteBounds();
-					w.setLocation(absoluteBounds.x, absoluteBounds.y);
-					$menu.setVisible(true);
-					System.out.println("¾¾¹ß ¹¹¾ß");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
 }
