@@ -189,6 +189,16 @@ public final class SWTQuery {
 		}
 		return this;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends Widget> SWTQuery each(Class<T> type, IWidgetFunction<T> f) {
+		for (Widget each : this.items) {
+			if (type.isInstance(each)) {
+				f.doFunction((T) each);
+			}
+		}
+		return this;
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T getData(String key) {
