@@ -299,7 +299,7 @@ public final class SWTQuery {
 	}
 	
 	public SWTQuery schedule(final IWidgetFunction function) {
-		Display.getCurrent().asyncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
 				SWTQuery.this.each(function);
