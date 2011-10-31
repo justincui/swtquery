@@ -184,19 +184,9 @@ public final class SWTQuery {
 		return this;
 	}
 
-	public SWTQuery each(IWidgetFunction<Widget> f) {
+	public SWTQuery each(IWidgetFunction f) {
 		for (Widget each : this.items) {
 			f.doFunction(each);
-		}
-		return this;
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T extends Widget> SWTQuery each(Class<T> type, IWidgetFunction<T> f) {
-		for (Widget each : this.items) {
-			if (type.isInstance(each)) {
-				f.doFunction((T) each);
-			}
 		}
 		return this;
 	}
@@ -833,13 +823,17 @@ public final class SWTQuery {
 		return (T) Platform.getAdapterManager().getAdapter(this, type);
 	}
 	
-	public <T extends SWTQueryExtension> T getPlugin(Class<T> pluginAPI) {
-		try {
-			Constructor<T> constructor = pluginAPI.getConstructor(SWTQuery.class);
-			T result = constructor.newInstance(this);
-			return result;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	public SWTQuery setLocation(int x, int y){
+		for(Widget each : items){
+			WidgetPropertySwitch.setLocation(each, new Point(x, y));		
 		}
+		return this;
+	}
+	
+	public SWTQuery setBounds(int x, int y, int w, int h){
+		for(Widget each : items){
+			WidgetPropertySwitch.setBounds(each, new Rectangle(x, y, w, h));		
+		}
+		return this;
 	}
 }
