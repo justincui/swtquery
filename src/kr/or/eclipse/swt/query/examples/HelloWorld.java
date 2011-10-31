@@ -22,7 +22,7 @@ public class HelloWorld {
 		$shell.setGridLayout();
 
 		$shell.create(Label.class, SWT.NORMAL).setText("안녕하세요!").setGridLayoutData(GridData.FILL_HORIZONTAL)
-		.setAlignment(SWT.CENTER);
+				.setAlignment(SWT.CENTER);
 
 		SWTQuery $group = $shell.create(Group.class, SWT.NORMAL).setText("이름을 넣으세요");
 		$group.setGridLayout(3, false).setGridLayoutData(GridData.FILL_HORIZONTAL);
