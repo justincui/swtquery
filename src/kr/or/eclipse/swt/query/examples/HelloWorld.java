@@ -28,15 +28,17 @@ public class HelloWorld {
 		$group.setGridLayout(3, false).setGridLayoutData(GridData.FILL_HORIZONTAL);
 
 		$group.create(Label.class, SWT.NORMAL).setText("이름:");
-		$group.create(Text.class, SWT.BORDER).setGridLayoutData(GridData.FILL_HORIZONTAL);
-		$group.create(Button.class, SWT.PUSH).setText("확인").addListener(SWT.Selection, new Listener() {
+		$group.create(Text.class, SWT.BORDER).setGridLayoutData(GridData.FILL_HORIZONTAL).setData("role", "name-field");
+		Listener updateWelcomeMessage = new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				String name = $shell.select("label[text*='이름']").next().getText();
 				SWTQuery $titleLabel = $shell.select("label").first();
 				$titleLabel.setText("반갑습니다, " + name + "님.");
+				$shell.select("text[data-role=name-field]").setText("");
 			}
-		});
+		};
+		$group.create(Button.class, SWT.PUSH).setText("확인").addListener(SWT.Selection, updateWelcomeMessage);
 
 		$shell.pack().open().runEventLoopUntilDispose();
 
