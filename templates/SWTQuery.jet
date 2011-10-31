@@ -184,13 +184,13 @@ public final class SWTQuery {
 		return this;
 	}
 
-	public SWTQuery each(IWidgetFunction f) {
+	public SWTQuery each(IWidgetFunction<Widget> f) {
 		for (Widget each : this.items) {
 			f.doFunction(each);
 		}
 		return this;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <T extends Widget> SWTQuery each(Class<T> type, IWidgetFunction<T> f) {
 		for (Widget each : this.items) {
