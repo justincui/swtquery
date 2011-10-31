@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Widget;
 
 public class CreatorTool {
@@ -13,15 +13,15 @@ public class CreatorTool {
 		ArrayList<Constructor<?>> result = new ArrayList<Constructor<?>>();
 		for (Constructor<?> each : type.getConstructors()) {
 			Class<?>[] argTypes = each.getParameterTypes();
-			if (argTypes.length != 2) {
+			int modifiers = each.getModifiers();
+			if (!Modifier.isPublic(modifiers)) {
 				continue;
 			}
+			if (argTypes.length == 2 && Widget.class.isAssignableFrom(argTypes[0]) && argTypes[1] == int.class) {
+				result.add(each);
+			}
 
-			if (Widget.class.isAssignableFrom(argTypes[0]) && argTypes[1] == int.class) {
-				int modifiers = each.getModifiers();
-				if (!Modifier.isPublic(modifiers)) {
-					continue;
-				}
+			else if (argTypes.length == 1 && Widget.class.isAssignableFrom(argTypes[0])) {
 				result.add(each);
 			}
 		}
@@ -30,6 +30,6 @@ public class CreatorTool {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(findBasicConstructor(TreeItem.class));
+		System.out.println(findBasicConstructor(Menu.class));
 	}
 }

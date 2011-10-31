@@ -47,7 +47,7 @@ for(Class<?> eachType : types) {
 Class<?> parentType = each.getParameterTypes()[0];
 %>
 		if(args.parent instanceof <%=parentType.getSimpleName()%>){
-			return new <%=eachType.getSimpleName()%>(((<%=parentType.getSimpleName()%>) args.parent), args.style);
+			return new <%=eachType.getSimpleName()%>(((<%=parentType.getSimpleName()%>) args.parent)<%=each.getParameterTypes().length == 2 ? ", args.style": ""%>);
 		}
 <% } %>
 

@@ -26,6 +26,7 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.core.runtime.Platform;
+import java.lang.reflect.*;
 
 import kr.or.eclipse.swt.query.util.*;
 import kr.or.eclipse.swt.query.util.internal.*;
@@ -693,6 +694,28 @@ public final class SWTQuery {
 	}
 	
 	/**
+	 * Create child widgets on currently selected widgets.
+	 * 
+	 * @param type
+	 *        types to create.
+	 * @return {@link SWTQuery} contains new children.
+	 */
+	public SWTQuery create(Class<? extends Widget> type) {
+		UniqueList<Widget> result = new UniqueList<Widget>();
+
+		CreatorSwitch creator = new CreatorSwitch();
+		for (Widget each : this.items) {
+			ConstructorArgs args = new ConstructorArgs(each, SWT.NORMAL);
+			Widget eachResult = creator.doSwitch(type, args);
+			if (eachResult != null) {
+				result.add(eachResult);
+			}
+		}
+
+		return new SWTQuery(result);
+	}
+	
+	/**
 	 * Dispose given {@link Resource}s when any one of currently selected
 	 * widgets is disposed.
 	 * 
@@ -808,5 +831,15 @@ public final class SWTQuery {
 	@SuppressWarnings("unchecked")
 	public <T> T getAdpater(Class<T> type) {
 		return (T) Platform.getAdapterManager().getAdapter(this, type);
+	}
+	
+	public <T extends SWTQueryExtension> T getPlugin(Class<T> pluginAPI) {
+		try {
+			Constructor<T> constructor = pluginAPI.getConstructor(SWTQuery.class);
+			T result = constructor.newInstance(this);
+			return result;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
