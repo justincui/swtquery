@@ -794,6 +794,14 @@ public final class SWTQuery {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T extends Widget> T as(Class<T> type) {
+		if (this.items.size() > 0) {
+			return (T) this.items.get(0);
+		}
+		return null;
+	}
+	
 	/**
 	 * runs an UI event loop until any one widget of this context will be
 	 * disposed.
